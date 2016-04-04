@@ -1,0 +1,23 @@
+
+body {
+    margin-top: 52px;
+}
+
+.custom-content {
+    min-height: 100%;
+}
+
+nav.navbar-default {
+    border-bottom: 2px solid #e95051;
+}
+
+.logo {
+    height: 39px;
+    margin-top: -7px;
+    margin-left: -9px;
+}
+
+div.footer {
+    background-color: #e95051;
+    color: white;
+}
