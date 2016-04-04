@@ -237,3 +237,15 @@ INSERT INTO Building (name, abbreviation, latitude, longitude, category, descrip
 ('Williams Hall', 'WMS', '37.22784', '-80.42435', 'Academic', 'http://manta.cs.vt.edu/vt/buildings/wms/wms.txt', 'http://manta.cs.vt.edu/vt/buildings/wms/wms.png'),
 ('Wright House', 'WRGHT', '37.2268104329', '-80.4261888832', 'Academic', 'http://manta.cs.vt.edu/vt/buildings/wrght/wrght.txt', 'http://manta.cs.vt.edu/vt/buildings/wrght/wrght.jpg'),
 ('Alphin-Stuart Livestock Teaching Arena', 'LARNA', '37.21929', '-80.43991', 'Support', 'http://manta.cs.vt.edu/vt/buildings/larna/larna.txt', 'http://manta.cs.vt.edu/vt/buildings/larna/larna.jpg');
+
+INSERT INTO Item (name, description, latitude_found, longitude_found, category) VALUES 
+('Mike''s iPhone', 'iPhone 5. Lost in the cloud computing lab', '37.2305915726', '-80.4217767404','PHONE'),
+('Seb''s Watch' 'Lost my fancy watch while waiting for the bus in front of Burruss', '37.229031934', '-80.4237145305','OTHER'),
+('Tuna''s Keys', 'I lost my keys in the parking garage.  Keys to a sweet Mustang', '37.23086', '-80.42565','KEYS');
+
+INSERT INTO ItemPhoto (extension, photo_for) VALUES
+('jpeg', (SELECT id from Item WHERE name='Mike''s iPhone') ),
+('png', (SELECT id from Item WHERE name='Seb''s Watch') );  
+
+#INSERT INTO ParkingLot (name, latitude, longitude, permission) VALUES
+#('Stadium Lot', '37.229031934', '-80.4237145305', 'RESIDENT');
