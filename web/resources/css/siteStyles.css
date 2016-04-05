@@ -7,6 +7,14 @@ body {
     padding-top: 52px;
 }
 
+#page {
+    height: 100%;
+}
+
+#editableContent {
+    height: 100%;
+}
+
 /**
  * Navbar CSS Rules
  */
@@ -39,6 +47,32 @@ nav.navbar-default {
     margin-top: 4px;
     margin-bottom: 4px;
     margin-right: 5px;
+}
+
+/**
+ * Sidebar CSS Rules
+ */
+#sidebar {
+    min-height: 100%;
+    height: 100%;
+    display: inline-block;
+    float: left;
+}
+
+.sidebar {
+    border-right: 2px solid #e95051;
+    width: 300px;
+    height: 100%
+}
+
+/**
+ * Main Panel CSS Rules
+ */
+#mainPanel {
+    min-height: 100%;
+    height: 100%;
+    display: inline-block;
+    padding: 10px;
 }
 
 /**
@@ -81,16 +115,15 @@ nav.navbar-default {
     margin-left: 5px;
 }
 
-
 /**
  * Footer CSS Rules
  */
 div.footer {
     background-color: #e95051;
     color: white;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
     height: 20px;
+}
+
+div.footer .footer-text {
+    margin-bottom: 0;
 }
