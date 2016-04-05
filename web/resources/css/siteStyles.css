@@ -1,10 +1,10 @@
-
-body {
-    margin-top: 52px;
+html,body {
+    height: 100%;
+    padding: 0;
 }
 
-.custom-content {
-    min-height: 100%;
+body {
+    padding-top: 52px;
 }
 
 nav.navbar-default {
@@ -17,7 +17,39 @@ nav.navbar-default {
     margin-left: -9px;
 }
 
+.user-dropdown {
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 15px;
+}
+
+.user-dropdown button {
+    width: 160px;
+    text-align: left;
+    padding: 0;
+}
+
+.user-dropdown button i {
+    font-size: 1.5em;
+    margin-right: 10px;
+    margin-top: 8px;
+}
+
+.user-dropdown .user-profile-img {
+    border-radius: 50%;
+    height: 30px;
+    margin-left: 10px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-right: 5px;
+}
+
 div.footer {
     background-color: #e95051;
     color: white;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
 }
