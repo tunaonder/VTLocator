@@ -25,24 +25,32 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                 </div>
 
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Buildings+Parking</a></li>
-                        <li><a href="#">Lost+Found</a></li>
-                        <li class="user-dropdown">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-angle-down pull-right"></i>
-                                    <img class="user-profile-img" src="resources/images/user-placeholder.jpg"/>
-                                    <span>Hi, Bas!</span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#"><i class="fa fa-cogs fa-fw"></i> Settings</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
+                    <h:panelGroup layout="block" rendered="#{profileViewManager.loggedInUser != null}">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#">Buildings+Parking</a></li>
+                            <li><a href="#">Lost+Found</a></li>
+                            <li class="user-dropdown">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-angle-down pull-right"></i>
+                                        <img class="user-profile-img" src="resources/images/user-placeholder.jpg"/>
+                                        <span>Hi, #{profileViewManager.loggedInUser.firstName}!</span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#"><i class="fa fa-cogs fa-fw"></i> Settings</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><h:commandLink action="#{accountManager.logout()}" > <i class="fa fa-sign-out fa-fw"></i> Logout</h:commandLink>></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" rendered="#{profileViewManager.loggedInUser == null}">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><h:button id="login"  value="Login" outcome="login" styleClass="btn btn-default btn-nav"/></li>
+                            <li><h:button id="signup"  value="Sign Up" outcome="signup" styleClass="btn btn-default btn-nav"/></li>
+                        </ul>
+                    </h:panelGroup>
                 </div>
             </div>
         </nav>

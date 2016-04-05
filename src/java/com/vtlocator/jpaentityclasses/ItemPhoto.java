@@ -49,13 +49,12 @@ public class ItemPhoto implements Serializable {
     @Size(min = 1, max = 5)
     @Column(name = "extension")
     private String extension;
-    @Basic(optional = false)
-    @NotNull
+   
+    @Basic(optional = true)
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @Basic(optional = false)
-    @NotNull
+    @Basic(optional = true)
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;

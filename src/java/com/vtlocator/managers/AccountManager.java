@@ -207,14 +207,15 @@ public class AccountManager implements Serializable {
                 user.setEmail(email);
                 user.setPhoneNumber(phone_number);
                 user.setPassword(password);
-                userFacade.create(user);                
+                userFacade.create(user);
+                initializeSessionMap();
             } catch (EJBException e) {
                 email = "";
                 statusMessage = "Something went wrong while creating your account!";
                 return "";
             }
-            initializeSessionMap(); // 
-            return "Profile"; // navigate to profile
+             // 
+            return "index"; // navigate to profile
         }
         return "";
     }

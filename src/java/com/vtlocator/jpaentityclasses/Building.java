@@ -83,13 +83,11 @@ public class Building implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "image")
     private String image;
-    @Basic(optional = false)
-    @NotNull
+    @Basic(optional = true)
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @Basic(optional = false)
-    @NotNull
+    @Basic(optional = true)
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;

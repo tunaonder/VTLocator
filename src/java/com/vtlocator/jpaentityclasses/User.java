@@ -88,13 +88,13 @@ public class User implements Serializable {
     @Size(min = 1, max = 256)
     @Column(name = "password")
     private String password;
-    @Basic(optional = false)
-    @NotNull
+    @Basic(optional = true)
+  //  @NotNull
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @Basic(optional = false)
-    @NotNull
+    @Basic(optional = true)
+  //  @NotNull
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;

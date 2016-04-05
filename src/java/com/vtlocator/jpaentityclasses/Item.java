@@ -78,13 +78,11 @@ public class Item implements Serializable {
     @Size(min = 1, max = 15)
     @Column(name = "category")
     private String category;
-    @Basic(optional = false)
-    @NotNull
+    @Basic(optional = true)
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @Basic(optional = false)
-    @NotNull
+    @Basic(optional = true)
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;

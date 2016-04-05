@@ -49,6 +49,11 @@ nav.navbar-default {
     margin-right: 5px;
 }
 
+.btn-nav {
+    margin-top: 8px;
+    margin-right: 10px;
+}
+
 /**
  * Sidebar CSS Rules
  */

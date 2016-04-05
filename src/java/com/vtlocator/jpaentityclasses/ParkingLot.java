@@ -65,13 +65,12 @@ public class ParkingLot implements Serializable {
     @Size(min = 1, max = 21)
     @Column(name = "permission")
     private String permission;
-    @Basic(optional = false)
-    @NotNull
+    
+    @Basic(optional = true)  
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @Basic(optional = false)
-    @NotNull
+    @Basic(optional = true)   
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;

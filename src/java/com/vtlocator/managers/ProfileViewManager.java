@@ -8,6 +8,7 @@ import com.vtlocator.jpaentityclasses.User;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
@@ -50,7 +51,14 @@ public class ProfileViewManager implements Serializable {
   }
 
   public User getLoggedInUser() {
-    return userFacade.find(FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+    ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+    if (context != null) {
+        Object user_id = context.getSessionMap().get("user_id");
+        if (user_id != null) {
+            return userFacade.find(user_id);
+        }
+    }
+    return null;
   }
 
   /**
