@@ -2,7 +2,7 @@
  * Created by Sait Tuna Onder on 2016.04.04  * 
  * Copyright © 2016 Sait Tuna Onder. All rights reserved. * 
  */
-package jpaentityclasses;
+package com.vtlocator.jpaentityclasses;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -28,15 +28,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Onder
  */
 @Entity
-@Table(name = "ItemPhoto")
+@Table(name = "Subscription")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ItemPhoto.findAll", query = "SELECT i FROM ItemPhoto i"),
-    @NamedQuery(name = "ItemPhoto.findById", query = "SELECT i FROM ItemPhoto i WHERE i.id = :id"),
-    @NamedQuery(name = "ItemPhoto.findByExtension", query = "SELECT i FROM ItemPhoto i WHERE i.extension = :extension"),
-    @NamedQuery(name = "ItemPhoto.findByCreatedAt", query = "SELECT i FROM ItemPhoto i WHERE i.createdAt = :createdAt"),
-    @NamedQuery(name = "ItemPhoto.findByUpdatedAt", query = "SELECT i FROM ItemPhoto i WHERE i.updatedAt = :updatedAt")})
-public class ItemPhoto implements Serializable {
+    @NamedQuery(name = "Subscription.findAll", query = "SELECT s FROM Subscription s"),
+    @NamedQuery(name = "Subscription.findById", query = "SELECT s FROM Subscription s WHERE s.id = :id"),
+    @NamedQuery(name = "Subscription.findByCategory", query = "SELECT s FROM Subscription s WHERE s.category = :category"),
+    @NamedQuery(name = "Subscription.findByCreatedAt", query = "SELECT s FROM Subscription s WHERE s.createdAt = :createdAt"),
+    @NamedQuery(name = "Subscription.findByUpdatedAt", query = "SELECT s FROM Subscription s WHERE s.updatedAt = :updatedAt")})
+public class Subscription implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,9 +46,9 @@ public class ItemPhoto implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 5)
-    @Column(name = "extension")
-    private String extension;
+    @Size(min = 1, max = 15)
+    @Column(name = "category")
+    private String category;
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_at")
@@ -59,20 +59,20 @@ public class ItemPhoto implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    @JoinColumn(name = "photo_for", referencedColumnName = "id")
+    @JoinColumn(name = "subscriber", referencedColumnName = "id")
     @ManyToOne
-    private Item photoFor;
+    private User subscriber;
 
-    public ItemPhoto() {
+    public Subscription() {
     }
 
-    public ItemPhoto(Integer id) {
+    public Subscription(Integer id) {
         this.id = id;
     }
 
-    public ItemPhoto(Integer id, String extension, Date createdAt, Date updatedAt) {
+    public Subscription(Integer id, String category, Date createdAt, Date updatedAt) {
         this.id = id;
-        this.extension = extension;
+        this.category = category;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -85,12 +85,12 @@ public class ItemPhoto implements Serializable {
         this.id = id;
     }
 
-    public String getExtension() {
-        return extension;
+    public String getCategory() {
+        return category;
     }
 
-    public void setExtension(String extension) {
-        this.extension = extension;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public Date getCreatedAt() {
@@ -109,12 +109,12 @@ public class ItemPhoto implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public Item getPhotoFor() {
-        return photoFor;
+    public User getSubscriber() {
+        return subscriber;
     }
 
-    public void setPhotoFor(Item photoFor) {
-        this.photoFor = photoFor;
+    public void setSubscriber(User subscriber) {
+        this.subscriber = subscriber;
     }
 
     @Override
@@ -127,10 +127,10 @@ public class ItemPhoto implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ItemPhoto)) {
+        if (!(object instanceof Subscription)) {
             return false;
         }
-        ItemPhoto other = (ItemPhoto) object;
+        Subscription other = (Subscription) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -139,7 +139,7 @@ public class ItemPhoto implements Serializable {
 
     @Override
     public String toString() {
-        return "jpaentityclasses.ItemPhoto[ id=" + id + " ]";
+        return "jpaentityclasses.Subscription[ id=" + id + " ]";
     }
     
 }

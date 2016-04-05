@@ -7,7 +7,7 @@ package com.vtlocator.sessionbeans;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import jpaentityclasses.ParkingLot;
+import com.vtlocator.jpaentityclasses.ParkingLot;
 
 /**
  *

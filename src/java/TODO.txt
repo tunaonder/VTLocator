@@ -1,0 +1,5 @@
+Backend TODO:
+
+- Add FileManager
+- Add PasswordResetManager
+- Fix the redirects to match frontend

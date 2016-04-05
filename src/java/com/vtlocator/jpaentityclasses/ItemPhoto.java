@@ -2,7 +2,7 @@
  * Created by Sait Tuna Onder on 2016.04.04  * 
  * Copyright © 2016 Sait Tuna Onder. All rights reserved. * 
  */
-package jpaentityclasses;
+package com.vtlocator.jpaentityclasses;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,14 +28,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Onder
  */
 @Entity
-@Table(name = "Notification")
+@Table(name = "ItemPhoto")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Notification.findAll", query = "SELECT n FROM Notification n"),
-    @NamedQuery(name = "Notification.findById", query = "SELECT n FROM Notification n WHERE n.id = :id"),
-    @NamedQuery(name = "Notification.findByCreatedAt", query = "SELECT n FROM Notification n WHERE n.createdAt = :createdAt"),
-    @NamedQuery(name = "Notification.findByUpdatedAt", query = "SELECT n FROM Notification n WHERE n.updatedAt = :updatedAt")})
-public class Notification implements Serializable {
+    @NamedQuery(name = "ItemPhoto.findAll", query = "SELECT i FROM ItemPhoto i"),
+    @NamedQuery(name = "ItemPhoto.findById", query = "SELECT i FROM ItemPhoto i WHERE i.id = :id"),
+    @NamedQuery(name = "ItemPhoto.findByExtension", query = "SELECT i FROM ItemPhoto i WHERE i.extension = :extension"),
+    @NamedQuery(name = "ItemPhoto.findByCreatedAt", query = "SELECT i FROM ItemPhoto i WHERE i.createdAt = :createdAt"),
+    @NamedQuery(name = "ItemPhoto.findByUpdatedAt", query = "SELECT i FROM ItemPhoto i WHERE i.updatedAt = :updatedAt")})
+public class ItemPhoto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,6 +44,11 @@ public class Notification implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 5)
+    @Column(name = "extension")
+    private String extension;
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_at")
@@ -52,25 +59,20 @@ public class Notification implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    @JoinColumn(name = "sender", referencedColumnName = "id")
+    @JoinColumn(name = "photo_for", referencedColumnName = "id")
     @ManyToOne
-    private User sender;
-    @JoinColumn(name = "recipient", referencedColumnName = "id")
-    @ManyToOne
-    private User recipient;
-    @JoinColumn(name = "item", referencedColumnName = "id")
-    @ManyToOne
-    private User item;
+    private Item photoFor;
 
-    public Notification() {
+    public ItemPhoto() {
     }
 
-    public Notification(Integer id) {
+    public ItemPhoto(Integer id) {
         this.id = id;
     }
 
-    public Notification(Integer id, Date createdAt, Date updatedAt) {
+    public ItemPhoto(Integer id, String extension, Date createdAt, Date updatedAt) {
         this.id = id;
+        this.extension = extension;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -81,6 +83,14 @@ public class Notification implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 
     public Date getCreatedAt() {
@@ -99,28 +109,12 @@ public class Notification implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public User getSender() {
-        return sender;
+    public Item getPhotoFor() {
+        return photoFor;
     }
 
-    public void setSender(User sender) {
-        this.sender = sender;
-    }
-
-    public User getRecipient() {
-        return recipient;
-    }
-
-    public void setRecipient(User recipient) {
-        this.recipient = recipient;
-    }
-
-    public User getItem() {
-        return item;
-    }
-
-    public void setItem(User item) {
-        this.item = item;
+    public void setPhotoFor(Item photoFor) {
+        this.photoFor = photoFor;
     }
 
     @Override
@@ -133,10 +127,10 @@ public class Notification implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Notification)) {
+        if (!(object instanceof ItemPhoto)) {
             return false;
         }
-        Notification other = (Notification) object;
+        ItemPhoto other = (ItemPhoto) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -145,7 +139,7 @@ public class Notification implements Serializable {
 
     @Override
     public String toString() {
-        return "jpaentityclasses.Notification[ id=" + id + " ]";
+        return "jpaentityclasses.ItemPhoto[ id=" + id + " ]";
     }
     
 }

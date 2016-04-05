@@ -2,7 +2,7 @@
  * Created by Sait Tuna Onder on 2016.04.04  * 
  * Copyright © 2016 Sait Tuna Onder. All rights reserved. * 
  */
-package jpaentityclasses;
+package com.vtlocator.jpaentityclasses;
 
 import java.io.Serializable;
 import java.util.Collection;

@@ -7,7 +7,7 @@ package com.vtlocator.sessionbeans;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import jpaentityclasses.User;
+import com.vtlocator.jpaentityclasses.User;
 
 /**
  *
@@ -26,6 +26,27 @@ public class UserFacade extends AbstractFacade<User> {
 
     public UserFacade() {
         super(User.class);
+    }
+    
+     //-----------------------------------------------------
+    //The following methods are added to the generated code
+    //-----------------------------------------------------
+    
+    public User getUser(int id) {
+        return em.find(User.class, id);
+    }
+
+    public User findByEmail(String email) {
+        if (em.createNamedQuery("User.findByEmail")
+                .setParameter("email", email)
+                .getResultList().isEmpty()) {
+            return null;
+        }
+        else {
+            return (User) (em.createNamedQuery("User.findByEmail")
+                .setParameter("email", email)
+                .getSingleResult());        
+        }
     }
     
 }
