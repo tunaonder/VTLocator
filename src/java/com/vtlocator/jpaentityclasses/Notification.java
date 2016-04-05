@@ -2,7 +2,7 @@
  * Created by Sait Tuna Onder on 2016.04.04  * 
  * Copyright © 2016 Sait Tuna Onder. All rights reserved. * 
  */
-package jpaentityclasses;
+package com.vtlocator.jpaentityclasses;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,7 +20,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,15 +27,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Onder
  */
 @Entity
-@Table(name = "Subscription")
+@Table(name = "Notification")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Subscription.findAll", query = "SELECT s FROM Subscription s"),
-    @NamedQuery(name = "Subscription.findById", query = "SELECT s FROM Subscription s WHERE s.id = :id"),
-    @NamedQuery(name = "Subscription.findByCategory", query = "SELECT s FROM Subscription s WHERE s.category = :category"),
-    @NamedQuery(name = "Subscription.findByCreatedAt", query = "SELECT s FROM Subscription s WHERE s.createdAt = :createdAt"),
-    @NamedQuery(name = "Subscription.findByUpdatedAt", query = "SELECT s FROM Subscription s WHERE s.updatedAt = :updatedAt")})
-public class Subscription implements Serializable {
+    @NamedQuery(name = "Notification.findAll", query = "SELECT n FROM Notification n"),
+    @NamedQuery(name = "Notification.findById", query = "SELECT n FROM Notification n WHERE n.id = :id"),
+    @NamedQuery(name = "Notification.findByCreatedAt", query = "SELECT n FROM Notification n WHERE n.createdAt = :createdAt"),
+    @NamedQuery(name = "Notification.findByUpdatedAt", query = "SELECT n FROM Notification n WHERE n.updatedAt = :updatedAt")})
+public class Notification implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,11 +42,6 @@ public class Subscription implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 15)
-    @Column(name = "category")
-    private String category;
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_at")
@@ -59,20 +52,25 @@ public class Subscription implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    @JoinColumn(name = "subscriber", referencedColumnName = "id")
+    @JoinColumn(name = "sender", referencedColumnName = "id")
     @ManyToOne
-    private User subscriber;
+    private User sender;
+    @JoinColumn(name = "recipient", referencedColumnName = "id")
+    @ManyToOne
+    private User recipient;
+    @JoinColumn(name = "item", referencedColumnName = "id")
+    @ManyToOne
+    private User item;
 
-    public Subscription() {
+    public Notification() {
     }
 
-    public Subscription(Integer id) {
+    public Notification(Integer id) {
         this.id = id;
     }
 
-    public Subscription(Integer id, String category, Date createdAt, Date updatedAt) {
+    public Notification(Integer id, Date createdAt, Date updatedAt) {
         this.id = id;
-        this.category = category;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -83,14 +81,6 @@ public class Subscription implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public Date getCreatedAt() {
@@ -109,12 +99,28 @@ public class Subscription implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public User getSubscriber() {
-        return subscriber;
+    public User getSender() {
+        return sender;
     }
 
-    public void setSubscriber(User subscriber) {
-        this.subscriber = subscriber;
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
+
+    public User getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(User recipient) {
+        this.recipient = recipient;
+    }
+
+    public User getItem() {
+        return item;
+    }
+
+    public void setItem(User item) {
+        this.item = item;
     }
 
     @Override
@@ -127,10 +133,10 @@ public class Subscription implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Subscription)) {
+        if (!(object instanceof Notification)) {
             return false;
         }
-        Subscription other = (Subscription) object;
+        Notification other = (Notification) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -139,7 +145,7 @@ public class Subscription implements Serializable {
 
     @Override
     public String toString() {
-        return "jpaentityclasses.Subscription[ id=" + id + " ]";
+        return "jpaentityclasses.Notification[ id=" + id + " ]";
     }
     
 }

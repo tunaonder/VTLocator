@@ -2,7 +2,7 @@
  * Created by Sait Tuna Onder on 2016.04.04  * 
  * Copyright © 2016 Sait Tuna Onder. All rights reserved. * 
  */
-package jpaentityclasses;
+package com.vtlocator.jpaentityclasses;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -27,30 +27,38 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Onder
  */
 @Entity
-@Table(name = "ParkingLot")
+@Table(name = "Building")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ParkingLot.findAll", query = "SELECT p FROM ParkingLot p"),
-    @NamedQuery(name = "ParkingLot.findById", query = "SELECT p FROM ParkingLot p WHERE p.id = :id"),
-    @NamedQuery(name = "ParkingLot.findByName", query = "SELECT p FROM ParkingLot p WHERE p.name = :name"),
-    @NamedQuery(name = "ParkingLot.findByLatitude", query = "SELECT p FROM ParkingLot p WHERE p.latitude = :latitude"),
-    @NamedQuery(name = "ParkingLot.findByLongitude", query = "SELECT p FROM ParkingLot p WHERE p.longitude = :longitude"),
-    @NamedQuery(name = "ParkingLot.findByPermission", query = "SELECT p FROM ParkingLot p WHERE p.permission = :permission"),
-    @NamedQuery(name = "ParkingLot.findByCreatedAt", query = "SELECT p FROM ParkingLot p WHERE p.createdAt = :createdAt"),
-    @NamedQuery(name = "ParkingLot.findByUpdatedAt", query = "SELECT p FROM ParkingLot p WHERE p.updatedAt = :updatedAt")})
-public class ParkingLot implements Serializable {
+    @NamedQuery(name = "Building.findAll", query = "SELECT b FROM Building b"),
+    @NamedQuery(name = "Building.findById", query = "SELECT b FROM Building b WHERE b.id = :id"),
+    @NamedQuery(name = "Building.findByName", query = "SELECT b FROM Building b WHERE b.name = :name"),
+    @NamedQuery(name = "Building.findByAbbreviation", query = "SELECT b FROM Building b WHERE b.abbreviation = :abbreviation"),
+    @NamedQuery(name = "Building.findByLatitude", query = "SELECT b FROM Building b WHERE b.latitude = :latitude"),
+    @NamedQuery(name = "Building.findByLongitude", query = "SELECT b FROM Building b WHERE b.longitude = :longitude"),
+    @NamedQuery(name = "Building.findByCategory", query = "SELECT b FROM Building b WHERE b.category = :category"),
+    @NamedQuery(name = "Building.findByDescription", query = "SELECT b FROM Building b WHERE b.description = :description"),
+    @NamedQuery(name = "Building.findByImage", query = "SELECT b FROM Building b WHERE b.image = :image"),
+    @NamedQuery(name = "Building.findByCreatedAt", query = "SELECT b FROM Building b WHERE b.createdAt = :createdAt"),
+    @NamedQuery(name = "Building.findByUpdatedAt", query = "SELECT b FROM Building b WHERE b.updatedAt = :updatedAt")})
+public class Building implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 64)
+    @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 32)
+    @Column(name = "abbreviation")
+    private String abbreviation;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
@@ -62,9 +70,19 @@ public class ParkingLot implements Serializable {
     private BigDecimal longitude;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 21)
-    @Column(name = "permission")
-    private String permission;
+    @Size(min = 1, max = 255)
+    @Column(name = "category")
+    private String category;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "description")
+    private String description;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "image")
+    private String image;
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_at")
@@ -76,28 +94,31 @@ public class ParkingLot implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-    public ParkingLot() {
+    public Building() {
     }
 
-    public ParkingLot(Integer id) {
+    public Building(Long id) {
         this.id = id;
     }
 
-    public ParkingLot(Integer id, String name, BigDecimal latitude, BigDecimal longitude, String permission, Date createdAt, Date updatedAt) {
+    public Building(Long id, String name, String abbreviation, BigDecimal latitude, BigDecimal longitude, String category, String description, String image, Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
+        this.abbreviation = abbreviation;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.permission = permission;
+        this.category = category;
+        this.description = description;
+        this.image = image;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -107,6 +128,14 @@ public class ParkingLot implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
     }
 
     public BigDecimal getLatitude() {
@@ -125,12 +154,28 @@ public class ParkingLot implements Serializable {
         this.longitude = longitude;
     }
 
-    public String getPermission() {
-        return permission;
+    public String getCategory() {
+        return category;
     }
 
-    public void setPermission(String permission) {
-        this.permission = permission;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Date getCreatedAt() {
@@ -159,10 +204,10 @@ public class ParkingLot implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ParkingLot)) {
+        if (!(object instanceof Building)) {
             return false;
         }
-        ParkingLot other = (ParkingLot) object;
+        Building other = (Building) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -171,7 +216,7 @@ public class ParkingLot implements Serializable {
 
     @Override
     public String toString() {
-        return "jpaentityclasses.ParkingLot[ id=" + id + " ]";
+        return "jpaentityclasses.Building[ id=" + id + " ]";
     }
     
 }
