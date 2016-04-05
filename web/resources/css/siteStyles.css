@@ -29,9 +29,13 @@ nav.navbar-default {
 }
 
 .user-dropdown button {
-    width: 160px;
+    width: 170px;
     text-align: left;
     padding: 0;
+}
+
+.user-dropdown .dropdown-menu {
+    width: 170px;
 }
 
 .user-dropdown button i {

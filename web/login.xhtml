@@ -27,21 +27,20 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                         <h:panelGrid columns="2" columnClasses="login-label, login-input">
 
                             <h:outputLabel styleClass="outputLabel" for="loginname" value="Email: " />
-                            <h:inputText class="form-control" id="loginname" />
+                            <h:inputText class="form-control" id="loginname" value="#{loginManager.email}" />
 
                             <h:outputLabel styleClass="outputLabel" for="password" value="Password: " />
-                            <h:inputSecret class="form-control"  id="password" />
+                            <h:inputSecret class="form-control"  id="password" value="#{loginManager.password}"/>
 
                         </h:panelGrid>
                         <br/>
                         <fieldset style="width:60%; margin:0 auto;">
-                            <h:commandButton id="login"  value="Login" styleClass="btn btn-default"/>
-                            <h:commandButton id="create"  value="Sign Up" styleClass="btn btn-default"/>
-                            <h:commandButton id="retrieve"  value="Forgot Password" styleClass="btn btn-default"/>                
+                            <h:commandButton id="login" action="#{loginManager.loginUser()}" value="Login" styleClass="btn btn-default"/>
+                            <h:commandButton id="retrieve" value="Forgot Password" styleClass="btn btn-default"/>                
                         </fieldset>  
                         </div>
                         <br/>
-                        <!--<h:outputLabel value ="#{loginManager.errorMessage}" />-->
+                        <h:outputLabel value ="#{loginManager.errorMessage}" />
                     </h:form>
                 </div>
             </ui:define>
