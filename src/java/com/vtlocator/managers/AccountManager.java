@@ -40,7 +40,15 @@ public class AccountManager implements Serializable {
     private String password;
     private String email;
     private String phone_number;
+    private String statusMessage;
 
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
+    }
     public String getPhone_number() {
         return phone_number;
     }
@@ -189,7 +197,7 @@ public class AccountManager implements Serializable {
             return "";
         }
 
-        
+        if (statusMessage.isEmpty()) { // set all fields in cust obj
             try {
                 User user = new User();
                 user.setFirstName(firstName);
@@ -199,39 +207,32 @@ public class AccountManager implements Serializable {
                 user.setEmail(email);
                 user.setPhoneNumber(phone_number);
                 user.setPassword(password);
-
                 userFacade.create(user);                
             } catch (EJBException e) {
                 email = "";
+                statusMessage = "Something went wrong while creating your account!";
                 return "";
             }
             initializeSessionMap(); // 
             return "Profile"; // navigate to profile
-
+        }
+        return "";
     }
 
     // Updates the info on the account
     public String updateAccount() {
         if (statusMessage.isEmpty()) {
-            int customer_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("customer_id");
-                Customer editUser = userFacade.getCustomer(customer_id);
+            int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
+                User editUser = userFacade.getUser(user_id);
             try {
                 editUser.setFirstName(this.selected.getFirstName());
-                editUser.setLastName(this.selected.getLastName());
-                editUser.setAddress1(this.selected.getAddress1());
-                editUser.setAddress2(this.selected.getAddress2());
-                editUser.setCity(this.selected.getCity());
-                editUser.setState(this.selected.getState());
-                editUser.setZipcode(this.selected.getZipcode());               
+                editUser.setLastName(this.selected.getLastName());               
                 editUser.setEmail(this.selected.getEmail());
                 editUser.setPassword(this.selected.getPassword());
-                // todo: add other fields like CC
-                editUser.setCcNumber(ccNumber);
-                editUser.setCcExpires(ccExpirationDate);
-                editUser.setCcSecurityCode(ccSecurityNumber);
+                editUser.setPhoneNumber(phone_number);
                 userFacade.edit(editUser);
             } catch (EJBException e) {
-                username = "";
+                email = "";
                 statusMessage = "Something went wrong while editing your profile!";
                 return "";
             }
@@ -240,23 +241,7 @@ public class AccountManager implements Serializable {
         return "";
     }
     
-    // Goes through the facade and deletes the users account from the database
-    public String deleteAccount() {
-        if (statusMessage.isEmpty()) {
-            int customer_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("customer_id");
-            try {
-                userFacade.deleteCustomer(customer_id);
-                                
-            } catch (EJBException e) {
-                username = "";
-                statusMessage = "Something went wrong while deleting your account!";
-                return "";
-            }
-            
-            return "/index.xhtml?faces-redirect=true";
-        }
-        return "";
-    }
+  
     
     // Checks to see if the user's name and password is correct
     public void validateInformation(ComponentSystemEvent event) {
@@ -288,11 +273,11 @@ public class AccountManager implements Serializable {
 
     // Creates a session for this user
     public void initializeSessionMap() {
-        Customer customer = userFacade.findByUsername(getUsername()); 
+        User user = userFacade.findByEmail(getEmail()); 
         FacesContext.getCurrentInstance().getExternalContext().
-                getSessionMap().put("username", username);
+                getSessionMap().put("email", email);
         FacesContext.getCurrentInstance().getExternalContext().
-                getSessionMap().put("customer_id", customer.getId());
+                getSessionMap().put("user_id", user.getId());
     }
 
     // Confirms if the enter password is correct
@@ -316,25 +301,24 @@ public class AccountManager implements Serializable {
     // removes this session
     public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
-        username = firstName = middleName = lastName = password = email = statusMessage = "";
-        address1 = address2 = city = state = security_answer = "";
-        height = weight = security_question = ccSecurityNumber = ccExpirationDate = 0;
-        ccNumber = 0;
+        email = firstName = lastName = password = email = statusMessage = phone_number = "";
+        security_answer = "";
+        security_question = 0;
         
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "/index.xhtml?faces-redirect=true"; // redirect to homepage
+        return "/index.xhtml?faces-redirect=true"; // TODO don't know address yet
     }
    
-    // returns the user's photo thumbnail file name
+    // returns the user's photo file name
     public String userPhoto() {
-        String user_name = (String) FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("username");
-        Customer customer = userFacade.findByUsername(user_name);
-        List<Photo> photoList = photoFacade.findPhotosByCustomerID(customer.getId());
+        String email = (String) FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get("email");
+        User user = userFacade.findByEmail(email);
+        List<UserPhoto> photoList = photoFacade.findPhotosByUserID(user.getId());
         if (photoList.isEmpty()) {
             return "defaultUserPhoto.png";
         }
-        return photoList.get(0).getThumbnailName();
+        return photoList.get(0).getExtension();
     }
 
 }
