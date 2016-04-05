@@ -7,14 +7,11 @@ body {
     padding-top: 52px;
 }
 
+/**
+ * Navbar CSS Rules
+ */
 nav.navbar-default {
     border-bottom: 2px solid #e95051;
-}
-
-.logo {
-    height: 39px;
-    margin-top: -7px;
-    margin-left: -9px;
 }
 
 .user-dropdown {
@@ -44,6 +41,50 @@ nav.navbar-default {
     margin-right: 5px;
 }
 
+/**
+ * Login CSS Rules
+ */
+.form-signin {
+    max-width: 550px;
+}
+
+.logo {
+    height: 39px;
+    margin-top: -7px;
+    margin-left: -9px;
+}
+
+.login-logo {
+    margin-top: 100px;
+    margin-bottom: 30px;
+    width: 75%;
+}
+
+.login-label {
+    padding-right: 10px;
+}
+
+.signup-label {
+    padding-right: 10px;
+}
+
+.form-signin table {
+    border-collapse: collapse;
+}
+
+.form-signin td {
+    padding-bottom: 10px;
+}
+
+.form-signin .btn {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+
+/**
+ * Footer CSS Rules
+ */
 div.footer {
     background-color: #e95051;
     color: white;
