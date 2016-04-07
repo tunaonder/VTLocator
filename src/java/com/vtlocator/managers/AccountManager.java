@@ -221,26 +221,18 @@ public class AccountManager implements Serializable {
     }
 
     // Updates the info on the account
-    public String updateFirstName() {
+    public void updateFirstName() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
         User editUser = userFacade.getUser(user_id);
         String firstName = editUser.getFirstName();
-        if (firstName == null || firstName.equals("")) {
-            return firstName;
-        }
-        else if (firstName.equals(this.selected.getFirstName())) {
-            return firstName;
-        }
-        else {
+        if (this.selected != null && this.selected.getFirstName() != null) {
             try {
                 editUser.setFirstName(this.selected.getFirstName());
                 userFacade.edit(editUser);
-                firstName = editUser.getFirstName();
             } catch (EJBException e) {
                 statusMessage = "Something went wrong while editing your profile!";
             }
-            return firstName;
-        }   
+        }  
     }
     // Updates the info on the account
     public void updateLastName() {
