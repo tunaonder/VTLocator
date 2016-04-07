@@ -2,4 +2,6 @@ Backend TODO:
 
 - Add FileManager
 - Add PasswordResetManager
-- Fix the redirects to match frontend
+- Add email notification system?
+- Add profile view page
+
