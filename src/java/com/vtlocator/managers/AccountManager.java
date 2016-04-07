@@ -215,7 +215,7 @@ public class AccountManager implements Serializable {
                 return "";
             }
              // 
-            return "buildingsAndParking"; // navigate to profile
+            return "buildings"; // navigate to profile
         }
         return "";
     }

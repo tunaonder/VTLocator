@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:body>
+        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+        <!-- This page is constructed based on the siteTemplate -->
+        <ui:composition template="template/siteTemplate.xhtml">
+            <ui:define name="sidebar">
+                <ul class="nav nav-tabs nav-justified">
+                    <li role="presentation" class="active"><h:link outcome="buildings">Buildings</h:link></li>
+                    <li role="presentation"><h:link outcome="parking">Parking</h:link></li>
+                </ul>
+                <h1>Search</h1>
+            </ui:define>
+            <ui:define name="mainPanel">
+                <h1>Building</h1>
+                <h3>Test (map goes here)</h3>
+            </ui:define>
+        </ui:composition>
+        <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+    </h:body>
+
+</html>
