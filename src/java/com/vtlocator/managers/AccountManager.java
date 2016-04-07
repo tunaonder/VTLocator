@@ -224,7 +224,6 @@ public class AccountManager implements Serializable {
     public void updateFirstName() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
         User editUser = userFacade.getUser(user_id);
-        String firstName = editUser.getFirstName();
         if (this.selected != null && this.selected.getFirstName() != null) {
             try {
                 editUser.setFirstName(this.selected.getFirstName());
@@ -238,22 +237,26 @@ public class AccountManager implements Serializable {
     public void updateLastName() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
         User editUser = userFacade.getUser(user_id);
-        try {
-            editUser.setLastName(this.selected.getLastName());
-            userFacade.edit(editUser);
-        } catch (EJBException e) {
-            statusMessage = "Something went wrong while editing your profile!";
+        if (this.selected != null && this.selected.getFirstName() != null) {
+            try {
+                editUser.setLastName(this.selected.getLastName());
+                userFacade.edit(editUser);
+            } catch (EJBException e) {
+                statusMessage = "Something went wrong while editing your profile!";
+            }
         }
     }
     // Updates the info on the account
     public void updatePhoneNumber() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
         User editUser = userFacade.getUser(user_id);
-        try {
-            editUser.setPhoneNumber(this.selected.getPhoneNumber());
-            userFacade.edit(editUser);
-        } catch (EJBException e) {
-            statusMessage = "Something went wrong while editing your profile!";
+        if (this.selected != null && this.selected.getFirstName() != null) {
+            try {
+                editUser.setPhoneNumber(this.selected.getPhoneNumber());
+                userFacade.edit(editUser);
+            } catch (EJBException e) {
+                statusMessage = "Something went wrong while editing your profile!";
+            }
         }
     }
     

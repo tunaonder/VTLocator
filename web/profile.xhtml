@@ -36,14 +36,31 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                                 
                             </h:commandButton>-->
                             </p:inplace>
-                            <p:message for="firstName" display="icon" />                  
-
+                            <p:message for="firstName" display="icon" />   
+                            
                             <p:outputLabel for="lastName" value="Last Name" />
-                            <h:inputText id="lastName" class="form-control"
-                                         required="true" label="Last Name" value="#{accountManager.lastName}" >
-                                <f:validateLength minimum="2" maximum="32" />
-                            </h:inputText>
-                            <p:message for="lastName" display="icon" />
+                            <p:inplace id="lastName" editor="true">
+                                <p:ajax event="save" listener="#{accountManager.updateLastName}" />
+                                <p:inputText label="text" class="form-display"
+                                             value="#{accountManager.selected.lastName}" />
+<!--                            <h:commandButton>
+                                <i class="fa fa-pencil-square-o"></i>
+                                
+                            </h:commandButton>-->
+                            </p:inplace>
+                            <p:message for="lastName" display="icon" /> 
+                            
+                            <p:outputLabel for="phone" value="Phone Number" />
+                            <p:inplace id="phone" editor="true">
+                                <p:ajax event="save" listener="#{accountManager.updatePhoneNumber}" />
+                                <p:inputText label="text" class="form-display"
+                                             value="#{accountManager.selected.phoneNumber}" />
+<!--                            <h:commandButton>
+                                <i class="fa fa-pencil-square-o"></i>
+                                
+                            </h:commandButton>-->
+                            </p:inplace>
+                            <p:message for="phone" display="icon" />  
                             
                             <p:outputLabel for="email" value="Email" />
                             <h:inputText id="email" class="form-control"
@@ -52,13 +69,6 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                                 <f:validator validatorId="emailValidator" /> 
                             </h:inputText>
                             <p:message for="email" display="icon" />
-                            
-                            <p:outputLabel for="phone" value="Phone Number" />
-                            <h:inputText id="phone" class="form-control"
-                                         label="Phone Number" required="true" value="#{accountManager.phone_number}" >
-                                <f:validateLength minimum="2" maximum="64" />
-                            </h:inputText>
-                            <p:message for="phone" display="icon" />
 
                             <p:outputLabel for="security_ques" value="Security Question" />
                             <h:selectOneMenu id="security_ques" value="#{accountManager.security_question}" required="true" class="form-control">
