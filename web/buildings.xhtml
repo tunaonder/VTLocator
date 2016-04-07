@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:body>
         <!-- Do not enter tags before the composition line since they are ignored by JSF -->
@@ -17,6 +18,16 @@
                     <li role="presentation"><h:link outcome="parking">Parking</h:link></li>
                 </ul>
                 <h1>Search</h1>
+                
+                <p:selectOneMenu id="buldingMenu" value="#{buildingManager.size}" style="width:150px">
+
+                           <p:ajax listener="#{buildingManager.onSizeChange}" />
+                           <f:selectItem itemLabel="Select Size" itemValue="" noSelectionOption="false" />
+                            <f:selectItems value="#{buildingManager.sizes}" />
+                        </p:selectOneMenu>
+                
+                
+                
             </ui:define>
             <ui:define name="mainPanel">
                 <h1>Building</h1>
