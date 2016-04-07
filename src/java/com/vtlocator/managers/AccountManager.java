@@ -225,7 +225,10 @@ public class AccountManager implements Serializable {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
         User editUser = userFacade.getUser(user_id);
         String firstName = editUser.getFirstName();
-        if (firstName == this.selected.getFirstName()) {
+        if (firstName == null || firstName.equals("")) {
+            return firstName;
+        }
+        else if (firstName.equals(this.selected.getFirstName())) {
             return firstName;
         }
         else {
