@@ -74,14 +74,19 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                             <h:selectOneMenu id="security_ques" value="#{accountManager.security_question}" required="true" class="form-control">
                                  <f:selectItems value="#{accountManager.security_questions}"/>
                             </h:selectOneMenu>
-                            <p:message for="security_ques" display="icon" />                     
-
-                            <p:outputLabel for="security_ans" value="Answer" />
-                            <h:inputText id="security_ans" class="form-control"
-                                         required="true" label="Answer" value="#{accountManager.security_answer}" >
-                                <f:validateLength minimum="4" />
-                            </h:inputText>  
-                            <p:message for="security_ans" display="icon" />                    
+                            <p:message for="security_ques" display="icon" />  
+                            
+                            <p:outputLabel for="security_ans" value="Security Answer" />
+                            <p:inplace id="security_ans" editor="true">
+                                <p:ajax event="save" listener="#{accountManager.updateSecurityAnswer()}" />
+                                <p:inputText label="text" class="form-display"
+                                             value="#{accountManager.selected.securityAnswer}" />
+<!--                            <h:commandButton>
+                                <i class="fa fa-pencil-square-o"></i>
+                                
+                            </h:commandButton>-->
+                            </p:inplace>
+                            <p:message for="security_ans" display="icon" />                
 
                             <p:outputLabel for="password" value="Password" />
                             <h:inputSecret id="password" class="form-control"
