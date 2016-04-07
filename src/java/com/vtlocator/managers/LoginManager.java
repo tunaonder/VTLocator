@@ -98,7 +98,7 @@ public class LoginManager implements Serializable {
       if (user.getEmail().equals(getEmail()) && user.getPassword().equals(getPassword())) {
         errorMessage = "";
         initializeSessionMap(user);
-        return "buildingsAndParking"; //TODO should return profile page
+        return "buildings"; //TODO should return profile page
       }
       errorMessage = "Invalid email or password!";
       return "";
