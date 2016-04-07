@@ -20,6 +20,8 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
+import javax.json.Json;
+import javax.json.JsonObject;
 
 /*
 Used to fetch and edit the user's information
@@ -321,5 +323,46 @@ public class AccountManager implements Serializable {
         }
         return photoList.get(0).getExtension();
     }
+    
+     public static String CreateJson() { 
+         String lat1 = "37.229204";
+         String long1 = "-80.421507";
+         String lat2 = "37.227283";
+         String long2 = "-80.424192";
+         String lat3 = "37.226195";
+         String long3 = "-80.423054";
+         String lat4 = "37.228020";
+         String long4 = "-80.420323";
 
+         String[] coord = {lat1, long1};
+         String[] coord2 = {lat2, long2};
+         String[] coord3 = {lat3, long3};
+         String[] coord4 = {lat4, long4};
+
+         String[][] coords = {coord, coord2, coord3, coord4};
+
+        JsonObject jlat1 = Json.createObjectBuilder().add("lat", lat1).build();
+        JsonObject jlong1 = Json.createObjectBuilder().add("long", long1).build();
+        JsonObject jcoord = Json.createObjectBuilder()
+                .add("coord", Json.createArrayBuilder().add(jlat1).add(jlong1)).build();
+
+        JsonObject jlat2 = Json.createObjectBuilder().add("lat", lat2).build();
+        JsonObject jlong2 = Json.createObjectBuilder().add("long", long2).build();
+        JsonObject jcoord2 = Json.createObjectBuilder()
+                .add("coord", Json.createArrayBuilder().add(jlat2).add(jlong2)).build();
+
+        JsonObject jlat3 = Json.createObjectBuilder().add("lat", lat3).build();
+        JsonObject jlong3 = Json.createObjectBuilder().add("long", long3).build();
+        JsonObject jcoord3 = Json.createObjectBuilder()
+                .add("coord", Json.createArrayBuilder().add(jlat3).add(jlong3)).build();
+
+        JsonObject jlat4 = Json.createObjectBuilder().add("lat", lat4).build();
+        JsonObject jlong4 = Json.createObjectBuilder().add("long", long4).build();
+        JsonObject jcoord4 = Json.createObjectBuilder()
+                .add("coord", Json.createArrayBuilder().add(jlat4).add(jlong4)).build();
+
+        JsonObject jcoords = Json.createObjectBuilder()
+                .add("coords", Json.createArrayBuilder().add(jcoord).add(jcoord2).add(jcoord3).add(jcoord4)).build();
+        return jcoords.toString();
+}
 }

@@ -134,3 +134,8 @@ div.footer {
 div.footer .footer-text {
     margin-bottom: 0;
 }
+
+#map {
+    width: 500px;
+    height: 500px;
+}

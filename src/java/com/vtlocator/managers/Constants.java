@@ -5,7 +5,8 @@
 package com.vtlocator.managers;
 
 import java.util.*;
-
+import javax.faces.bean.SessionScoped;
+import javax.json.*;
 /* 
 Stores constants used by the program.
 */
@@ -33,6 +34,9 @@ public class Constants {
     "What is the last name of your most favorite teacher?",
     "What is your father's middle name?",
     "What is your most favorite pet's name?"};
+
     
 
+    
+    
 }
