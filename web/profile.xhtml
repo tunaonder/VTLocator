@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Sait Tuna Onder on 2016.04.05 
+Copyright © 2016 Sait Tuna Onder. All rights reserved.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+        <!-- This page is constructed based on the siteTemplate -->
+        <ui:composition template="template/siteTemplate.xhtml">
+
+
+            <!-- Create the content for this page below -->
+            <ui:define name="editableContent">
+                <div align="center">
+                    <h:form class="form-signin">
+                         <f:event listener="#{accountManager.validateInformation}" type="postValidate"/>
+                        <div align="center">
+                        <h:graphicImage url="#{resource['images:logo_primary.png']}" styleClass="login-logo" alt="VTLocator"/>
+
+                        <h:panelGrid columns="3" cellpadding="5" columnClasses="signup-label, signup-input, signup-message">
+                            <p:outputLabel for="firstName" value="First Name" />
+                            <h:inputText id="firstName" class="form-control"
+                                         required="true" label="First Name" value="#{accountManager.firstName}" >
+                                <f:validateLength minimum="2" maximum="32" />
+                            </h:inputText>
+                            <p:message for="firstName" display="icon" />                  
+
+                            <p:outputLabel for="lastName" value="Last Name" />
+                            <h:inputText id="lastName" class="form-control"
+                                         required="true" label="Last Name" value="#{accountManager.lastName}" >
+                                <f:validateLength minimum="2" maximum="32" />
+                            </h:inputText>
+                            <p:message for="lastName" display="icon" />
+                            
+                            <p:outputLabel for="email" value="Email" />
+                            <h:inputText id="email" class="form-control"
+                                         label="Email" required="true" value="#{accountManager.email}" >
+                                <f:validateLength minimum="2" maximum="64" />
+                                <f:validator validatorId="emailValidator" /> 
+                            </h:inputText>
+                            <p:message for="email" display="icon" />
+                            
+                            <p:outputLabel for="phone" value="Phone Number" />
+                            <h:inputText id="phone" class="form-control"
+                                         label="Phone Number" required="true" value="#{accountManager.phone_number}" >
+                                <f:validateLength minimum="2" maximum="64" />
+                            </h:inputText>
+                            <p:message for="phone" display="icon" />
+
+                            <p:outputLabel for="security_ques" value="Security Question" />
+                            <h:selectOneMenu id="security_ques" value="#{accountManager.security_question}" required="true" class="form-control">
+                                 <f:selectItems value="#{accountManager.security_questions}"/>
+                            </h:selectOneMenu>
+                            <p:message for="security_ques" display="icon" />                     
+
+                            <p:outputLabel for="security_ans" value="Answer" />
+                            <h:inputText id="security_ans" class="form-control"
+                                         required="true" label="Answer" value="#{accountManager.security_answer}" >
+                                <f:validateLength minimum="4" />
+                            </h:inputText>
+                            <p:message for="security_ans" display="icon" />                    
+
+                            <p:outputLabel for="password" value="Password" />
+                            <h:inputSecret id="password" class="form-control"
+                                           required="true" label="Password" value="#{accountManager.password}" >
+                                <f:validator validatorId="passwordValidator" /> 
+                            </h:inputSecret>
+                            <p:message for="password" display="icon" />
+
+                            <p:outputLabel for="confirmPassword" value="Confirm Password" />
+                            <h:inputSecret id="confirmPassword" class="form-control"
+                                        required="true" label="Confirm Password" >
+                            </h:inputSecret>
+                            <p:message for="confirmPassword" display="icon"/>
+                        </h:panelGrid>
+                        <br/>
+                        <h:commandButton class="btn btn-default" id="submit" value="Create Account" action="#{accountManager.createAccount()}" />   
+                        <h:commandButton class="btn btn-default" id="cancel" value="Cancel" /> 
+                        </div>
+                        <br/>
+                        <h:outputLabel value ="#{accountManager.statusMessage}" />
+                    </h:form>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+        <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+    </h:body>
+
+</html>
