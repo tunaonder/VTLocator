@@ -38,6 +38,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                                             <span>Hi, #{profileViewManager.loggedInUser.firstName}!</span>
                                         </button>
                                         <ul class="dropdown-menu">
+                                            <li><h:link outcome="profile"><i class="fa fa-user fa-fw"></i> Profile</h:link></li>
                                             <li><a href="#"><i class="fa fa-cogs fa-fw"></i> Settings</a></li>
                                             <li role="separator" class="divider"></li>
                                             <li><h:commandLink action="#{accountManager.logout()}" > <i class="fa fa-sign-out fa-fw"></i> Logout</h:commandLink></li>
