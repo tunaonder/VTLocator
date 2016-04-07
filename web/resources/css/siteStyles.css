@@ -1,18 +1,19 @@
-html,body {
+html {
+    display: block;
     height: 100%;
-    padding: 0;
 }
 
 body {
+    height: 100%;
     padding-top: 52px;
+    margin: 0;
 }
 
 #page {
-    height: 100%;
+    position: relative;
 }
 
 #editableContent {
-    height: 100%;
 }
 
 /**
@@ -120,6 +121,35 @@ nav.navbar-default {
 .form-signin .btn {
     margin-right: 5px;
     margin-left: 5px;
+}
+
+/**
+ * Landing page CSS Rules
+ */
+.landing-jumbotron {
+    height: 85vh;
+    background-image: url(../resources/images/splash_background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    border-bottom: 2px solid #e95051;
+    box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.2);
+}
+
+.landing-jumbotron .jumbotron-text {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.landing-jumbotron h1 {
+    font-size: 4em;
 }
 
 /**
