@@ -260,30 +260,6 @@ public class AccountManager implements Serializable {
         }
     }
     
-    // Updates the info on the account
-    public String updateAccount() {
-        if (statusMessage.isEmpty()) {
-            int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
-                User editUser = userFacade.getUser(user_id);
-            try {
-                editUser.setFirstName(this.selected.getFirstName());
-                editUser.setLastName(this.selected.getLastName());               
-                editUser.setEmail(this.selected.getEmail());
-                editUser.setPassword(this.selected.getPassword());
-                editUser.setPhoneNumber(phone_number);
-                userFacade.edit(editUser);
-            } catch (EJBException e) {
-                email = "";
-                statusMessage = "Something went wrong while editing your profile!";
-                return "";
-            }
-            return "Profile";
-        }
-        return "";
-    }
-    
-  
-    
     // Checks to see if the user's name and password is correct
     public void validateInformation(ComponentSystemEvent event) {
         FacesContext fc = FacesContext.getCurrentInstance();
