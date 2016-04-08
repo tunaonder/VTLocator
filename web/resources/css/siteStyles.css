@@ -134,3 +134,11 @@ div.footer {
 div.footer .footer-text {
     margin-bottom: 0;
 }
+
+
+
+.mainPanel .buildingMapPanel {
+    max-width: 550px;
+    min-height: 400px;
+    min-width: 300px;
+}

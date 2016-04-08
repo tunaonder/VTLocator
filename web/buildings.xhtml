@@ -18,24 +18,96 @@
                     <li role="presentation"><h:link outcome="parking">Parking</h:link></li>
                 </ul>
                 <h1>Search</h1>
-                
-                <ul class ="dropdown">
-                    <p:selectOneMenu id="buldingMenu" value="#{buildingManager.selectedBuildingName}" style="width:150px">
 
-                           <p:ajax listener="#{buildingManager.displayBuildingLocation}" />
-                         
-                            <f:selectItems value="#{buildingManager.buildingNames}" />
-                        </p:selectOneMenu>
-                    
+                <ul class ="dropdown">
+                    <p:selectOneMenu id="selectedBuildingName" value="#{buildingManager.selectedBuildingName}" style="width:150px">
+
+                        <p:ajax listener="#{buildingManager.displayBuildingLocation}" />
+                        <p:ajax  oncomplete="displayBuilding('#{buildingManager.selectedBuildingName}')"/>
+                        <f:selectItem itemLabel="Select Building" itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{buildingManager.buildingNames2}" />
+                    </p:selectOneMenu>
+
                 </ul>
-                
-                
-                
-                
+
+                <script type="text/javascript">
+                    function displayBuilding(name){
+                         alert(name); 
+                    }
+                  
+                </script>
+
+
             </ui:define>
-            <ui:define name="mainPanel">
-                <h1>Building</h1>
-                <h3>Test (map goes here)</h3>
+            <ui:define  name="mainPanel" >
+                <p:growl id="messages" showDetail="true" />
+                <h:form class="buildingMapPanel" style="width: 1300px;height:100%">
+
+                    <p:gmap id="gmap" center="#{buildingManager.vtLat}, #{buildingManager.vtLong}" zoom="16" type="HYBRID"
+                            style="width:100%;height:100%" widgetVar="map" onPointClick="handlePointClick(event);" model="#{buildingManager.emptyModel}"/>
+
+
+                </h:form>
+
+                <p:dialog widgetVar="dlg" showEffect="fade">
+                    <h:form prependId="false">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel for="title" value="Title:" />
+                            <p:inputText id="title" value="#{buildingManager.title}" />
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Add" actionListener="#{buildingManager.addMarker}" update=":messages" oncomplete="markerAddComplete()" />
+                                <p:commandButton value="Cancel" onclick="return cancel()" />
+                            </f:facet>
+                        </h:panelGrid>
+
+                        <h:inputHidden id="lat" value="#{buildingManager.lat}" />
+                        <h:inputHidden id="lng" value="#{buildingManager.lng}" />
+                    </h:form>
+                </p:dialog>
+                <script type="text/javascript">
+                    
+                    
+                    
+                    
+                    
+                    var currentMarker = null;
+
+                    function handlePointClick(event) {
+                        if (currentMarker === null) {
+
+                            document.getElementById('lat').value = event.latLng.lat();
+                            document.getElementById('lng').value = event.latLng.lng();
+                            
+                            currentMarker = new google.maps.Marker({
+                                position: new google.maps.LatLng(event.latLng.lat(), event.latLng.lng())
+                            });
+
+                            PF('map').addOverlay(currentMarker);
+
+                            PF('dlg').show();
+                        }
+                    }
+
+                    function markerAddComplete() {
+                 
+                        var title = document.getElementById('title');
+                        currentMarker.setTitle(title.value);
+                        title.value = "";
+                        currentMarker = null;
+                        PF('dlg').hide();
+                    }
+
+                    function cancel() {
+                        PF('dlg').hide();
+                        currentMarker.setMap(null);
+                        currentMarker = null;
+
+                        return false;
+                    }
+                </script>
+
+
             </ui:define>
         </ui:composition>
         <!-- Do not enter tags after the composition line since they are ignored by JSF -->
