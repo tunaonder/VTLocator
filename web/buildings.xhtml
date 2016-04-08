@@ -19,12 +19,16 @@
                 </ul>
                 <h1>Search</h1>
                 
-                <p:selectOneMenu id="buldingMenu" value="#{buildingManager.size}" style="width:150px">
+                <ul class ="dropdown">
+                    <p:selectOneMenu id="buldingMenu" value="#{buildingManager.selectedBuildingName}" style="width:150px">
 
-                           <p:ajax listener="#{buildingManager.onSizeChange}" />
-                           <f:selectItem itemLabel="Select Size" itemValue="" noSelectionOption="false" />
-                            <f:selectItems value="#{buildingManager.sizes}" />
+                           <p:ajax listener="#{buildingManager.displayBuildingLocation}" />
+                         
+                            <f:selectItems value="#{buildingManager.buildingNames}" />
                         </p:selectOneMenu>
+                    
+                </ul>
+                
                 
                 
                 
