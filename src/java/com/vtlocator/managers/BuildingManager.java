@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javafx.scene.control.Alert;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -44,7 +45,6 @@ public class BuildingManager implements Serializable{
 
     //Building Names Hash Map to Display at Building Menu
     private HashMap<String, String> buildingNames;
-     private HashMap<String, String> buildingNames2;
     
     private MapModel emptyModel;
       
@@ -57,19 +57,20 @@ public class BuildingManager implements Serializable{
     private double vtLat = 37.227264;
     private double vtLong = -80.420745;
     
+    private Building tempBuilding;
+    
     @PostConstruct
     public void init() {
         items = getItems();
         
        //Sizes are in a  Hash Map
         buildingNames = new HashMap<>();
-        buildingNames2 = new HashMap<>();
         for (int i = 0; i<items.size(); i++){
             buildingNames.put(items.get(i).getName(), items.get(i).getName());
         }
-        buildingNames2 = sortByValues(buildingNames);
+        buildingNames = sortByValues(buildingNames);
         
-        System.out.println(buildingNames2.get("Agnew Hall"));
+        
        // selectedBuildingName = items.get(0).getName();
 
         
@@ -122,14 +123,10 @@ public class BuildingManager implements Serializable{
   }
      
   public void displayBuildingLocation(){
-      if( selectedBuildingName !=null && ! selectedBuildingName.equals("")){
-          selectedBuildingName = buildingNames.get(selectedBuildingName);
-      }
-      
-      System.out.println(selectedBuildingName);
-            
+     // tempBuilding = getBuildingWithName(selectedBuildingName);
      
       
+      System.out.println(selectedBuildingName);
   }
   
   public MapModel getEmptyModel() {
@@ -183,13 +180,28 @@ public class BuildingManager implements Serializable{
         this.vtLong = vtLong;
     }
 
-    public HashMap<String, String> getBuildingNames2() {
-        return buildingNames2;
+    public Building getTempBuilding() {
+        return tempBuilding;
     }
 
-    public void setBuildingNames2(HashMap<String, String> buildingNames2) {
-        this.buildingNames2 = buildingNames2;
+    public void setTempBuilding(Building tempBuilding) {
+        this.tempBuilding = tempBuilding;
     }
+    
+    
+    
+    private Building getBuildingWithName(String buildingName){
+        for(int i = 0; i<items.size(); i++){
+            if (buildingName.equals(items.get(i).getName())){
+                return items.get(i);
+            }
+        }
+        
+        return null;
+        
+    }
+
+
     
     
   
