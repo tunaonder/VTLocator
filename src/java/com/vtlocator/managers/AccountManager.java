@@ -9,6 +9,8 @@ import com.vtlocator.jpaentityclasses.User;
 import com.vtlocator.sessionbeans.UserPhotoFacade;
 import com.vtlocator.sessionbeans.UserFacade;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +23,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 
 /*
 Used to fetch and edit the user's information
@@ -324,7 +328,9 @@ public class AccountManager implements Serializable {
         return photoList.get(0).getExtension();
     }
     
-     public static String CreateJson() { 
+    
+    
+     public static String createJson() { 
          String lat1 = "37.229204";
          String long1 = "-80.421507";
          String lat2 = "37.227283";
@@ -332,37 +338,47 @@ public class AccountManager implements Serializable {
          String lat3 = "37.226195";
          String long3 = "-80.423054";
          String lat4 = "37.228020";
-         String long4 = "-80.420323";
+         String long4 = "-80.420323"; 
 
-         String[] coord = {lat1, long1};
-         String[] coord2 = {lat2, long2};
-         String[] coord3 = {lat3, long3};
-         String[] coord4 = {lat4, long4};
-
-         String[][] coords = {coord, coord2, coord3, coord4};
-
-        JsonObject jlat1 = Json.createObjectBuilder().add("lat", lat1).build();
-        JsonObject jlong1 = Json.createObjectBuilder().add("long", long1).build();
-        JsonObject jcoord = Json.createObjectBuilder()
-                .add("coord", Json.createArrayBuilder().add(jlat1).add(jlong1)).build();
-
-        JsonObject jlat2 = Json.createObjectBuilder().add("lat", lat2).build();
-        JsonObject jlong2 = Json.createObjectBuilder().add("long", long2).build();
-        JsonObject jcoord2 = Json.createObjectBuilder()
-                .add("coord", Json.createArrayBuilder().add(jlat2).add(jlong2)).build();
-
-        JsonObject jlat3 = Json.createObjectBuilder().add("lat", lat3).build();
-        JsonObject jlong3 = Json.createObjectBuilder().add("long", long3).build();
-        JsonObject jcoord3 = Json.createObjectBuilder()
-                .add("coord", Json.createArrayBuilder().add(jlat3).add(jlong3)).build();
-
-        JsonObject jlat4 = Json.createObjectBuilder().add("lat", lat4).build();
-        JsonObject jlong4 = Json.createObjectBuilder().add("long", long4).build();
-        JsonObject jcoord4 = Json.createObjectBuilder()
-                .add("coord", Json.createArrayBuilder().add(jlat4).add(jlong4)).build();
-
-        JsonObject jcoords = Json.createObjectBuilder()
-                .add("coords", Json.createArrayBuilder().add(jcoord).add(jcoord2).add(jcoord3).add(jcoord4)).build();
-        return jcoords.toString();
-}
+        ArrayList<String> lats = new ArrayList();
+        lats.add(lat1);
+        lats.add(lat2);
+        lats.add(lat3);
+        lats.add(lat4);
+        
+         ArrayList<String> longs = new ArrayList();
+        longs.add(long1);
+        longs.add(long2);
+        longs.add(long3);
+        longs.add(long4);
+        
+        JsonObject shape1 = AccountManager.createJsonShapeFromCoords(lats, longs);
+        ArrayList<JsonObject> shapes = new ArrayList();
+        shapes.add(shape1);
+        return AccountManager.createJsonStringFromShapes(shapes);
+    }
+     
+    public static JsonObject createJsonShapeFromCoords(ArrayList<String> lats, ArrayList<String> longs) {
+        if (lats.size() != longs.size()) {
+            return null;
+        }
+        JsonArrayBuilder b = Json.createArrayBuilder();
+        for (int x = 0; x<lats.size(); x++) {
+            JsonObject jcoord = Json.createObjectBuilder()
+                .add("coord", Json.createObjectBuilder().add("lat", lats.get(x)).add("long", longs.get(x))).build();
+            b.add(jcoord);
+        }
+        JsonObject coords = Json.createObjectBuilder().add("coords", b).build();
+        return coords;
+        
+    }
+    
+    public static String createJsonStringFromShapes(ArrayList<JsonObject> shapes) {
+        JsonObjectBuilder b = Json.createObjectBuilder();
+        for (int x = 0; x < shapes.size(); x++) {
+            b.add("shape" + Integer.toString(x), shapes.get(x));
+        }
+        JsonObject shapesJson = b.build();
+        return shapesJson.toString();
+    }
 }
