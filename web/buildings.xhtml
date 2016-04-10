@@ -19,25 +19,30 @@
                 </ul>
 
 
-                <h:form>
+                <h:form id="dropDownForm">
                     <ul class="dropdown" >
-                        <p:selectOneMenu  id="selectedBuildingName" value="#{buildingManager.selectedBuildingName}" style="width:200px">
-                            <p:ajax listener="#{buildingManager.displayBuildingLocation}" />
-                        
+                        <p:selectOneMenu value="#{buildingManager.selectedBuildingName}" style="width:200px">
+<!--                            Display Building Location and Update the value of selected building-->
+                            <p:ajax  oncomplete="displayBuilding()" update="address"/>
                             <f:selectItems value="#{buildingManager.buildingNames}"  />
                         </p:selectOneMenu>
+<!--                        Get The Value Of Building Name To An Hidden Input-->
+                        <h:inputHidden id="address" value="#{buildingManager.selectedBuildingName}"/>
 
                     </ul>
+                    
 
 
                 </h:form>
 
-<!--                <script type="text/javascript">
-                    function displayBuilding(name) {
-                        alert(name);
+                <script type="text/javascript">
+                    function displayBuilding() {
+                        
+                        alert(document.getElementById("dropDownForm:address").value);
+                        
                     }
 
-                </script>-->
+                </script>
 
 
             </ui:define>
