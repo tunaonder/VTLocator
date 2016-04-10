@@ -45,14 +45,16 @@ public class BuildingManager implements Serializable{
     //Building Names Hash Map to Display at Building Menu
     private HashMap<String, String> buildingNames;
     
-    private MapModel emptyModel;
+    private MapModel mapModel;
       
     private String title;
       
-    private double lat;
-      
+    //Building Values
+    private double lat;      
     private double lng;
+    private String imageUrl;
     
+    //Center Of The Map
     private double vtLat = 37.227264;
     private double vtLong = -80.420745;
     
@@ -68,12 +70,11 @@ public class BuildingManager implements Serializable{
             buildingNames.put(items.get(i).getName(), items.get(i).getName());
         }
         buildingNames = sortByValues(buildingNames);
+       
         
-        
-       // selectedBuildingName = items.get(0).getName();
-
-        
-         emptyModel = new DefaultMapModel();
+         mapModel = new DefaultMapModel();
+         
+         imageUrl = "https://lh5.googleusercontent.com/-A6mD3SlNkSM/AAAAAAAAAAI/AAAAAAAAAXE/yyIqI5mrcOk/s0-c-k-no-ns/photo.jpg";
     
     }
     
@@ -104,32 +105,9 @@ public class BuildingManager implements Serializable{
     public void setBuildingNames(HashMap<String, String> buildingNames) {
         this.buildingNames = buildingNames;
     }
-    
-    
-    //Sort Buildings Alphabetacially
-     private static HashMap sortByValues(HashMap map) { 
-       List list = new LinkedList(map.entrySet());
-       // Defined Custom Comparator here
-       Collections.sort(list, (Object o1, Object o2) -> ((Comparable) ((Map.Entry) (o1)).getValue())
-               .compareTo(((Map.Entry) (o2)).getValue()));
-
-       HashMap sortedHashMap = new LinkedHashMap();
-       for (Iterator it = list.iterator(); it.hasNext();) {
-              Map.Entry entry = (Map.Entry) it.next();
-              sortedHashMap.put(entry.getKey(), entry.getValue());
-       } 
-       return sortedHashMap;
-  }
-     
-  public void displayBuildingLocation(){
-     // tempBuilding = getBuildingWithName(selectedBuildingName);
-     
-      
-      System.out.println(selectedBuildingName);
-  }
   
-  public MapModel getEmptyModel() {
-        return emptyModel;
+  public MapModel getMapModel() {
+        return mapModel;
     }
       
     public String getTitle() {
@@ -158,7 +136,7 @@ public class BuildingManager implements Serializable{
   
   public void addMarker() {
         Marker marker = new Marker(new LatLng(lat, lng), title);
-        emptyModel.addOverlay(marker);
+        mapModel.addOverlay(marker);
           
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", "Lat:" + lat + ", Lng:" + lng));
     }
@@ -186,7 +164,40 @@ public class BuildingManager implements Serializable{
     public void setTempBuilding(Building tempBuilding) {
         this.tempBuilding = tempBuilding;
     }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
     
+    //Sort Buildings Alphabetacially
+     private static HashMap sortByValues(HashMap map) { 
+       List list = new LinkedList(map.entrySet());
+       // Defined Custom Comparator here
+       Collections.sort(list, (Object o1, Object o2) -> ((Comparable) ((Map.Entry) (o1)).getValue())
+               .compareTo(((Map.Entry) (o2)).getValue()));
+
+       HashMap sortedHashMap = new LinkedHashMap();
+       for (Iterator it = list.iterator(); it.hasNext();) {
+              Map.Entry entry = (Map.Entry) it.next();
+              sortedHashMap.put(entry.getKey(), entry.getValue());
+       } 
+       return sortedHashMap;
+  }
+     
+  public void displayBuildingLocation(){
+      //Find the building object with its name
+      tempBuilding = getBuildingWithName(selectedBuildingName);
+      //Get the latitude and longitude of the selected building
+      lat = tempBuilding.getLatitude().doubleValue();
+      lng = tempBuilding.getLongitude().doubleValue();
+      imageUrl = tempBuilding.getImage();
+      
+     
+  }
     
     
     private Building getBuildingWithName(String buildingName){
