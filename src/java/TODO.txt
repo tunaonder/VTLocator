@@ -2,10 +2,12 @@ Backend TODO:
 
 Finish profile:
 - Make email field view only
-- Replace password fields with password button
-- Add edit fields for security question and answer
+- Make security question editable
 
-Add password reset stuff (easy)
-- Add all the .xhtml files
-- Change file names to be lowercase
+Finish file manager:
+- Decide on a default profile
+- Remove all references to image thumbnails
+- Make image upload work
 
+Password reset:
+DONE!
