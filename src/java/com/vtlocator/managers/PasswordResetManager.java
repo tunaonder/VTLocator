@@ -60,15 +60,15 @@ public class PasswordResetManager implements Serializable{
     }
         
     // gets the username from the db
-    public String usernameSubmit() {
+    public String emailSubmit() {
         User user = userFacade.findByEmail(email);
         if (user == null) {
             message = "Entered username does not exist!";
-            return "EnterUsername?faces-redirect=true";
+            return "enterEmail?faces-redirect=true";
         }
         else {
             message = "";
-            return "SecurityQuestion?faces-redirect=true";
+            return "securityQuestion?faces-redirect=true";
         }
     }
     
@@ -77,11 +77,11 @@ public class PasswordResetManager implements Serializable{
         User user = userFacade.findByEmail(email);
         if (user.getSecurityAnswer().equals(answer)) {
             message = "";
-            return "ResetPassword?faces-redirect=true";
+            return "resetPassword?faces-redirect=true";
         }
         else {
             message = "Answer incorrect";
-            return "SecurityQuestion?faces-redirect=true";
+            return "securityQuestion?faces-redirect=true";
         }
     }
     
@@ -146,7 +146,7 @@ public class PasswordResetManager implements Serializable{
                 message = "Something went wrong editing your profile, please try again!";
                 return "ResetPassword?faces-redirect=true";            
             }
-            return "index?faces-redirect=true";            
+            return "login?faces-redirect=true";            
         }
         else {
             return "ResetPassword?faces-redirect=true";            

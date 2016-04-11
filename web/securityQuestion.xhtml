@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Michael Steele on 2016.03.14 
+Copyright © 2016 Michael Steele. All rights reserved.
+-->
+<!-- 
+Checks user's entered security questions.
+Calls passwordResetManager.securityquestionSubmit() to confirm security questions.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Security Question</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <h:outputStylesheet library="css" name="globalStyles.css"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="template/siteTemplate.xhtml">
+            <!-- Create the content for this page below -->
+            <ui:define name="editableContent">
+                <div align="center" style="width:50%; margin:0 auto;">
+                    <h:form class="form-signin">
+                        <h2 class="form-signin-heading">Please Answer Your Security Question</h2>
+                        <fieldset>
+                        <div class="form-group" style="margin-bottom:20px">
+                            <h:outputLabel for="question" value="#{passwordResetManager.securityQuestion}" />
+                        </div>
+                        <div class="form-group" style="margin-bottom: 10px">
+                            <h:inputText id="answer" value="#{passwordResetManager.answer}"/>
+                        </div>
+                        <br/>
+                        <h:commandButton styleClass="btn btn-default" id="submit" action="#{passwordResetManager.securityquestionSubmit()}" value="Submit" />
+                        <h:button styleClass="btn btn-default" id="cancel" outcome="index" value="Cancel" />
+                        </fieldset>
+                        <br/>
+                        <h:outputLabel value ="#{passwordResetManager.message}" />                  
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+
+</html>
