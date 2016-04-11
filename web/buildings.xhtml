@@ -21,57 +21,126 @@
 
                 <h:form id="dropDownForm">
                     <ul class="dropdown" >
-                        <p:selectOneMenu value="#{buildingManager.selectedBuildingName}" styleClass="dropMenu">
+                        <p:selectOneMenu value="#{buildingManager.selectedBuildingName}" styleClass="dropMenu" rendered="#{buildingManager.directionPressed == false}">
                             <!--                            Display Building Location and Update the value of selected building-->
-                            <p:ajax  oncomplete="displayBuilding()" update="address buildingLat buildingLong buildingImage" />
+                            <p:ajax  oncomplete="displayBuilding()" update="address buildingLat buildingLong buildingImage buildingDescription" />
                             <p:ajax listener="#{buildingManager.displayBuildingLocation}" />
+                            <f:selectItem itemLabel="Select Building" itemValue="" noSelectionOption="true" />
                             <f:selectItems value="#{buildingManager.buildingNames}"  />
                         </p:selectOneMenu>
                         <!--                        Get The Value Of Building Name To An Hidden Input-->
                         <h:inputHidden id="address" value="#{buildingManager.selectedBuildingName}"/>
 
                     </ul>
-<!--                    Latitude and Longitude of currently selected building-->
+                    <!--                    Latitude and Longitude of currently selected building-->
                     <h:inputHidden id="buildingLat" value="#{buildingManager.lat}" />
                     <h:inputHidden id="buildingLong" value="#{buildingManager.lng}" />
 
-                      <h:graphicImage id="buildingImage" url="#{buildingManager.imageUrl}" styleClass="buildingImage"/>
+
+                    <div align="center">
+                        <p:commandButton id="getDirection"  value="Get Direction" 
+                                         styleClass="btn btn-default btn-direction" rendered="#{buildingManager.directionPressed == false}">
+                            <p:ajax listener="#{buildingManager.directionButtonPressed()}" update="dropDownForm dropDownForm:destination" />
+
+                        </p:commandButton>
+                        <ul class="dropdown" >
+                            <p:selectOneMenu value="#{buildingManager.selectedStartPoint}" styleClass="dropMenu" rendered="#{buildingManager.directionPressed == true}">
+                                <p:ajax listener="#{buildingManager.createStartPoint}" />
+                                <p:ajax oncomplete="drawRoute()" update="startPoint startBuildingLat startBuildingLong" />
+                                <f:selectItem itemLabel="Select Building" itemValue="" noSelectionOption="true" />
+                                <f:selectItems value="#{buildingManager.buildingNames}"  />
+                            </p:selectOneMenu>                       
+
+
+                        </ul>
+                        <h:inputHidden id="startBuildingLat" value="#{buildingManager.lat2}" />
+                        <h:inputHidden id="startBuildingLong" value="#{buildingManager.lng2}" />
+                        <h:panelGrid  rendered="#{buildingManager.directionPressed == true}" columns="2" columnClasses="building-label, login-input">
+
+
+
+
+                            <h:outputLabel styleClass="outputLabel"  value="From: " />
+                            <h:inputText class="form-control" id="startPoint" value="#{buildingManager.selectedStartPoint}" />
+
+                            <h:outputLabel styleClass="outputLabel" value="To: " />
+                            <h:inputText class="form-control"  id="destination" value="#{buildingManager.selectedBuildingName}"/>
+
+                        </h:panelGrid>
+                        <p:commandButton  value="Refresh" onclick="refreshMap()"
+                                          styleClass="btn btn-default btn-direction"  rendered="#{buildingManager.directionPressed == true}">
+                            <p:ajax listener="#{buildingManager.init()}" update="dropDownForm"/>
+                            
+                        </p:commandButton>
+
+                    </div>
+
+
+                    <ul class="buildingInfo">
+                        <p:inputTextarea id="buildingDescription" rows="8" cols="31" styleClass="buildingDescription" 
+                                         value="#{buildingManager.description}"/>
+
+                        <h:graphicImage id="buildingImage" url="#{buildingManager.imageUrl}" styleClass="buildingImage"/>
+
+                    </ul>
+
                 </h:form>
-                
-                   
-                
-                
-               
-                
-               
+
 
                 <script type="text/javascript">
-                    
-                    
-                    var currentMarker = null;
 
+
+                    var currentMarker = null;
+                    var startPointMarker = null;
+
+                    //Displays location of selected building
                     function displayBuilding() {
                         //Only one marker will be displayed at a time
                         if (currentMarker !== null) {
                             currentMarker.setMap(null);
                             currentMarker = null;
                         }
-                        
+
                         //Create Marker
                         currentMarker = new google.maps.Marker({
                             position: new google.maps.LatLng(document.getElementById("dropDownForm:buildingLat").value,
                                     document.getElementById("dropDownForm:buildingLong").value)
                         });
-                        
+
                         //Add marker to the Map
                         PF('map').addOverlay(currentMarker);
 
 
+                    }
 
+                    //Add starting point and draw route to destination
+                    function drawRoute() {
+                        if (startPointMarker !== null) {
+                            startPointMarker.setMap(null);
+                            startPointMarker = null;
+                        }
 
-//                        alert(document.getElementById("dropDownForm:buildingLat").value);
+                        //Create Marker
+                        startPointMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(document.getElementById("dropDownForm:startBuildingLat").value,
+                                    document.getElementById("dropDownForm:startBuildingLong").value)
+                        });
+                        startPointMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+
+                        //Add marker to the Map
+                        PF('map').addOverlay(startPointMarker);
 
                     }
+                    
+                    //Clear All Data On The Map
+                    function refreshMap() {
+                        currentMarker.setMap(null);
+                        currentMarker = null;
+                        startPointMarker.setMap(null);
+                        startPointMarker = null;
+                    }
+
+
 
                 </script>
 
@@ -87,23 +156,8 @@
 
                 </h:form>
 
-                <p:dialog widgetVar="dlg" showEffect="fade">
-                    <h:form prependId="false">
-                        <h:panelGrid columns="2">
-                            <h:outputLabel for="title" value="Title:" />
-                            <p:inputText id="title" value="#{buildingManager.title}" />
 
-                            <f:facet name="footer">
-                                <p:commandButton value="Add" actionListener="#{buildingManager.addMarker}" update=":messages" oncomplete="markerAddComplete()" />
-                                <p:commandButton value="Cancel" onclick="return cancel()" />
-                            </f:facet>
-                        </h:panelGrid>
 
-                        <h:inputHidden id="lat" value="#{buildingManager.lat}" />
-                        <h:inputHidden id="lng" value="#{buildingManager.lng}" />
-                    </h:form>
-                </p:dialog>
-               
 
 
             </ui:define>

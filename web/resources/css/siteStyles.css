@@ -138,7 +138,7 @@ div.footer .footer-text {
 /**
  * Building CSS Rules
  */
-.buildingImage {
+.buildingInfo .buildingImage {
     width: 280px;
     height: 250px;
     position: absolute;
@@ -147,9 +147,23 @@ div.footer .footer-text {
     
 }
 
+.buildingInfo .buildingDescription {
+    width: 260px;
+    position: absolute;
+    bottom: 270px;
+    left: 20px;
+}
+
 .dropdown .dropMenu {
     
     max-width: 280px;
     margin-top: 20px;
     margin-left: -30px;
 }
+
+.building-label {
+    padding-top: 20px;
+    padding-right: 10px;
+}
+
+
