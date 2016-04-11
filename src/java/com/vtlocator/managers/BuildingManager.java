@@ -50,7 +50,7 @@ public class BuildingManager implements Serializable {
     //Building Names Hash Map to Display at Building Menu
     private HashMap<String, String> buildingNames;
 
-    private MapModel mapModel;
+//    private MapModel mapModel;
 
     private String title;
 
@@ -86,7 +86,7 @@ public class BuildingManager implements Serializable {
         buildingNames = sortByValues(buildingNames);
 
         selectedStartPoint = "";
-        mapModel = new DefaultMapModel();
+//        mapModel = new DefaultMapModel();
         imageUrl = "https://lh5.googleusercontent.com/-A6mD3SlNkSM/AAAAAAAAAAI/AAAAAAAAAXE/yyIqI5mrcOk/s0-c-k-no-ns/photo.jpg";
         description = "";
         selectedBuildingName = "";
@@ -125,9 +125,9 @@ public class BuildingManager implements Serializable {
         this.buildingNames = buildingNames;
     }
 
-    public MapModel getMapModel() {
-        return mapModel;
-    }
+//    public MapModel getMapModel() {
+//        return mapModel;
+//    }
 
     public String getTitle() {
         return title;
@@ -153,12 +153,12 @@ public class BuildingManager implements Serializable {
         this.lng = lng;
     }
 
-    public void addMarker() {
-        Marker marker = new Marker(new LatLng(lat, lng), title);
-        mapModel.addOverlay(marker);
-
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", "Lat:" + lat + ", Lng:" + lng));
-    }
+//    public void addMarker() {
+//        Marker marker = new Marker(new LatLng(lat, lng), title);
+//        mapModel.addOverlay(marker);
+//
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", "Lat:" + lat + ", Lng:" + lng));
+//    }
 
     public double getVtLat() {
         return vtLat;
