@@ -98,8 +98,8 @@ CREATE TABLE ParkingLot
 (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(64) NOT NULL,
-    latitude DECIMAL(13,10) NOT NULL,
-    longitude DECIMAL(13,10) NOT NULL,
+    latitude VARCHAR(2000) NOT NULL,
+    longitude VARCHAR(2000) NOT NULL,
     permission ENUM('ANY', 'COMMUTER/GRADUATE', 'FACULTY/STAFF/VISITOR', 'RESIDENT', 'METERED', 'PARKING_OFFICE') NOT NULL,
     created_at timestamp default now(), 
     updated_at timestamp default now() on update now(),
