@@ -144,13 +144,33 @@ public class PasswordResetManager implements Serializable{
                 email = answer = password = "";                
             } catch (EJBException e) {
                 message = "Something went wrong editing your profile, please try again!";
-                return "ResetPassword?faces-redirect=true";            
+                return "resetPassword?faces-redirect=true";            
             }
             return "login?faces-redirect=true";            
         }
         else {
-            return "ResetPassword?faces-redirect=true";            
+            return "resetPassword?faces-redirect=true";            
         }
+    }
+    
+    public String changePassword() {
+        if (message.equals("")) {
+            message = "";
+            int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
+            User user = userFacade.getUser(user_id);
+            try {
+                user.setPassword(password);
+                userFacade.edit(user);
+                email = answer = password = "";                
+            } catch (EJBException e) {
+                message = "Something went wrong editing your profile, please try again!";
+                return "changePassword?faces-redirect=true";            
+            }
+            return "profile?faces-redirect=true";            
+        }
+        else {
+            return "changePassword?faces-redirect=true";            
+        }     
     }
             
 }

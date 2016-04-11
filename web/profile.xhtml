@@ -87,19 +87,9 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                             </h:commandButton>-->
                             </p:inplace>
                             <p:message for="security_ans" display="icon" />                
-
-                            <p:outputLabel for="password" value="Password" />
-                            <h:inputSecret id="password" class="form-control"
-                                           required="true" label="Password" value="#{accountManager.password}" >
-                                <f:validator validatorId="passwordValidator" /> 
-                            </h:inputSecret>
-                            <p:message for="password" display="icon" />
-
-                            <p:outputLabel for="confirmPassword" value="Confirm Password" />
-                            <h:inputSecret id="confirmPassword" class="form-control"
-                                        required="true" label="Confirm Password" >
-                            </h:inputSecret>
-                            <p:message for="confirmPassword" display="icon"/>
+                            <br/>
+                            <br/>
+                            <h:button class="btn btn-lg btn-danger" id="changePassword" outcome="changePassword" value="Change Password" />
                         </h:panelGrid>
                         </div>
                         <br/>
