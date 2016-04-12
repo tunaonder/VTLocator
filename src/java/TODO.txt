@@ -1,7 +1,13 @@
 Backend TODO:
 
-- Add FileManager
-- Add PasswordResetManager
-- Add email notification system?
-- Add profile view page
+Finish profile:
+- Make email field view only
+- Make security question editable
 
+Finish file manager:
+- Decide on a default profile
+- Remove all references to image thumbnails
+- Make image upload work
+
+Password reset:
+DONE!

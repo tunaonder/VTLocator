@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Sait Tuna Onder on 2016.04.05 
+Copyright © 2016 Sait Tuna Onder. All rights reserved.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+
+        <!-- This page is constructed based on the siteTemplate -->
+        <ui:composition template="template/siteTemplate.xhtml">
+
+
+            <!-- Create the content for this page below -->
+            <ui:define name="editableContent">
+                <div align="center">
+                    <h:form class="form-signin">
+                         <f:event listener="#{accountManager.validateInformation}" type="postValidate"/>
+                        <div align="center">
+                        <h:graphicImage url="#{resource['images:logo_primary.png']}" styleClass="login-logo" alt="VTLocator"/>
+
+                        <h:panelGrid columns="3" cellpadding="5" columnClasses="signup-label, signup-input, signup-message">
+                            <p:outputLabel for="firstName" value="First Name" />
+                            <p:inplace id="firstName" editor="true">
+                                <p:ajax event="save" listener="#{accountManager.updateFirstName}" />
+                                <p:inputText label="text" class="form-display"
+                                             value="#{accountManager.selected.firstName}" />
+<!--                            <h:commandButton>
+                                <i class="fa fa-pencil-square-o"></i>
+                                
+                            </h:commandButton>-->
+                            </p:inplace>
+                            <p:message for="firstName" display="icon" />   
+                            
+                            <p:outputLabel for="lastName" value="Last Name" />
+                            <p:inplace id="lastName" editor="true">
+                                <p:ajax event="save" listener="#{accountManager.updateLastName}" />
+                                <p:inputText label="text" class="form-display"
+                                             value="#{accountManager.selected.lastName}" />
+<!--                            <h:commandButton>
+                                <i class="fa fa-pencil-square-o"></i>
+                                
+                            </h:commandButton>-->
+                            </p:inplace>
+                            <p:message for="lastName" display="icon" /> 
+                            
+                            <p:outputLabel for="phone" value="Phone Number" />
+                            <p:inplace id="phone" editor="true">
+                                <p:ajax event="save" listener="#{accountManager.updatePhoneNumber}" />
+                                <p:inputText label="text" class="form-display"
+                                             value="#{accountManager.selected.phoneNumber}" />
+<!--                            <h:commandButton>
+                                <i class="fa fa-pencil-square-o"></i>
+                                
+                            </h:commandButton>-->
+                            </p:inplace>
+                            <p:message for="phone" display="icon" />  
+                            
+                            <p:outputLabel for="email" value="Email" />
+                            <h:inputText id="email" class="form-control"
+                                         label="Email" required="true" value="#{accountManager.email}" >
+                                <f:validateLength minimum="2" maximum="64" />
+                                <f:validator validatorId="emailValidator" /> 
+                            </h:inputText>
+                            <p:message for="email" display="icon" />
+
+                            <p:outputLabel for="security_ques" value="Security Question" />
+                            <h:selectOneMenu id="security_ques" value="#{accountManager.security_question}" required="true" class="form-control">
+                                 <f:selectItems value="#{accountManager.security_questions}"/>
+                            </h:selectOneMenu>
+                            <p:message for="security_ques" display="icon" />  
+                            
+                            <p:outputLabel for="security_ans" value="Security Answer" />
+                            <p:inplace id="security_ans" editor="true">
+                                <p:ajax event="save" listener="#{accountManager.updateSecurityAnswer()}" />
+                                <p:inputText label="text" class="form-display"
+                                             value="#{accountManager.selected.securityAnswer}" />
+<!--                            <h:commandButton>
+                                <i class="fa fa-pencil-square-o"></i>
+                                
+                            </h:commandButton>-->
+                            </p:inplace>
+                            <p:message for="security_ans" display="icon" />                
+                            <br/>
+                            <br/>
+                            <h:button class="btn btn-lg btn-danger" id="editPhoto" outcome="editPhoto" value="Edit Photo" />
+                            <h:button class="btn btn-lg btn-danger" id="changePassword" outcome="changePassword" value="Change Password" />
+                        </h:panelGrid>
+                        </div>
+                        <br/>
+                        <h:outputLabel value ="#{accountManager.statusMessage}" />
+                    </h:form>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+        <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+    </h:body>
+
+</html>

@@ -227,28 +227,60 @@ public class AccountManager implements Serializable {
     }
 
     // Updates the info on the account
-    public String updateAccount() {
-        if (statusMessage.isEmpty()) {
-            int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
-                User editUser = userFacade.getUser(user_id);
+    public void updateFirstName() {
+        int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
+        User editUser = userFacade.getUser(user_id);
+        if (this.selected != null && this.selected.getFirstName() != null) {
             try {
                 editUser.setFirstName(this.selected.getFirstName());
-                editUser.setLastName(this.selected.getLastName());               
-                editUser.setEmail(this.selected.getEmail());
-                editUser.setPassword(this.selected.getPassword());
-                editUser.setPhoneNumber(phone_number);
                 userFacade.edit(editUser);
             } catch (EJBException e) {
-                email = "";
                 statusMessage = "Something went wrong while editing your profile!";
-                return "";
             }
-            return "Profile";
+        }  
+    }
+    // Updates the info on the account
+    public void updateLastName() {
+        int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
+        User editUser = userFacade.getUser(user_id);
+        if (this.selected != null && this.selected.getLastName() != null) {
+            try {
+                editUser.setLastName(this.selected.getLastName());
+                userFacade.edit(editUser);
+            } catch (EJBException e) {
+                statusMessage = "Something went wrong while editing your profile!";
+            }
         }
-        return "";
+    }
+    // Updates the info on the account
+    public void updatePhoneNumber() {
+        int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
+        User editUser = userFacade.getUser(user_id);
+        if (this.selected != null && this.selected.getPhoneNumber() != null) {
+            try {
+                editUser.setPhoneNumber(this.selected.getPhoneNumber());
+                userFacade.edit(editUser);
+            } catch (EJBException e) {
+                statusMessage = "Something went wrong while editing your profile!";
+            }
+        }
     }
     
-  
+    // Updates the info on the account
+    public void updateSecurityAnswer() {
+        int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
+        User editUser = userFacade.getUser(user_id);
+        if (this.selected != null && this.selected.getSecurityAnswer() != null) {
+            try {
+                editUser.setSecurityAnswer(this.selected.getSecurityAnswer());
+                userFacade.edit(editUser);
+            } catch (EJBException e) {
+                statusMessage = "Something went wrong while editing your profile!";
+            }
+        }
+    }
+    
+    
     
     // Checks to see if the user's name and password is correct
     public void validateInformation(ComponentSystemEvent event) {

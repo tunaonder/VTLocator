@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <h:body>
         <!-- Do not enter tags before the composition line since they are ignored by JSF -->
@@ -12,8 +13,24 @@
         <!-- This page is constructed based on the siteTemplate -->
         <ui:composition template="template/siteTemplate.xhtml">
             <ui:define name="editableContent">
-                <div align="center">
-                    <h1>Welcome to VTLocator!</h1>
+                <div class="landing-jumbotron" align="center">
+                    <div class="jumbotron-text">
+                        <h1>Welcome to VTLocator!</h1>
+                        <h1><i class="fa fa-chevron-down"></i></h1>
+                    </div>
+                </div>
+                <div class="container">
+                    <h2>A location-based web application for Virginia Tech students, faculty, and staff</h2>
+                    <h3>
+                        <ul>
+                            <li>Find the location of any building on campus, a picture, and a short description</li>
+                            <li>Calculate distances and directions between two buildings</li>
+                            <li>Locate parking lots and filter them by parking permissions</li>
+                            <li>Find your lost items or help others get their belongings back</li>
+                        </ul>
+                    </h3>
+                    <img class="img-responsive" style="margin: 60px auto;" src="resources/images/logo_primary.png"/>
+                    <h4>Built by: Sean Goodrich, Sait Tuna Onder, Jaemin Seo, Michael Steele, Sebastian Welsh</h4>
                 </div>
             </ui:define>
         </ui:composition>
