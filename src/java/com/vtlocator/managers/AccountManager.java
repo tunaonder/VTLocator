@@ -9,6 +9,8 @@ import com.vtlocator.jpaentityclasses.User;
 import com.vtlocator.sessionbeans.UserPhotoFacade;
 import com.vtlocator.sessionbeans.UserFacade;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,10 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 
 /*
 Used to fetch and edit the user's information
@@ -353,5 +359,4 @@ public class AccountManager implements Serializable {
         }
         return photoList.get(0).getExtension();
     }
-
 }

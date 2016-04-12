@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.vtlocator.jpaentityclasses.ParkingLot;
+import java.util.List;
 
 /**
  *
@@ -28,4 +29,11 @@ public class ParkingLotFacade extends AbstractFacade<ParkingLot> {
         super(ParkingLot.class);
     }
     
+    
+    public List<ParkingLot> getLotsByPermission(String permission) {
+        return (em.createNamedQuery("ParkingLot.findByPermission")
+                .setParameter("permission", permission)
+                .getResultList());        
+        
+    }
 }

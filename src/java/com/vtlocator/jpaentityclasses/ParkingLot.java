@@ -5,7 +5,6 @@
 package com.vtlocator.jpaentityclasses;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -55,11 +54,11 @@ public class ParkingLot implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "latitude")
-    private BigDecimal latitude;
+    private String latitude;
     @Basic(optional = false)
     @NotNull
     @Column(name = "longitude")
-    private BigDecimal longitude;
+    private String longitude;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 21)
@@ -82,7 +81,7 @@ public class ParkingLot implements Serializable {
         this.id = id;
     }
 
-    public ParkingLot(Integer id, String name, BigDecimal latitude, BigDecimal longitude, String permission, Date createdAt, Date updatedAt) {
+    public ParkingLot(Integer id, String name, String latitude, String longitude, String permission, Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -108,19 +107,19 @@ public class ParkingLot implements Serializable {
         this.name = name;
     }
 
-    public BigDecimal getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(BigDecimal latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
-    public BigDecimal getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(BigDecimal longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 

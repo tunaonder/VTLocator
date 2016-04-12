@@ -20,9 +20,13 @@
             <ui:define name="mainPanel">
                 <h1>Parking</h1>
                 <h3>Sean's work here</h3>
+                <h:commandButton value="Commuter Pass" type="button" onclick="processShapes(#{parkingLotManager.getANY()})" />
+                <div id="map"></div>
+                
             </ui:define>
         </ui:composition>
         <!-- Do not enter tags after the composition line since they are ignored by JSF -->
     </h:body>
-
+    
+    
 </html>
