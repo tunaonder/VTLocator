@@ -164,3 +164,37 @@ div.footer {
 div.footer .footer-text {
     margin-bottom: 0;
 }
+
+/**
+ * Building CSS Rules
+ */
+.buildingInfo .buildingImage {
+    width: 280px;
+    height: 250px;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    
+}
+
+.buildingInfo .buildingDescription {
+    width: 260px;
+    position: absolute;
+    bottom: 270px;
+    left: 20px;
+}
+
+.dropdown .dropMenu {
+    
+    max-width: 280px;
+    margin-top: 20px;
+    margin-left: -30px;
+}
+
+.building-label {
+    padding-top: 20px;
+    padding-right: 10px;
+}
+
+
+
