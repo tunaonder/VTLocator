@@ -353,10 +353,10 @@ public class AccountManager implements Serializable {
         String email = (String) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap().get("email");
         User user = userFacade.findByEmail(email);
-        List<UserPhoto> photoList = photoFacade.findPhotosByUserID(user.getId());
-        if (photoList.isEmpty()) {
-            return "defaultUserPhoto.png";
+        UserPhoto photo = user.getProfilePhoto();
+        if (photo == null) {
+            return "user-placeholder.jpg";
         }
-        return photoList.get(0).getExtension();
+        return photo.getExtension();
     }
 }
