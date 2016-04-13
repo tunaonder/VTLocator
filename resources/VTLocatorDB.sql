@@ -1,4 +1,4 @@
-﻿/* 
+/* 
  * Created by Sait Tuna Onder on 2016.04.03  * 
  * Copyright © 2016 Sait Tuna Onder. All rights reserved. * 
  */
@@ -245,7 +245,7 @@ INSERT INTO Item (name, description, latitude_found, longitude_found, category) 
 
 INSERT INTO ItemPhoto (extension, photo_for) VALUES
 ('jpeg', (SELECT id from Item WHERE name='Mike''s iPhone') ),
-('png', (SELECT id from Item WHERE name='Seb''s Watch') );  
+('png', (SELECT id from Item WHERE name='Seb''s Watch') );
 
-#INSERT INTO ParkingLot (name, latitude, longitude, permission) VALUES
-#('Stadium Lot', '37.229031934', '-80.4237145305', 'RESIDENT');
+INSERT INTO ParkingLot (name, latitude, longitude, permission)
+VALUES ('Drillfield', '37.229204,37.227283,37.226195,37.228020', '-80.421507,-80.424192,-80.423054,-80.420323', 'any');

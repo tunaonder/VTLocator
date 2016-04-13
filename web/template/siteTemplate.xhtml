@@ -40,7 +40,6 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
         
         <!-- Link to the auto-generated JSF CRUD JavaScript File  -->
         <h:outputScript library="js" name="jsfcrud.js"/>
-        <h:outputScript library="js" name="jquery-2.2.2.min.js"/>
         <h:outputScript library="js" name="bootstrap.min.js"/>
         <h:outputScript library="js" name="googleparking.js"/>
 
@@ -67,63 +66,61 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
     </h:head>
 
     <h:body>  
-        <div id="page">  
-            <!-- 
-            The Site Template page layout design consists of three components:
-                1. Header Component (Typically is the same for the entire site)
-                2. Editable Content Component (each page creates its own content)
-                3. Footer Component (Typically is the same for the entire site)
+        <!-- 
+        The Site Template page layout design consists of three components:
+            1. Header Component (Typically is the same for the entire site)
+            2. Editable Content Component (each page creates its own content)
+            3. Footer Component (Typically is the same for the entire site)
 
-            =====================================
-            * Header Component of this Template *
-            =====================================
-            The header component is displayed on the top of each page created based on this siteTemplate.
-            Changes made in the header component will show up automatically with all pages created 
-            based on this siteTemplate for the entire site, achieving great maintainability.
-            -->
-            <div id="header">
-                <ui:insert name="header" >
-                    <ui:include src="headerTemplate.xhtml" />
-                </ui:insert>
-            </div>
-
-            <!--
-            The ui:insert tag is a templating tag that declares a named content element
-            to be defined by another Facelet. It can be used effectively with the
-            ui:define tag to pass values between Facelets. [jsftoolbox.com]
-            
-            The ui:include tag is a server-side include tag for Facelets. It simply includes
-            the document pointed to by the "src" attribute as part of the current JSF page.
-            The included document should use a component or composition tag to trim unnecessary
-            markup, or it may simply contain a fragment of XHTML or XML to be included. [jsftoolbox.com]
-
-            ===============================================
-            * Editable Content Component of this Template *
-            ===============================================
-            Any page created based on this template is expected to provide its own content
-            by using <ui:define name="editableContent">. If the page content is not defined,
-            contentTemplate's content will be used as default. 
-            -->
-            <div id="editableContent">
-                <ui:insert name="editableContent" >
-                    <ui:include src="contentTemplate.xhtml" />
-                </ui:insert>
-            </div>
-
-            <!--
-            =====================================
-            * Footer Component of this Template *
-            =====================================
-            The footer component is displayed on the bottom of each page created based on this siteTemplate.
-            Changes made in the footer component will show up automatically with all pages created 
-            based on this siteTemplate for the entire site, achieving great maintainability.
-            -->
-            <div id="footer">
-                <ui:insert name="footer" >
-                    <ui:include src="footerTemplate.xhtml" />
-                </ui:insert>
-            </div>
-            
+        =====================================
+        * Header Component of this Template *
+        =====================================
+        The header component is displayed on the top of each page created based on this siteTemplate.
+        Changes made in the header component will show up automatically with all pages created 
+        based on this siteTemplate for the entire site, achieving great maintainability.
+        -->
+        <div id="header">
+            <ui:insert name="header" >
+                <ui:include src="headerTemplate.xhtml" />
+            </ui:insert>
         </div>
+
+        <!--
+        The ui:insert tag is a templating tag that declares a named content element
+        to be defined by another Facelet. It can be used effectively with the
+        ui:define tag to pass values between Facelets. [jsftoolbox.com]
+
+        The ui:include tag is a server-side include tag for Facelets. It simply includes
+        the document pointed to by the "src" attribute as part of the current JSF page.
+        The included document should use a component or composition tag to trim unnecessary
+        markup, or it may simply contain a fragment of XHTML or XML to be included. [jsftoolbox.com]
+
+        ===============================================
+        * Editable Content Component of this Template *
+        ===============================================
+        Any page created based on this template is expected to provide its own content
+        by using <ui:define name="editableContent">. If the page content is not defined,
+        contentTemplate's content will be used as default. 
+        -->
+        <div id="editableContent">
+            <ui:insert name="editableContent" >
+                <ui:include src="contentTemplate.xhtml" />
+            </ui:insert>
+        </div>
+
+        <!--
+        =====================================
+        * Footer Component of this Template *
+        =====================================
+        The footer component is displayed on the bottom of each page created based on this siteTemplate.
+        Changes made in the footer component will show up automatically with all pages created 
+        based on this siteTemplate for the entire site, achieving great maintainability.
+        -->
+        <div id="footer">
+            <ui:insert name="footer" >
+                <ui:include src="footerTemplate.xhtml" />
+            </ui:insert>
+        </div>
+            
     </h:body>
 </html>

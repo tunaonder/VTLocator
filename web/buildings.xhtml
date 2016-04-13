@@ -39,7 +39,7 @@
 
 
                     <div align="center">
-                        <p:commandButton id="getDirection"  value="Get Direction" 
+                        <p:commandButton id="getDirection"  value="Get Directions to Here" 
                                          styleClass="btn btn-default btn-direction" rendered="#{buildingManager.directionPressed == false}">
                             <p:ajax listener="#{buildingManager.directionButtonPressed()}" update="dropDownForm dropDownForm:destination" />
 
@@ -94,10 +94,8 @@
             <ui:define  name="mainPanel" >
                 <p:growl id="messages" showDetail="true" />
 
-                <h:form class="buildingMapPanel" style="width: 1000px;height:100%">
-                    <div id="map" style="width:100%;height:100%;"></div>
+                <div id="map" style="width:100%; height:100%;"></div>
 
-                </h:form>
 
                 <script type="text/javascript" >
                     var map;

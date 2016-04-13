@@ -1,19 +1,24 @@
 html {
-    display: block;
+    /*display: block;
+    height: 100%;*/
+    overflow-x: hidden;
+    min-height: 100% !important;
     height: 100%;
 }
 
 body {
-    height: 100%;
-    padding-top: 52px;
+    padding-top: 50px;
+    overflow-x: hidden;
     margin: 0;
-}
-
-#page {
     position: relative;
+    min-height: 100% !important;
+    height: 100%;
 }
 
 #editableContent {
+    position:relative;
+    min-height: 100% !important;
+    height: 100%;
 }
 
 /**
@@ -59,6 +64,11 @@ nav.navbar-default {
     margin-right: 10px;
 }
 
+.content-wrapper {
+    position: relative;
+    padding-left: 300px;
+    height: 100%;
+}
 /**
  * Sidebar CSS Rules
  */
@@ -71,16 +81,20 @@ nav.navbar-default {
     width: 300px;
     height: 100%;
     padding-top: 10px;
+    overflow: scroll;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
 }
 
 /**
  * Main Panel CSS Rules
  */
 #mainPanel {
-    min-height: 100%;
-    height: 100%;
     display: inline-block;
-    padding: 10px;
+    height: 100%;
+    width: 100%;
 }
 
 /**
@@ -135,6 +149,7 @@ nav.navbar-default {
     position: relative;
     border-bottom: 2px solid #e95051;
     box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.2);
+    margin-bottom: 0;
 }
 
 .landing-jumbotron .jumbotron-text {
@@ -159,6 +174,10 @@ div.footer {
     background-color: #e95051;
     color: white;
     height: 20px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -20px;
 }
 
 div.footer .footer-text {

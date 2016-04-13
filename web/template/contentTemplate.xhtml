@@ -8,15 +8,17 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
       xmlns:ui="http://java.sun.com/jsf/facelets">
     
     <ui:composition>
-        <div id="sidebar">
-            <ui:insert name="sidebar" >
-                <ui:include src="sidebarTemplate.xhtml" />
-            </ui:insert>
-        </div>
-        <div id="mainPanel">
-            <ui:insert name="mainPanel" >
-                <ui:include src="mainPanelTemplate.xhtml" />
-            </ui:insert>
+        <div class="content-wrapper">
+            <div id="sidebar">
+                <ui:insert name="sidebar" >
+                    <ui:include src="sidebarTemplate.xhtml" />
+                </ui:insert>
+            </div>
+            <div id="mainPanel">
+                <ui:insert name="mainPanel" >
+                    <ui:include src="mainPanelTemplate.xhtml" />
+                </ui:insert>
+            </div>
         </div>
     </ui:composition>
 </html>
