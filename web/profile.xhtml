@@ -23,7 +23,8 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                     <h:form class="form-signin">
                          <f:event listener="#{accountManager.validateInformation}" type="postValidate"/>
                         <div align="center">
-                        <h:graphicImage url="#{resource['images:logo_primary.png']}" styleClass="login-logo" alt="VTLocator"/>
+                         <h:graphicImage value="resources/images/#{accountManager.userPhoto()}" id="profilePic"
+                          styleClass="login-logo" ></h:graphicImage>
 
                         <h:panelGrid columns="3" cellpadding="5" columnClasses="signup-label, signup-input, signup-message">
                             <p:outputLabel for="firstName" value="First Name" />
