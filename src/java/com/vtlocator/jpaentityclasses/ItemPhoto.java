@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ItemPhoto.findById", query = "SELECT i FROM ItemPhoto i WHERE i.id = :id"),
     @NamedQuery(name = "ItemPhoto.findByExtension", query = "SELECT i FROM ItemPhoto i WHERE i.extension = :extension"),
     @NamedQuery(name = "ItemPhoto.findByCreatedAt", query = "SELECT i FROM ItemPhoto i WHERE i.createdAt = :createdAt"),
+    @NamedQuery(name = "ItemPhoto.findItemPhotosByItemId", query = "SELECT i FROM ItemPhoto i WHERE i.photo_for.id = :photoFor"), //new
     @NamedQuery(name = "ItemPhoto.findByUpdatedAt", query = "SELECT i FROM ItemPhoto i WHERE i.updatedAt = :updatedAt")})
 public class ItemPhoto implements Serializable {
 

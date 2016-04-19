@@ -28,4 +28,7 @@ public class ItemFacade extends AbstractFacade<Item> {
         super(Item.class);
     }
     
+    public Item getItem(int id) {
+        return em.find(Item.class, id);
+    }
 }
