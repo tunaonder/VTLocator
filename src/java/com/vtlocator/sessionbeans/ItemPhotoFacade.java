@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.vtlocator.jpaentityclasses.ItemPhoto;
+import java.util.List;
 
 /**
  *
@@ -27,5 +28,14 @@ public class ItemPhotoFacade extends AbstractFacade<ItemPhoto> {
     public ItemPhotoFacade() {
         super(ItemPhoto.class);
     }
+
+    // The following findPhotosByUserID method is added to the generated code.
+    
+    public List<ItemPhoto> findItemPhotosByItemID(Integer itemID) {
+        return (List<ItemPhoto>) em.createNamedQuery("ItemPhoto.findItemPhotosByItemId")
+                .setParameter("photoFor", itemID)
+                .getResultList();
+    }
     
 }
+

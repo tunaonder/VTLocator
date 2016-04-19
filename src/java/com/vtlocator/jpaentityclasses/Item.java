@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Item.findByLongitudeFound", query = "SELECT i FROM Item i WHERE i.longitudeFound = :longitudeFound"),
     @NamedQuery(name = "Item.findByDateFound", query = "SELECT i FROM Item i WHERE i.dateFound = :dateFound"),
     @NamedQuery(name = "Item.findByCategory", query = "SELECT i FROM Item i WHERE i.category = :category"),
+    @NamedQuery(name = "Item.findItemByUserId", query = "SELECT i FROM Item i WHERE i.created_by.id = :createdBy"), //new
     @NamedQuery(name = "Item.findByCreatedAt", query = "SELECT i FROM Item i WHERE i.createdAt = :createdAt"),
     @NamedQuery(name = "Item.findByUpdatedAt", query = "SELECT i FROM Item i WHERE i.updatedAt = :updatedAt")})
 public class Item implements Serializable {
@@ -88,6 +89,8 @@ public class Item implements Serializable {
     private Date updatedAt;
     @OneToMany(mappedBy = "photoFor")
     private Collection<ItemPhoto> itemPhotoCollection;
+    @OneToMany(mappedBy = "created_by")
+    private Collection<User> createdBy;
 
     public Item() {
     }
@@ -186,6 +189,15 @@ public class Item implements Serializable {
 
     public void setItemPhotoCollection(Collection<ItemPhoto> itemPhotoCollection) {
         this.itemPhotoCollection = itemPhotoCollection;
+    }
+    
+    @XmlTransient
+    public Collection<User> getCreatedByCollection() {
+        return createdBy;
+    }
+    
+    public void setCreatedByCollection(Collection<User> createdBy) {
+        this.createdBy = createdBy;
     }
 
     @Override
