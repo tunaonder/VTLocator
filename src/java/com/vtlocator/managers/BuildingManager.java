@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,17 +20,16 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import org.primefaces.model.map.Marker;
-import org.primefaces.model.map.DefaultMapModel;
-import org.primefaces.model.map.LatLng;
-import org.primefaces.model.map.MapModel;
+import org.primefaces.json.JSONArray;
+import org.primefaces.json.JSONException;
+import org.primefaces.json.JSONObject;
 
 /**
  *
@@ -46,6 +46,8 @@ public class BuildingManager implements Serializable {
     private List<Building> items = null;
     private String selectedBuildingName;
     private String selectedStartPoint;
+    
+    private List<String> buildingNamesJSON;
 
     //Building Names Hash Map to Display at Building Menu
     private HashMap<String, String> buildingNames;
@@ -95,13 +97,68 @@ public class BuildingManager implements Serializable {
         lng = 0;
         lat2 = 0;
         lng2 = 0;
+        
+//         arr = new JSONArray();
+        JSONArray json;
+        buildingNamesJSON = new ArrayList<String>();
+        try {
+            json = new JSONArray(readJSON());
+            int counter = 0;
+            while (json != null && json.length() > counter) {
+                buildingNamesJSON.add(json.getJSONObject(counter).get("name").toString());
+                counter++;
+            }
+//            arr.put(buildingNamesJSON);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
+
+    public List<String> getBuildingNamesJSON() {
+        return buildingNamesJSON;
+    }
+
+    public void setBuildingNamesJSON(List<String> buildingNamesJSON) {
+        this.buildingNamesJSON = buildingNamesJSON;
+    }
+
+    
+    
+    
+    
+    
+    public String readJSON() throws Exception {
+        BufferedReader reader = null;
+        try {
+            URL url = new URL("http://localhost:8080/VTBuildingsData/webresources/buildings/names");
+            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            StringBuffer buffer = new StringBuffer();
+            
+            int read;
+            char[] chars = new char[10240];
+            while( (read = reader.read(chars)) != -1 ) {
+                buffer.append(chars, 0, read);
+            }
+            return buffer.toString();
+        }
+        finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
+    
 
     //Calls companyFacade and gets items from the database
     public List<Building> getItems(){
         if (items == null) {
             items = getFacade().findAll();
         }
+
+
         return items;
     }
 

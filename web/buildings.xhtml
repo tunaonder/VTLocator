@@ -22,12 +22,13 @@
 
                 <h:form id="dropDownForm">
                     <ul class="dropdown" >
-                        <p:selectOneMenu value="#{buildingManager.selectedBuildingName}" styleClass="dropMenu" rendered="#{buildingManager.directionPressed == false}">
+                        <p:selectOneMenu value="#{buildingManager.selectedBuildingName}" styleClass="dropMenu" rendered="#{buildingManager.directionPressed == false}" >
                             <!--                            Display Building Location and Update the value of selected building-->
                             <p:ajax  oncomplete="displayBuilding()" update="address buildingLat buildingLong buildingImage buildingDescription" />
                             <p:ajax listener="#{buildingManager.displayBuildingLocation}" />
                             <f:selectItem itemLabel="Select Building" itemValue="" noSelectionOption="true" />
-                            <f:selectItems value="#{buildingManager.buildingNames}"  />
+                            <f:selectItems value="#{buildingManager.buildingNamesJSON}"  />
+                            
                         </p:selectOneMenu>
                         <!--                        Get The Value Of Building Name To An Hidden Input-->
                         <h:inputHidden id="address" value="#{buildingManager.selectedBuildingName}"/>
