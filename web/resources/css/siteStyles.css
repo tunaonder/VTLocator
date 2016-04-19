@@ -15,6 +15,10 @@ body {
     height: 100%;
 }
 
+hr {
+    border-color: #C4C4C4;
+}
+
 #editableContent {
     position:relative;
     min-height: 100% !important;
@@ -95,6 +99,7 @@ nav.navbar-default {
     display: inline-block;
     height: 100%;
     width: 100%;
+    overflow-y: scroll;
 }
 
 /**
@@ -220,4 +225,50 @@ div.footer .footer-text {
     padding-right: 10px;
 }
 
+/**
+ * Lost and Found CSS Rules
+ */
+.form-create-item {
+    margin-top: 50px;
+}
 
+.create-item-label {
+    padding-right: 10px;
+}
+
+.form-create-item table {
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.form-create-item table textArea {
+    resize:vertical;
+}
+
+.form-create-item td {
+    padding-bottom: 10px;
+}
+
+.form-create-item .btn {
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 20px;
+}
+
+.location-found-map-wrapper {
+    width: 85%;
+    height: 400px;
+    background-color: lightblue;
+}
+
+.lost-and-found-home-wrapper {
+    margin: 0 10px;
+}
+
+.lost-and-found-home-wrapper h1 {
+    margin-bottom: 25px;
+}
+
+.lost-and-found-home-wrapper p {
+    font-size: 1.4em;
+}
