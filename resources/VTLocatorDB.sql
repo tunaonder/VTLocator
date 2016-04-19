@@ -52,6 +52,8 @@ CREATE TABLE Item
     category ENUM('HOKIE_PASSPORT', 'PHONE', 'KEYS', 'ELECTRONICS', 'CLOTHING', 'OTHER') NOT NULL,
     created_at timestamp default now(), 
     updated_at timestamp default now() on update now(),
+    created_by INT,
+    FOREIGN KEY (created_by) REFERENCES User(id) ON DELETE CASCADE,
     PRIMARY KEY (id)
 );
 

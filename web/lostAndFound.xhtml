@@ -8,11 +8,21 @@
 
     <h:body>
         <!-- Do not enter tags before the composition line since they are ignored by JSF -->
-
-        <!-- This page is constructed based on the siteTemplate -->
         <ui:composition template="template/siteTemplate.xhtml">
+            <ui:define name="sidebar">
+                <div class="text-center">
+                    <h3>Search</h3>
+                </div>
+            </ui:define>
             <ui:define name="mainPanel">
-                <h1>Lost and Found</h1>
+                <div class="lost-and-found-home-wrapper">
+                    <h:button outcome="createItem" class="btn btn-lg btn-default pull-right" value="Create" /> 
+                    <h1>VT Lost and Found</h1>
+                    <p>Lose an item on campus or around Blacksburg?  We have got you covered with VTLocator's Lost and Found service.  Search through found items, filter items by type, subscribe to lost item threads, and be updated whenever new items that are potentially yours are posted to the system!</p>
+                    <p>Find an item and not sure who the owner is?  Create a new lost item post such that the community can see what you found.  It is just a matter of time before the true owner is located and reunited with their belonging.</p>
+                    <hr/>
+                    <h4>Recently Found Items:</h4>
+                </div>
             </ui:define>
         </ui:composition>
         <!-- Do not enter tags after the composition line since they are ignored by JSF -->
