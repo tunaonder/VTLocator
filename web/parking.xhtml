@@ -4,29 +4,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <h:body>
-        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+    <!-- Do not enter tags before the composition line since they are ignored by JSF -->
 
-        <!-- This page is constructed based on the siteTemplate -->
-        <ui:composition template="template/siteTemplate.xhtml">
-            <ui:define name="sidebar">
-                <ul class="nav nav-tabs nav-justified">
-                    <li role="presentation"><h:link outcome="buildings">Buildings</h:link></li>
-                    <li role="presentation" class="active"><h:link outcome="parking">Parking</h:link></li>
-                </ul>
-            </ui:define>
-            <ui:define name="mainPanel">
-                <h1>Parking</h1>
-                <h3>Sean's work here</h3>
-                <h:commandButton value="Commuter Pass" type="button" onclick="processShapes(#{parkingLotManager.getANY()})" />
-                <div id="map"></div>
-                
-            </ui:define>
-        </ui:composition>
-        <!-- Do not enter tags after the composition line since they are ignored by JSF -->
-    </h:body>
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="template/siteTemplate.xhtml">
+        <ui:define name="sidebar">
+            <ul class="nav nav-tabs nav-justified">
+                <li role="presentation"><h:link outcome="buildings">Buildings</h:link></li>
+                <li role="presentation" class="active"><h:link outcome="parking">Parking</h:link></li>
+            </ul>
+            <div class="text-center">
+                <h4 style="margin-top: 20px; margin-bottom: 20px;">Select your parking pass type</h4>
+                <h:commandButton value="Commuter Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getANY()})" />
+            </div>
+        </ui:define>
+        <ui:define name="mainPanel">
+            <div id="map" style="width:100%; height:100%;"></div>
+            <script type="text/javascript" >
+                initMap();
+            </script>
+        </ui:define>
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
     
     
 </html>

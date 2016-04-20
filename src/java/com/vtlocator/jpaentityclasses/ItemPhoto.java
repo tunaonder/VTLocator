@@ -49,7 +49,6 @@ public class ItemPhoto implements Serializable {
     @Size(min = 1, max = 5)
     @Column(name = "extension")
     private String extension;
-   
     @Basic(optional = true)
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -61,7 +60,7 @@ public class ItemPhoto implements Serializable {
     @JoinColumn(name = "photo_for", referencedColumnName = "id")
     @ManyToOne
     private Item photoFor;
-
+    
     public ItemPhoto() {
     }
 

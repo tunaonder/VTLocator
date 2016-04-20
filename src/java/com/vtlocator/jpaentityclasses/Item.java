@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -86,6 +88,9 @@ public class Item implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+    @JoinColumn(name = "created_by", referencedColumnName = "id")
+    @ManyToOne
+    private User createdBy;
     @OneToMany(mappedBy = "photoFor")
     private Collection<ItemPhoto> itemPhotoCollection;
 
@@ -186,6 +191,14 @@ public class Item implements Serializable {
 
     public void setItemPhotoCollection(Collection<ItemPhoto> itemPhotoCollection) {
         this.itemPhotoCollection = itemPhotoCollection;
+    }
+    
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
     }
 
     @Override

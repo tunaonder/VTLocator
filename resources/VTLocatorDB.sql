@@ -1,6 +1,6 @@
-﻿/* 
- * Created by Sait Tuna Onder on 2016.04.03  * 
- * Copyright © 2016 Sait Tuna Onder. All rights reserved. * 
+﻿/*
+ * Created by Sait Tuna Onder on 2016.04.03  *
+ * Copyright © 2016 Sait Tuna Onder. All rights reserved. *
  */
 /**
  * Author:  Onder
@@ -10,7 +10,7 @@
 # ----------------------------------------------------------------
 # SQL Script to Create All VTLocatorDB Tables
 # ----------------------------------------------------------------
- 
+
 DROP TABLE IF EXISTS ItemPhoto, Subscription, Notification, Item, User, UserPhoto, Building, ParkingLot;
 
 /* The UserPhoto table contains attributes of interest of a user's profile photo. */
@@ -18,7 +18,7 @@ CREATE TABLE UserPhoto
 (
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
     extension ENUM('jpeg', 'jpg', 'png') NOT NULL,
-    created_at timestamp default now(), 
+    created_at timestamp default now(),
     updated_at timestamp default now() on update now()
 );
 
@@ -33,7 +33,7 @@ CREATE TABLE User
     security_question INT NOT NULL,
     security_answer VARCHAR (255) NOT NULL,
     password VARCHAR (256) NOT NULL,
-    created_at timestamp default now(), 
+    created_at timestamp default now(),
     updated_at timestamp default now() on update now(),
     profile_photo INT UNSIGNED,
     FOREIGN KEY (profile_photo) REFERENCES UserPhoto(id) ON DELETE CASCADE,
@@ -50,8 +50,9 @@ CREATE TABLE Item
     longitude_found DECIMAL(13,10) NOT NULL,
     date_found timestamp default now(),
     category ENUM('HOKIE_PASSPORT', 'PHONE', 'KEYS', 'ELECTRONICS', 'CLOTHING', 'OTHER') NOT NULL,
-    created_at timestamp default now(), 
+    created_at timestamp default now(),
     updated_at timestamp default now() on update now(),
+    created_by INT, FOREIGN KEY (created_by) REFERENCES User(id) ON DELETE CASCADE,
     PRIMARY KEY (id)
 );
 
@@ -60,7 +61,7 @@ CREATE TABLE ItemPhoto
 (
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
     extension ENUM('jpeg', 'jpg', 'png') NOT NULL,
-    created_at timestamp default now(), 
+    created_at timestamp default now(),
     updated_at timestamp default now() on update now(),
     photo_for INT,
     FOREIGN KEY (photo_for) REFERENCES Item(id) ON DELETE CASCADE
@@ -71,7 +72,7 @@ CREATE TABLE Subscription
 (
     id INT NOT NULL AUTO_INCREMENT,
     category ENUM('HOKIE_PASSPORT', 'PHONE', 'KEYS', 'ELECTRONICS', 'CLOTHING', 'OTHER') NOT NULL,
-    created_at timestamp default now(), 
+    created_at timestamp default now(),
     updated_at timestamp default now() on update now(),
     subscriber INT,
     FOREIGN KEY (subscriber) REFERENCES User(id) ON DELETE CASCADE,
@@ -82,7 +83,7 @@ CREATE TABLE Subscription
 CREATE TABLE Notification
 (
     id INT NOT NULL AUTO_INCREMENT,
-    created_at timestamp default now(), 
+    created_at timestamp default now(),
     updated_at timestamp default now() on update now(),
     sender INT,
     FOREIGN KEY (sender) REFERENCES User(id) ON DELETE CASCADE,
@@ -101,7 +102,7 @@ CREATE TABLE ParkingLot
     latitude VARCHAR(2000) NOT NULL,
     longitude VARCHAR(2000) NOT NULL,
     permission ENUM('ANY', 'COMMUTER/GRADUATE', 'FACULTY/STAFF/VISITOR', 'RESIDENT', 'METERED', 'PARKING_OFFICE') NOT NULL,
-    created_at timestamp default now(), 
+    created_at timestamp default now(),
     updated_at timestamp default now() on update now(),
     PRIMARY KEY (id)
 );
@@ -117,11 +118,11 @@ CREATE TABLE Building
     category VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
     image VARCHAR(255) NOT NULL,
-    created_at timestamp default now(), 
+    created_at timestamp default now(),
     updated_at timestamp default now() on update now()
 );
 
-INSERT INTO Building (name, abbreviation, latitude, longitude, category, description, image) VALUES 
+INSERT INTO Building (name, abbreviation, latitude, longitude, category, description, image) VALUES
 ('Agnew Hall', 'AGNEW', '37.2247741885', '-80.4241237773', 'Academic', 'http://manta.cs.vt.edu/vt/buildings/agnew/agnew.txt', 'http://manta.cs.vt.edu/vt/buildings/agnew/agnew.jpg'),
 ('Ambler Johnston Hall', 'AJ', '37.2231156422', '-80.420987521', 'Resident and Dining Halls', 'http://manta.cs.vt.edu/vt/buildings/aj/aj.txt', 'http://manta.cs.vt.edu/vt/buildings/aj/aj.jpg'),
 ('Architecture Annex', 'AA', '37.2285955676', '-80.4162869733', 'Academic', 'http://manta.cs.vt.edu/vt/buildings/aa/aa.txt', 'http://manta.cs.vt.edu/vt/buildings/aa/aa.jpg'),
@@ -238,14 +239,14 @@ INSERT INTO Building (name, abbreviation, latitude, longitude, category, descrip
 ('Wright House', 'WRGHT', '37.2268104329', '-80.4261888832', 'Academic', 'http://manta.cs.vt.edu/vt/buildings/wrght/wrght.txt', 'http://manta.cs.vt.edu/vt/buildings/wrght/wrght.jpg'),
 ('Alphin-Stuart Livestock Teaching Arena', 'LARNA', '37.21929', '-80.43991', 'Support', 'http://manta.cs.vt.edu/vt/buildings/larna/larna.txt', 'http://manta.cs.vt.edu/vt/buildings/larna/larna.jpg');
 
-INSERT INTO Item (name, description, latitude_found, longitude_found, category) VALUES 
+INSERT INTO Item (name, description, latitude_found, longitude_found, category) VALUES
 ('Mike''s iPhone', 'iPhone 5. Lost in the cloud computing lab', '37.2305915726', '-80.4217767404','PHONE'),
 ('Seb''s Watch', 'Lost my fancy watch while waiting for the bus in front of Burruss', '37.229031934', '-80.4237145305','OTHER'),
 ('Tuna''s Keys', 'I lost my keys in the parking garage.  Keys to a sweet Mustang', '37.23086', '-80.42565','KEYS'),;
 
 INSERT INTO ItemPhoto (extension, photo_for) VALUES
 ('jpeg', (SELECT id from Item WHERE name='Mike''s iPhone') ),
-('png', (SELECT id from Item WHERE name='Seb''s Watch') );  
+('png', (SELECT id from Item WHERE name='Seb''s Watch') );
 
 INSERT INTO ParkingLot (name, latitude, longitude, permission) VALUES
 ('Inn at VT North', '-80.432845,-80.432888,-80.432904,-80.432914,-80.432825,-80.432617,-80.432255,-80.432386,-80.432507,-80.432147,-80.431616,-80.431243,-80.430742,-80.430299,-80.429814,-80.429374,-80.429149,-80.429095,-80.429106,-80.429873,-80.429905,-80.429991,-80.429994,-80.430082,-80.430222,-80.430613,-80.430946,-80.431638,-80.432807,-80.433024,-80.433113,-80.433059,-80.433070,-80.432936', '37.231520,37.231315,37.231123,37.230798,37.230651,37.230563,37.230474,37.230687,37.230909,37.231020,37.230956,37.230935,37.230931,37.231031,37.231054,37.230918,37.230662,37.230563,37.230448,37.230064,37.230136,37.230089,37.229982,37.229910,37.229854,37.229884,37.230089,37.230209,37.230486,37.230659,37.230922,37.231482,37.231529,37.231516', 'ANY'),
