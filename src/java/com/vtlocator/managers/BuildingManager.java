@@ -4,7 +4,6 @@
  */
 package com.vtlocator.managers;
 
-
 import com.vtlocator.jpaentityclasses.Building;
 import com.vtlocator.sessionbeans.BuildingFacade;
 import java.io.BufferedReader;
@@ -46,14 +45,15 @@ public class BuildingManager implements Serializable {
     private List<Building> items = null;
     private String selectedBuildingName;
     private String selectedStartPoint;
-    
+    private String selectedBuildingIndex;
+
     private List<String> buildingNamesJSON;
+    private String buildingJSON;
 
     //Building Names Hash Map to Display at Building Menu
     private HashMap<String, String> buildingNames;
 
 //    private MapModel mapModel;
-
     private String title;
 
     //Building Values
@@ -61,7 +61,7 @@ public class BuildingManager implements Serializable {
     private double lng;
     private String imageUrl;
     private String description;
-    
+
     //Second Building Values
     private double lat2;
     private double lng2;
@@ -74,10 +74,9 @@ public class BuildingManager implements Serializable {
 
     private boolean directionPressed;
 
-
     @PostConstruct
     public void init() {
-     
+
         items = getItems();
 
         //Sizes are in a  Hash Map
@@ -97,12 +96,12 @@ public class BuildingManager implements Serializable {
         lng = 0;
         lat2 = 0;
         lng2 = 0;
-        
+
 //         arr = new JSONArray();
         JSONArray json;
         buildingNamesJSON = new ArrayList<String>();
         try {
-            json = new JSONArray(readJSON());
+            json = new JSONArray(readJSON("http://localhost:8080/VTBuildingsData/webresources/buildings/names"));
             int counter = 0;
             while (json != null && json.length() > counter) {
                 buildingNamesJSON.add(json.getJSONObject(counter).get("name").toString());
@@ -114,7 +113,7 @@ public class BuildingManager implements Serializable {
         } catch (Exception ex) {
             Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     public List<String> getBuildingNamesJSON() {
@@ -125,39 +124,39 @@ public class BuildingManager implements Serializable {
         this.buildingNamesJSON = buildingNamesJSON;
     }
 
-    
-    
-    
-    
-    
-    public String readJSON() throws Exception {
+    public String getBuildingJSON() {
+        return buildingJSON;
+    }
+
+    public void setBuildingJSON(String buildingJSON) {
+        this.buildingJSON = buildingJSON;
+    }
+
+    public String readJSON(String urlString) throws Exception {
         BufferedReader reader = null;
         try {
-            URL url = new URL("http://localhost:8080/VTBuildingsData/webresources/buildings/names");
+            URL url = new URL(urlString);
             reader = new BufferedReader(new InputStreamReader(url.openStream()));
             StringBuffer buffer = new StringBuffer();
-            
+
             int read;
             char[] chars = new char[10240];
-            while( (read = reader.read(chars)) != -1 ) {
+            while ((read = reader.read(chars)) != -1) {
                 buffer.append(chars, 0, read);
             }
             return buffer.toString();
-        }
-        finally {
+        } finally {
             if (reader != null) {
                 reader.close();
             }
         }
     }
-    
 
     //Calls companyFacade and gets items from the database
-    public List<Building> getItems(){
+    public List<Building> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
-
 
         return items;
     }
@@ -185,7 +184,6 @@ public class BuildingManager implements Serializable {
 //    public MapModel getMapModel() {
 //        return mapModel;
 //    }
-
     public String getTitle() {
         return title;
     }
@@ -216,7 +214,6 @@ public class BuildingManager implements Serializable {
 //
 //        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", "Lat:" + lat + ", Lng:" + lng));
 //    }
-
     public double getVtLat() {
         return vtLat;
     }
@@ -288,8 +285,14 @@ public class BuildingManager implements Serializable {
     public void setLng2(double lng2) {
         this.lng2 = lng2;
     }
-    
-    
+
+    public String getSelectedBuildingIndex() {
+        return selectedBuildingIndex;
+    }
+
+    public void setSelectedBuildingIndex(String selectedBuildingIndex) {
+        this.selectedBuildingIndex = selectedBuildingIndex;
+    }
     
     
 
@@ -308,24 +311,41 @@ public class BuildingManager implements Serializable {
         return sortedHashMap;
     }
 
-    public void displayBuildingLocation() throws IOException{
+    public void displayBuildingLocation() throws IOException {
         //Find the building object with its name
-        tempBuilding = getBuildingWithName(selectedBuildingName);
+//        tempBuilding = getBuildingWithName(selectedBuildingName);
         //Get the latitude and longitude of the selected building
-        lat = tempBuilding.getLatitude().doubleValue();
-        lng = tempBuilding.getLongitude().doubleValue();
-        imageUrl = tempBuilding.getImage();
+//        lat = tempBuilding.getLatitude().doubleValue();
+//        lng = tempBuilding.getLongitude().doubleValue();
+//        imageUrl = tempBuilding.getImage();
+//
+//        URL url = new URL(tempBuilding.getDescription());
 
-        URL url = new URL(tempBuilding.getDescription());
-        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+        System.out.println(selectedBuildingIndex);
+        
+        JSONObject json;
+        buildingJSON = "";
+        try {
+            json = new JSONObject(readJSON("http://localhost:8080/VTBuildingsData/webresources/buildings/3"));
+            lat = json.getDouble("latitude");
+            lng = json.getDouble("longitude");
+            imageUrl = json.getString("image");
 
-        String str;
-        while ((str = in.readLine()) != null) {
-            description = str;
+            URL url = new URL(json.getString("description"));
+            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+
+            String str;
+            while ((str = in.readLine()) != null) {
+                description = str;
+            }
+            in.close();
+
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        in.close();
-        
-        
+
     }
 
     private Building getBuildingWithName(String buildingName) {
@@ -344,18 +364,30 @@ public class BuildingManager implements Serializable {
         directionPressed = true;
 
     }
-    
-    public void createStartPoint(){
-        tempBuilding = getBuildingWithName(selectedStartPoint);
-        lat2 = tempBuilding.getLatitude().doubleValue();
-        lng2 = tempBuilding.getLongitude().doubleValue();
-        System.out.print(tempBuilding.getName());
-        
+
+    public void createStartPoint() {
+//        tempBuilding = getBuildingWithName(selectedStartPoint);
+//        lat2 = tempBuilding.getLatitude().doubleValue();
+//        lng2 = tempBuilding.getLongitude().doubleValue();
+//        System.out.print(tempBuilding.getName());
+
+        JSONObject json;
+        buildingJSON = "";
+        try {
+            json = new JSONObject(readJSON("http://localhost:8080/VTBuildingsData/webresources/buildings/3"));
+            lat2 = json.getDouble("latitude");
+            lng2 = json.getDouble("longitude");
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-    
-    public void refreshForm(){
+
+    public void refreshForm() {
         directionPressed = false;
-        
+
     }
 
 }
