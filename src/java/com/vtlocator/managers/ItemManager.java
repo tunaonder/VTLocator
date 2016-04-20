@@ -98,7 +98,7 @@ public class ItemManager implements Serializable {
     private String category;
     private String statusMessage;
     private Collection<ItemPhoto> itemPhotoCollection;
-    private Collection<User> createdBy;
+    private User createdBy;
     
     public String getStatusMessage() {
         return statusMessage;
@@ -158,7 +158,7 @@ public class ItemManager implements Serializable {
                 item.setLongitudeFound(longitudeFound);
                 item.setName(name);
                 item.setDescription(description);
-                item.setCreatedByCollection(createdBy);
+                item.setCreatedBy(createdBy);
                 item.setItemPhotoCollection(itemPhotoCollection);
                 itemFacade.create(item);
                 

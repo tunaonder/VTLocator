@@ -89,15 +89,15 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
     @Basic(optional = true)
-  //  @NotNull
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
     @Basic(optional = true)
-  //  @NotNull
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+    @OneToMany(mappedBy = "createdBy")
+    private Collection<Item> itemCollection;
     @JoinColumn(name = "profile_photo", referencedColumnName = "id")
     @ManyToOne
     private UserPhoto profilePhoto;
