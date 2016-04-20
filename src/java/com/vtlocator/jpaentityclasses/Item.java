@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -41,7 +43,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Item.findByLongitudeFound", query = "SELECT i FROM Item i WHERE i.longitudeFound = :longitudeFound"),
     @NamedQuery(name = "Item.findByDateFound", query = "SELECT i FROM Item i WHERE i.dateFound = :dateFound"),
     @NamedQuery(name = "Item.findByCategory", query = "SELECT i FROM Item i WHERE i.category = :category"),
-    @NamedQuery(name = "Item.findItemByUserId", query = "SELECT i FROM Item i WHERE i.created_by.id = :createdBy"), //new
     @NamedQuery(name = "Item.findByCreatedAt", query = "SELECT i FROM Item i WHERE i.createdAt = :createdAt"),
     @NamedQuery(name = "Item.findByUpdatedAt", query = "SELECT i FROM Item i WHERE i.updatedAt = :updatedAt")})
 public class Item implements Serializable {
@@ -87,10 +88,11 @@ public class Item implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+    @JoinColumn(name = "created_by", referencedColumnName = "id")
+    @ManyToOne
+    private User createdBy;
     @OneToMany(mappedBy = "photoFor")
     private Collection<ItemPhoto> itemPhotoCollection;
-    @OneToMany(mappedBy = "created_by")
-    private Collection<User> createdBy;
 
     public Item() {
     }
@@ -191,12 +193,11 @@ public class Item implements Serializable {
         this.itemPhotoCollection = itemPhotoCollection;
     }
     
-    @XmlTransient
-    public Collection<User> getCreatedByCollection() {
+    public User getCreatedBy() {
         return createdBy;
     }
-    
-    public void setCreatedByCollection(Collection<User> createdBy) {
+
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
 
