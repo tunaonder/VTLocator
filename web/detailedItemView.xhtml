@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Sebastian Welsh on 2016.04.21 
+Copyright © 2016 Sebastian Welsh. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:body>
+        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+        <ui:composition template="template/siteTemplate.xhtml">
+            <ui:define name="sidebar">
+                <div class="text-center lost-and-found-sidebar-wrapper">
+                    <h3>Search</h3>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Search..." aria-describedby="basic-addon1" />
+                    </div>
+                    <h:button class="btn btn-custom pull-right" value="Search" />
+                </div>
+            </ui:define>
+            <ui:define name="mainPanel">
+                <div class="item-view-wrapper">
+                    <div class="text-center">
+                        <img class="item-photo" src="resources/images/phone.jpg" />
+                    </div>
+                    <h3 class="item-view-title">Title Goes Here</h3>
+                    <p class="item-decription">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel viverra lectus. Morbi euismod felis a neque condimentum tristique. Nunc varius placerat lorem, et vulputate leo egestas non. Vivamus in congue enim, sed pellentesque nulla. Curabitur mattis convallis maximus. Aliquam luctus libero leo, ut pretium metus interdum at. Aenean sed facilisis urna, vel sodales enim. Integer porttitor dolor et dui efficitur, vel</p>
+                    <h4>Let your friend know you found their belonging...</h4>
+                    <div class="input-group" style="max-width: 400px;">
+                        <input type="text" class="form-control" placeholder="Search by name or phone number..." />
+                        <span class="input-group-btn">
+                          <button class="btn btn-custom" style="height: 34px;" type="button">Notify</button>
+                        </span>
+                    </div>
+                    <h4>This item was located at...</h4>
+                    <div class="item-view-map-wrapper"></div>
+                </div>
+            </ui:define>
+        </ui:composition>
+        <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+    </h:body>
+
+</html>
+
+
