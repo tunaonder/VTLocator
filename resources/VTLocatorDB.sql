@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS ItemPhoto, Subscription, Notification, Item, User, UserPhoto, Building, ParkingLot;
+DROP TABLE IF EXISTS ItemPhoto, Subscription, Notification, Item, UserPhoto, User, Building, ParkingLot;
 
 /* The User table contains attributes of interest of a user. */
 CREATE TABLE User
