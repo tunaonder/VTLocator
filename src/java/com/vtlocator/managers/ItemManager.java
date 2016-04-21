@@ -9,8 +9,10 @@ import com.vtlocator.jpaentityclasses.ItemPhoto;
 import com.vtlocator.jpaentityclasses.User;
 import com.vtlocator.sessionbeans.ItemFacade;
 import com.vtlocator.sessionbeans.ItemPhotoFacade;
+import com.vtlocator.sessionbeans.UserFacade;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -91,14 +93,17 @@ public class ItemManager implements Serializable {
     public void setItemPhotoCollection(Collection<ItemPhoto> itemPhotoCollection) {
         this.itemPhotoCollection = itemPhotoCollection;
     }
+    
+    @EJB
+    private UserFacade userFacade;
+    
     private String name;
-    private BigDecimal latitudeFound;
-    private BigDecimal longitudeFound;
+    private BigDecimal latitudeFound = new BigDecimal(0);
+    private BigDecimal longitudeFound = new BigDecimal(0);
     private Date dateFound;
     private String category;
     private String statusMessage;
     private Collection<ItemPhoto> itemPhotoCollection;
-    private User createdBy;
     
     public String getStatusMessage() {
         return statusMessage;
@@ -147,31 +152,34 @@ public class ItemManager implements Serializable {
     // Will create an item object
     public String createItem() {
         
-
-        if (statusMessage.isEmpty()) { // set all fields in cust obj
-            try {
-                
-                Item item = new Item();
-                item.setCategory(category);
-                item.setDateFound(dateFound);
-                item.setLatitudeFound(latitudeFound);
-                item.setLongitudeFound(longitudeFound);
-                item.setName(name);
-                item.setDescription(description);
-                item.setCreatedBy(createdBy);
-                item.setItemPhotoCollection(itemPhotoCollection);
-                itemFacade.create(item);
-                
-            } catch (EJBException e) {
-                //email = "";
-                statusMessage = "Something went wrong while creating your account!";
-                return "";
-            }
-             // 
-            return "index"; // TODO
-            
+        if (this.longitudeFound.equals(new BigDecimal(0)) || this.latitudeFound.equals(new BigDecimal(0))) {
+            statusMessage = "Please click a point on the map to specify the location found.";
+            return "";
         }
-        return "";
+        try {
+
+            Item item = new Item();
+            item.setCategory("PHONE");
+            item.setDateFound(dateFound);
+            item.setLatitudeFound(this.latitudeFound);
+            item.setLongitudeFound(this.longitudeFound);
+            item.setName(name);
+            item.setDescription(description);
+            String email = (String) FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get("email");
+            User user = userFacade.findByEmail(email);                
+            item.setCreatedBy(user);
+            item.setItemPhotoCollection(itemPhotoCollection);
+
+            itemFacade.create(item);
+
+        } catch (EJBException e) {
+            //email = "";
+            statusMessage = "Something went wrong while creating your account!";
+            return "";
+        }
+         // 
+        return "index"; // TODO
     }
     
    
@@ -186,4 +194,6 @@ public class ItemManager implements Serializable {
         }
         return photoList;
     }
+    
+    
 }

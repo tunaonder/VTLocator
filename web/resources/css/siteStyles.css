@@ -272,3 +272,8 @@ div.footer .footer-text {
 .lost-and-found-home-wrapper p {
     font-size: 1.4em;
 }
+
+
+.coordinates {
+   display: none;
+}
