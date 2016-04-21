@@ -4,8 +4,8 @@
  */
 package com.vtlocator.jpaentityclasses;
 
+import com.vtlocator.managers.Constants;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -13,16 +13,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -51,18 +51,17 @@ public class UserPhoto implements Serializable {
     @Column(name = "extension")
     private String extension;
     @Basic(optional = true)
-    
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
     @Basic(optional = true)
-    
     @Column(name = "updated_at")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne
+    private User userId;
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    @OneToMany(mappedBy = "profilePhoto")
-    private Collection<User> userCollection;
-
+    
     public UserPhoto() {
     }
 
@@ -109,13 +108,12 @@ public class UserPhoto implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    @XmlTransient
-    public Collection<User> getUserCollection() {
-        return userCollection;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setUserCollection(Collection<User> userCollection) {
-        this.userCollection = userCollection;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -141,6 +139,15 @@ public class UserPhoto implements Serializable {
     @Override
     public String toString() {
         return "jpaentityclasses.UserPhoto[ id=" + id + " ]";
+    }
+    
+    // Added methods:
+    public String getFilePath() {
+        return Constants.ROOT_DIRECTORY + getFilename();
+    }
+
+    public String getFilename() {
+        return getId() + "." + getExtension();
     }
     
 }

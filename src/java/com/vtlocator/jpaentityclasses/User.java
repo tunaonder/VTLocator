@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -98,9 +96,8 @@ public class User implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    @JoinColumn(name = "profile_photo", referencedColumnName = "id")
-    @ManyToOne
-    private UserPhoto profilePhoto;
+    @OneToMany(mappedBy = "userId")
+    private Collection<UserPhoto> photoCollection;
     @OneToMany(mappedBy = "subscriber")
     private Collection<Subscription> subscriptionCollection;
     @OneToMany(mappedBy = "sender")
@@ -210,14 +207,15 @@ public class User implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public UserPhoto getProfilePhoto() {
-        return profilePhoto;
+    @XmlTransient
+    public Collection<UserPhoto> getPhotoCollection() {
+        return photoCollection;
     }
 
-    public void setProfilePhoto(UserPhoto profilePhoto) {
-        this.profilePhoto = profilePhoto;
+    public void setPhotoCollection(Collection<UserPhoto> photoCollection) {
+        this.photoCollection = photoCollection;
     }
-
+    
     @XmlTransient
     public Collection<Subscription> getSubscriptionCollection() {
         return subscriptionCollection;
