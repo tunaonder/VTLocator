@@ -333,6 +333,10 @@ div.footer .footer-text {
     font-size: 1.4em;
 }
 
+.coordinates {
+   display: none;
+}
+
 .item-list-view {
     cursor: pointer;
     margin-bottom: 30px;
