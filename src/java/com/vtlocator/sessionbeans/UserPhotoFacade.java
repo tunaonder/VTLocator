@@ -32,7 +32,7 @@ public class UserPhotoFacade extends AbstractFacade<UserPhoto> {
     // The following findPhotosByUserID method is added to the generated code.
     
     public List<UserPhoto> findPhotosByUserID(Integer userID) {
-        return (List<UserPhoto>) em.createNamedQuery("UserPhoto.findById")
+        return (List<UserPhoto>) em.createNamedQuery("UserPhoto.findPhotosByUserId")
                 .setParameter("userId", userID)
                 .getResultList();
     }
