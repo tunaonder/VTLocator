@@ -241,6 +241,13 @@ div.footer .footer-text {
 }
 
 /**
+ * Parking CSS Rules
+ */
+.parking-sidebar-wrapper .btn {
+    margin-top: 10px;
+}
+
+/**
  * Lost and Found CSS Rules
  */
 .checkbox {
@@ -337,9 +344,20 @@ div.footer .footer-text {
    display: none;
 }
 
+.item-list-view-wrapper {
+    padding: 10px;
+}
+
 .item-list-view {
     cursor: pointer;
     margin-bottom: 30px;
+    padding: 10px;
+    border: 2px dashed white;
+}
+
+.item-list-view:hover {
+    border: 2px dashed #e95051;
+    border-radius: 10px;
 }
 
 .item-list-view img {

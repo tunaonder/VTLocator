@@ -6,6 +6,8 @@ dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
+src/java/com/vtlocator/managers/Constants.java
+web/WEB-INF/glassfish-web.xml
 
 # Class Files #
 *.class
