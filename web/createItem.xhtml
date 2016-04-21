@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Sebastian Welsh on 2016.04.19 
+Copyright © 2016 Sebastian Welsh. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+        <ui:composition template="template/siteTemplate.xhtml">
+            <ui:define name="sidebar">
+                <div class="text-center">
+                    <h1>Lost and Found</h1>
+                </div>
+            </ui:define>
+            <ui:define name="mainPanel">
+                <div align="center">
+                    <h2>Create a New Lost Item...</h2>
+                    <h:form class="form-create-item">
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <h:panelGrid columns="3" cellpadding="5" columnClasses="create-item-label, create-item-input, create-item-message">
+                                    <p:outputLabel for="name" value="Name" />
+                                    <h:inputText id="name" class="form-control"
+                                                 required="true" label="Name" >
+                                        <f:validateLength minimum="2" maximum="64" />
+                                    </h:inputText>
+                                    <p:message for="name" display="icon" />                  
+
+                                    <p:outputLabel for="description" value="Description" />
+                                    <h:inputTextarea id="description" class="form-control"
+                                                 required="true" label="Description" >
+                                        <f:validateLength minimum="2" maximum="1024" />
+                                    </h:inputTextarea>
+                                    <p:message for="description" display="icon" />
+
+                                    <p:outputLabel for="dateFound" value="Date Found" />
+                                    <p:calendar id="dateFound" mode="inline" required="true" />
+                                    <p:message for="dateFound" display="icon" />
+
+                                </h:panelGrid>
+                            </div>
+                            <div class="col-lg-7">
+                                <h4>Location Found</h4>
+                                <div id="locationFound" class="location-found-map-wrapper"></div>
+                            </div>
+                        </div>
+                        <br/>
+                        <h:commandButton class="btn btn-default" id="submit" value="Post" />   
+                        <h:commandButton class="btn btn-default" id="cancel" value="Cancel" /> 
+                        <br/>
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+        <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+    </h:body>
+
+</html>
+

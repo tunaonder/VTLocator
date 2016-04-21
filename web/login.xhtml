@@ -10,43 +10,38 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <h:body>
-        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="template/siteTemplate.xhtml">
 
-        <!-- This page is constructed based on the siteTemplate -->
-        <ui:composition template="template/siteTemplate.xhtml">
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+            <div align="center">
+                <h:form class="form-signin">
+                    <div align="center">
+                    <h:graphicImage url="#{resource['images:logo_primary.png']}" styleClass="login-logo" alt="VTLocator"/>
 
+                    <h:panelGrid columns="2" columnClasses="login-label, login-input">
 
-            <!-- Create the content for this page below -->
-            <ui:define name="editableContent">
-                <div align="center">
-                    <h:form class="form-signin">
-                        <div align="center">
-                        <h:graphicImage url="#{resource['images:logo_primary.png']}" styleClass="login-logo" alt="VTLocator"/>
+                        <h:outputLabel styleClass="outputLabel" for="loginname" value="Email: " />
+                        <h:inputText class="form-control" id="loginname" value="#{loginManager.email}" />
 
-                        <h:panelGrid columns="2" columnClasses="login-label, login-input">
+                        <h:outputLabel styleClass="outputLabel" for="password" value="Password: " />
+                        <h:inputSecret class="form-control"  id="password" value="#{loginManager.password}"/>
 
-                            <h:outputLabel styleClass="outputLabel" for="loginname" value="Email: " />
-                            <h:inputText class="form-control" id="loginname" value="#{loginManager.email}" />
+                    </h:panelGrid>
+                    <br/>
+                    <fieldset style="width:60%; margin:0 auto;">
+                        <h:commandButton id="login" action="#{loginManager.loginUser()}" value="Login" styleClass="btn btn-default"/>
+                        <p:link outcome="enterEmail" id="retrieve" value="Forgot Password" styleClass="btn btn-default"/>                
+                    </fieldset>  
+                    </div>
+                    <br/>
+                    <h:outputLabel value ="#{loginManager.errorMessage}" />
+                </h:form>
+            </div>
+        </ui:define>
 
-                            <h:outputLabel styleClass="outputLabel" for="password" value="Password: " />
-                            <h:inputSecret class="form-control"  id="password" value="#{loginManager.password}"/>
-
-                        </h:panelGrid>
-                        <br/>
-                        <fieldset style="width:60%; margin:0 auto;">
-                            <h:commandButton id="login" action="#{loginManager.loginUser()}" value="Login" styleClass="btn btn-default"/>
-                            <p:link outcome="enterEmail" id="retrieve" value="Forgot Password" styleClass="btn btn-default"/>                
-                        </fieldset>  
-                        </div>
-                        <br/>
-                        <h:outputLabel value ="#{loginManager.errorMessage}" />
-                    </h:form>
-                </div>
-            </ui:define>
-
-        </ui:composition>
-        <!-- Do not enter tags after the composition line since they are ignored by JSF -->
-    </h:body>
+    </ui:composition>
+    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
 
 </html>

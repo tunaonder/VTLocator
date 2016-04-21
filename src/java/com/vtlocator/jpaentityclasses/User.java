@@ -87,17 +87,17 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
     @Basic(optional = true)
-  //  @NotNull
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
     @Basic(optional = true)
-  //  @NotNull
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
     @OneToMany(mappedBy = "userId")
     private Collection<UserPhoto> photoCollection;
+    @OneToMany(mappedBy = "createdBy")
+    private Collection<Item> itemCollection;
     @OneToMany(mappedBy = "subscriber")
     private Collection<Subscription> subscriptionCollection;
     @OneToMany(mappedBy = "sender")
