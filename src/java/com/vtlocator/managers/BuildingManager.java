@@ -28,7 +28,7 @@ import org.primefaces.json.JSONObject;
 @ManagedBean
 @SessionScoped
 @Named(value = "buildingManager")
-public class BuildingManager implements Serializable {
+public class BuildingManager  implements Serializable{
 
     //Selected Building to display Building Information
     private String selectedBuildingName;

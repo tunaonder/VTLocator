@@ -42,7 +42,7 @@
 
 
                     <div align="center">
-                        <p:commandButton id="getDirection"  value="Get Directions to Here" 
+                        <p:commandButton id="getDirection"  value="Get Directions" 
                                          styleClass="btn btn-default btn-direction" rendered="#{buildingManager.directionPressed == false}">
                             <p:ajax listener="#{buildingManager.directionButtonPressed()}" update="dropDownForm dropDownForm:destination" />
 
@@ -111,14 +111,20 @@
                     var routeRefreshed = false; 
                     var currentMarker = null;
 
+                    initilaizeMap();
+                    
+
                     //Initiliaze Map
-                    map = new google.maps.Map(document.getElementById('map'), {
-                        zoom: 17,
+                    function initilaizeMap(){
+                        
+                        map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 16,
                         center: {lat: #{buildingManager.vtLat}, lng: #{buildingManager.vtLong}},
                         mapTypeId: google.maps.MapTypeId.HYBRID
                     });
-
-
+                    }
+                    
+                        
 
                     //Displays location of selected building
                     function displayBuilding() {
@@ -196,7 +202,9 @@
                         directionsDisplay.setDirections(null);
                         currentMarker = null;
                         routeRefreshed = false;
-
+                        
+                        //Reset The Map
+                        initilaizeMap();
                     }
 
 
