@@ -20,7 +20,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                 </div>
             </ui:define>
             <ui:define name="mainPanel">
-                <div align="center">
+                <div align="center" class="lost-and-found-home-wrapper">
                     <h2>Create a New Lost Item...</h2>
                     <h:form class="form-create-item">
                         <div class="row">
@@ -68,6 +68,31 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                 </div>
                             </div>
                             <h:outputLabel value="#{itemManager.statusMessage}" />
+                        </div>
+                        <div class="item-img-upload-wrapper">
+                            <h4>Upload Image(s)</h4>
+                            <i class="fa fa-plus"></i>
+                        </div>
+                        <div class="item-uploaded-img-wrapper">
+                            <h4 class="text-left">Uploaded Images:</h4>
+                            <div class="row">
+                                <div class="col-md-4 item-uploaded-img">
+                                    <img src="resources/images/phone.jpg" />
+                                    <h:commandLink><i class="fa fa-times"></i></h:commandLink>
+                                </div>
+                                <div class="col-md-4 item-uploaded-img">
+                                    <img src="resources/images/phone.jpg" />
+                                    <h:commandLink><i class="fa fa-times"></i></h:commandLink>
+                                </div>
+                                <div class="col-md-4 item-uploaded-img">
+                                    <img src="resources/images/phone.jpg" />
+                                    <h:commandLink><i class="fa fa-times"></i></h:commandLink>
+                                </div>
+                                <div class="col-md-4 item-uploaded-img">
+                                    <img src="resources/images/phone.jpg" />
+                                    <h:commandLink><i class="fa fa-times"></i></h:commandLink>
+                                </div>
+                            </div>
                         </div>
                         <br/>
                         <h:commandButton class="btn btn-default" id="submit" value="Post" action="#{itemManager.createItem()}" />   
