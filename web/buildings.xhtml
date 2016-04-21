@@ -21,12 +21,14 @@
 
 
                 <h:form id="dropDownForm">
+<!--                    Initial DropDown Menu, Thats why it is rendered if direction button is not pressed yet-->
                     <ul class="dropdown" >
-                        <p:selectOneMenu value="#{buildingManager.selectedBuildingName}" var="#{buildingManager.selectedBuildingIndex}" styleClass="dropMenu" rendered="#{buildingManager.directionPressed == false}" >
+                        <p:selectOneMenu value="#{buildingManager.selectedBuildingName}" styleClass="dropMenu" rendered="#{buildingManager.directionPressed == false}" >
                             <!--                            Display Building Location and Update the value of selected building-->
                             <p:ajax  oncomplete="displayBuilding()" update="address buildingLat buildingLong buildingImage buildingDescription" />
-                            <p:ajax listener="#{buildingManager.displayBuildingLocation}" />
+                            <p:ajax listener="#{buildingManager.displayBuildingInformation}" />
                             <f:selectItem itemLabel="Select Building" itemValue="" noSelectionOption="true" />
+<!--                            Building Names is returned from Restful Service-->
                             <f:selectItems value="#{buildingManager.buildingNamesJSON}"  />
                             
                         </p:selectOneMenu>
@@ -45,22 +47,24 @@
                             <p:ajax listener="#{buildingManager.directionButtonPressed()}" update="dropDownForm dropDownForm:destination" />
 
                         </p:commandButton>
+                        
+<!--                        This Dropdown Menu is displayed after Direction Button Pressed-->
                         <ul class="dropdown" >
                             <p:selectOneMenu value="#{buildingManager.selectedStartPoint}" styleClass="dropMenu" rendered="#{buildingManager.directionPressed == true}">
                                 <p:ajax listener="#{buildingManager.createStartPoint}" />
+<!--                                Calls Java Script Method which draws the Route-->
                                 <p:ajax oncomplete="drawRoute()" update="startPoint startBuildingLat startBuildingLong" />
                                 <f:selectItem itemLabel="Select Building" itemValue="" noSelectionOption="true" />
-                                <f:selectItems value="#{buildingManager.buildingNames}"  />
+                                <f:selectItems value="#{buildingManager.buildingNamesJSON}"  />
                             </p:selectOneMenu>                       
 
 
                         </ul>
                         <h:inputHidden id="startBuildingLat" value="#{buildingManager.lat2}" />
                         <h:inputHidden id="startBuildingLong" value="#{buildingManager.lng2}" />
+                        
+                        
                         <h:panelGrid  rendered="#{buildingManager.directionPressed == true}" columns="2" columnClasses="building-label, login-input">
-
-
-
 
                             <h:outputLabel styleClass="outputLabel"  value="From: " />
                             <h:inputText class="form-control" id="startPoint" value="#{buildingManager.selectedStartPoint}" />
@@ -69,15 +73,17 @@
                             <h:inputText class="form-control"  id="destination" value="#{buildingManager.selectedBuildingName}"/>
 
                         </h:panelGrid>
+                        
+<!--                        Resets the Page to its initial state-->
                         <p:commandButton  value="Refresh" onclick="refreshMap()"
-                                          styleClass="btn btn-default btn-direction"  rendered="#{buildingManager.directionPressed == true}">
+                                          styleClass="btn btn-default btn-direction" rendered="#{buildingManager.directionPressed == true}">
                             <p:ajax listener="#{buildingManager.init()}" update="dropDownForm"/>
 
                         </p:commandButton>
 
                     </div>
 
-
+<!--                    Building Description and Image Is Displayed-->
                     <ul class="buildingInfo">
                         <p:inputTextarea id="buildingDescription" rows="8" cols="31" styleClass="buildingDescription" 
                                          value="#{buildingManager.description}"/>
@@ -123,6 +129,9 @@
                             currentMarker.setMap(null);
                             currentMarker = null;
                         }
+                        
+                        //Set the center of the map to the coordinates of selected building
+                        map.setCenter(new google.maps.LatLng(document.getElementById("dropDownForm:buildingLat").value,document.getElementById("dropDownForm:buildingLong").value));
 
                         //Create Marker
                         currentMarker = new google.maps.Marker({
@@ -139,6 +148,7 @@
 
                     //Add starting point and draw route to destination
                     function drawRoute() {
+                        //If there is route drawed before, delete that data by setting the information null
                         if (routeRefreshed === true){
                             directionsDisplay.setMap(null);
                             directionsDisplay.setDirections(null);
@@ -154,8 +164,7 @@
                         directionsDisplay = new google.maps.DirectionsRenderer;
                         directionsDisplay.setMap(map);
 
-                        
-
+                        //Coordinates of starting building and destination building
                         var start = new google.maps.LatLng(document.getElementById("dropDownForm:startBuildingLat").value.toString(), document.getElementById("dropDownForm:startBuildingLong").value.toString());
                         var end = new google.maps.LatLng(document.getElementById("dropDownForm:buildingLat").value.toString(), document.getElementById("dropDownForm:buildingLong").value.toString());
 

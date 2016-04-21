@@ -4,25 +4,16 @@
  */
 package com.vtlocator.managers;
 
-import com.vtlocator.jpaentityclasses.Building;
-import com.vtlocator.sessionbeans.BuildingFacade;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
@@ -39,22 +30,16 @@ import org.primefaces.json.JSONObject;
 @Named(value = "buildingManager")
 public class BuildingManager implements Serializable {
 
-    //This facade is used to connect Controller to the database
-    @EJB
-    private com.vtlocator.sessionbeans.BuildingFacade ejbFacade;
-    private List<Building> items = null;
+    //Selected Building to display Building Information
     private String selectedBuildingName;
+    //Selected Building to get direction from. Route will be from here to selectedBuildingName
     private String selectedStartPoint;
-    private String selectedBuildingIndex;
 
+    //List of All Buildings Names From Restful Service
     private List<String> buildingNamesJSON;
-    private String buildingJSON;
-
-    //Building Names Hash Map to Display at Building Menu
-    private HashMap<String, String> buildingNames;
-
-//    private MapModel mapModel;
-    private String title;
+    
+    //Restful Requests Base URL
+    private final String baseUrl = "http://localhost:8080/VTBuildingsData/webresources/buildings/";
 
     //Building Values
     private double lat;
@@ -66,78 +51,58 @@ public class BuildingManager implements Serializable {
     private double lat2;
     private double lng2;
 
-    //Center Of The Map
+    //Center Of The Map (Virginia Tech Coordinates)
     private double vtLat = 37.227264;
     private double vtLong = -80.420745;
 
-    private Building tempBuilding;
 
     private boolean directionPressed;
 
     @PostConstruct
     public void init() {
 
-        items = getItems();
-
-        //Sizes are in a  Hash Map
-        buildingNames = new HashMap<>();
-        for (int i = 0; i < items.size(); i++) {
-            buildingNames.put(items.get(i).getName(), items.get(i).getName());
-        }
-        buildingNames = sortByValues(buildingNames);
-
-        selectedStartPoint = "";
-//        mapModel = new DefaultMapModel();
+        //Virginia Tech Logo is the Default Image
         imageUrl = "https://lh5.googleusercontent.com/-A6mD3SlNkSM/AAAAAAAAAAI/AAAAAAAAAXE/yyIqI5mrcOk/s0-c-k-no-ns/photo.jpg";
-        description = "";
+        
         selectedBuildingName = "";
-        directionPressed = false;
+        selectedStartPoint = "";
+
+        
         lat = 0;
         lng = 0;
         lat2 = 0;
         lng2 = 0;
+        description = "";
+        directionPressed = false;
 
-//         arr = new JSONArray();
+        
         JSONArray json;
-        buildingNamesJSON = new ArrayList<String>();
+        buildingNamesJSON = new ArrayList<>();
         try {
-            json = new JSONArray(readJSON("http://localhost:8080/VTBuildingsData/webresources/buildings/names"));
+            //Get Names Of all Buildings from Restful Service
+            String url = baseUrl+"names";
+            json = new JSONArray(readJSON(url));
+            
             int counter = 0;
+            //Get Names of Buildings From JSON Data and make a building names List
             while (json != null && json.length() > counter) {
                 buildingNamesJSON.add(json.getJSONObject(counter).get("name").toString());
                 counter++;
             }
-//            arr.put(buildingNamesJSON);
         } catch (JSONException ex) {
-            ex.printStackTrace();
         } catch (Exception ex) {
             Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
-
-    public List<String> getBuildingNamesJSON() {
-        return buildingNamesJSON;
-    }
-
-    public void setBuildingNamesJSON(List<String> buildingNamesJSON) {
-        this.buildingNamesJSON = buildingNamesJSON;
-    }
-
-    public String getBuildingJSON() {
-        return buildingJSON;
-    }
-
-    public void setBuildingJSON(String buildingJSON) {
-        this.buildingJSON = buildingJSON;
-    }
-
-    public String readJSON(String urlString) throws Exception {
+    
+    //This method Returns JSON data as String from Given URL
+        public String readJSON(String urlString) throws Exception {
         BufferedReader reader = null;
         try {
             URL url = new URL(urlString);
             reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
 
             int read;
             char[] chars = new char[10240];
@@ -152,18 +117,15 @@ public class BuildingManager implements Serializable {
         }
     }
 
-    //Calls companyFacade and gets items from the database
-    public List<Building> getItems() {
-        if (items == null) {
-            items = getFacade().findAll();
-        }
-
-        return items;
+    public List<String> getBuildingNamesJSON() {
+        return buildingNamesJSON;
     }
 
-    private BuildingFacade getFacade() {
-        return ejbFacade;
+    public void setBuildingNamesJSON(List<String> buildingNamesJSON) {
+        this.buildingNamesJSON = buildingNamesJSON;
     }
+
+
 
     public String getSelectedBuildingName() {
         return selectedBuildingName;
@@ -173,24 +135,6 @@ public class BuildingManager implements Serializable {
         this.selectedBuildingName = selectedBuildingName;
     }
 
-    public HashMap<String, String> getBuildingNames() {
-        return buildingNames;
-    }
-
-    public void setBuildingNames(HashMap<String, String> buildingNames) {
-        this.buildingNames = buildingNames;
-    }
-
-//    public MapModel getMapModel() {
-//        return mapModel;
-//    }
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public double getLat() {
         return lat;
@@ -208,12 +152,6 @@ public class BuildingManager implements Serializable {
         this.lng = lng;
     }
 
-//    public void addMarker() {
-//        Marker marker = new Marker(new LatLng(lat, lng), title);
-//        mapModel.addOverlay(marker);
-//
-//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", "Lat:" + lat + ", Lng:" + lng));
-//    }
     public double getVtLat() {
         return vtLat;
     }
@@ -228,14 +166,6 @@ public class BuildingManager implements Serializable {
 
     public void setVtLong(double vtLong) {
         this.vtLong = vtLong;
-    }
-
-    public Building getTempBuilding() {
-        return tempBuilding;
-    }
-
-    public void setTempBuilding(Building tempBuilding) {
-        this.tempBuilding = tempBuilding;
     }
 
     public String getImageUrl() {
@@ -286,78 +216,40 @@ public class BuildingManager implements Serializable {
         this.lng2 = lng2;
     }
 
-    public String getSelectedBuildingIndex() {
-        return selectedBuildingIndex;
-    }
 
-    public void setSelectedBuildingIndex(String selectedBuildingIndex) {
-        this.selectedBuildingIndex = selectedBuildingIndex;
-    }
-    
-    
+    //Gets All Data From Selected Json Object and Parse it. Therefore, view can be updated with the information of selected building
+    public void displayBuildingInformation() throws IOException {
 
-    //Sort Buildings Alphabetacially
-    private static HashMap sortByValues(HashMap map) {
-        List list = new LinkedList(map.entrySet());
-        // Defined Custom Comparator here
-        Collections.sort(list, (Object o1, Object o2) -> ((Comparable) ((Map.Entry) (o1)).getValue())
-                .compareTo(((Map.Entry) (o2)).getValue()));
-
-        HashMap sortedHashMap = new LinkedHashMap();
-        for (Iterator it = list.iterator(); it.hasNext();) {
-            Map.Entry entry = (Map.Entry) it.next();
-            sortedHashMap.put(entry.getKey(), entry.getValue());
-        }
-        return sortedHashMap;
-    }
-
-    public void displayBuildingLocation() throws IOException {
-        //Find the building object with its name
-//        tempBuilding = getBuildingWithName(selectedBuildingName);
-        //Get the latitude and longitude of the selected building
-//        lat = tempBuilding.getLatitude().doubleValue();
-//        lng = tempBuilding.getLongitude().doubleValue();
-//        imageUrl = tempBuilding.getImage();
-//
-//        URL url = new URL(tempBuilding.getDescription());
-
-        System.out.println(selectedBuildingIndex);
-        
         JSONObject json;
-        buildingJSON = "";
         try {
-            json = new JSONObject(readJSON("http://localhost:8080/VTBuildingsData/webresources/buildings/3"));
+            //Replace Space with %20
+            String modifiedBuildingName = selectedBuildingName.replaceAll(" ", "%20");
+            //Replace Slah character with %2F
+            modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
+            //Create Restful Request Url
+            String restfulUrl = baseUrl+modifiedBuildingName;
+            //Return Result As JSON
+            json = new JSONObject(readJSON(restfulUrl));
+            //Get Specific Data from Returned Json
             lat = json.getDouble("latitude");
             lng = json.getDouble("longitude");
             imageUrl = json.getString("image");
-
+            //Url Has a description as txt. Read all String from Url and add it to description Variable
             URL url = new URL(json.getString("description"));
-            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-
-            String str;
-            while ((str = in.readLine()) != null) {
-                description = str;
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
+                String str;
+                while ((str = in.readLine()) != null) {
+                    description = str;
+                }
             }
-            in.close();
 
         } catch (JSONException ex) {
-            ex.printStackTrace();
         } catch (Exception ex) {
             Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    private Building getBuildingWithName(String buildingName) {
-        for (int i = 0; i < items.size(); i++) {
-            if (buildingName.equals(items.get(i).getName())) {
-                return items.get(i);
-            }
-        }
-
-        return null;
-
-    }
 
     public void directionButtonPressed() {
         System.out.print(directionPressed);
@@ -365,20 +257,23 @@ public class BuildingManager implements Serializable {
 
     }
 
+    
+    //This Methods sets the Coordinates of starting point for routes
     public void createStartPoint() {
-//        tempBuilding = getBuildingWithName(selectedStartPoint);
-//        lat2 = tempBuilding.getLatitude().doubleValue();
-//        lng2 = tempBuilding.getLongitude().doubleValue();
-//        System.out.print(tempBuilding.getName());
 
         JSONObject json;
-        buildingJSON = "";
         try {
-            json = new JSONObject(readJSON("http://localhost:8080/VTBuildingsData/webresources/buildings/3"));
+            //URL REPLACEMENTS
+             //Replace Space with %20
+            String modifiedBuildingName = selectedStartPoint.replaceAll(" ", "%20");
+            //Replace Slah character with %2F
+            modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
+            //Create Restful Request Url
+            String restfulUrl = baseUrl+modifiedBuildingName;
+            json = new JSONObject(readJSON(restfulUrl));
             lat2 = json.getDouble("latitude");
             lng2 = json.getDouble("longitude");
         } catch (JSONException ex) {
-            ex.printStackTrace();
         } catch (Exception ex) {
             Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
         }
