@@ -69,6 +69,11 @@ public class UserPhoto implements Serializable {
     public UserPhoto(Integer id) {
         this.id = id;
     }
+    
+    public UserPhoto( String extension, User user) {
+        this.extension = extension;
+        this.userId = user;
+    }
 
     public UserPhoto(Integer id, String extension, Date createdAt, Date updatedAt) {
         this.id = id;
