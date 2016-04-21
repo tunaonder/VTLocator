@@ -1,13 +1,4 @@
-DROP TABLE IF EXISTS ItemPhoto, Subscription, Notification, Item, User, UserPhoto, Building, ParkingLot;
-
-/* The UserPhoto table contains attributes of interest of a user's profile photo. */
-CREATE TABLE UserPhoto
-(
-    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    extension ENUM('jpeg', 'jpg', 'png') NOT NULL,
-    created_at timestamp default now(), 
-    updated_at timestamp default now() on update now()
-);
+DROP TABLE IF EXISTS ItemPhoto, Subscription, Notification, Item, UserPhoto, User, Building, ParkingLot;
 
 /* The User table contains attributes of interest of a user. */
 CREATE TABLE User
@@ -22,9 +13,18 @@ CREATE TABLE User
     password VARCHAR (256) NOT NULL,
     created_at timestamp default now(), 
     updated_at timestamp default now() on update now(),
-    profile_photo INT UNSIGNED,
-    FOREIGN KEY (profile_photo) REFERENCES UserPhoto(id) ON DELETE CASCADE,
     PRIMARY KEY (id)
+);
+
+/* The UserPhoto table contains attributes of interest of a user's profile photo. */
+CREATE TABLE UserPhoto
+(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    extension ENUM('jpeg', 'jpg', 'png') NOT NULL,
+    created_at timestamp default now(), 
+    updated_at timestamp default now() on update now(),
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
 );
 
 /* The Item table contains attributes of interest of an item. */
@@ -39,7 +39,6 @@ CREATE TABLE Item
     category ENUM('HOKIE_PASSPORT', 'PHONE', 'KEYS', 'ELECTRONICS', 'CLOTHING', 'OTHER') NOT NULL,
     created_at timestamp default now(), 
     updated_at timestamp default now() on update now(),
-    created_by INT, FOREIGN KEY (created_by) REFERENCES User(id) ON DELETE CASCADE,
     PRIMARY KEY (id)
 );
 
@@ -233,7 +232,7 @@ INSERT INTO Item (name, description, latitude_found, longitude_found, category) 
 
 INSERT INTO ItemPhoto (extension, photo_for) VALUES
 ('jpeg', (SELECT id from Item WHERE name='Mike''s iPhone') ),
-('png', (SELECT id from Item WHERE name='Seb''s Watch') );
+('png', (SELECT id from Item WHERE name='Seb''s Watch') );  
 
 INSERT INTO ParkingLot (name, latitude, longitude, permission) VALUES
 ('Inn at VT North', '-80.432845,-80.432888,-80.432904,-80.432914,-80.432825,-80.432617,-80.432255,-80.432386,-80.432507,-80.432147,-80.431616,-80.431243,-80.430742,-80.430299,-80.429814,-80.429374,-80.429149,-80.429095,-80.429106,-80.429873,-80.429905,-80.429991,-80.429994,-80.430082,-80.430222,-80.430613,-80.430946,-80.431638,-80.432807,-80.433024,-80.433113,-80.433059,-80.433070,-80.432936', '37.231520,37.231315,37.231123,37.230798,37.230651,37.230563,37.230474,37.230687,37.230909,37.231020,37.230956,37.230935,37.230931,37.231031,37.231054,37.230918,37.230662,37.230563,37.230448,37.230064,37.230136,37.230089,37.229982,37.229910,37.229854,37.229884,37.230089,37.230209,37.230486,37.230659,37.230922,37.231482,37.231529,37.231516', 'ANY'),
@@ -293,3 +292,4 @@ INSERT INTO ParkingLot (name, latitude, longitude, permission) VALUES
 ('Hahn-Hurst Lot', '-80.418506,-80.418339,-80.418366,-80.418565,-80.418656,-80.418538,-80.418490,-80.418296,-80.418441,-80.418828,-80.418763,-80.418908,-80.418849,-80.418720,-80.418516,-80.418495,-80.418618,-80.418506', '37.223746,37.223537,37.223464,37.223375,37.223302,37.223199,37.223221,37.223046,37.222952,37.223281,37.223332,37.223464,37.223507,37.223387,37.223520,37.223584,37.223678,37.223746', 'FACULTY/STAFF/VISITOR'),
 ('Basketball Ext Lot', '-80.418296,-80.418103,-80.417980,-80.417604,-80.417454,-80.417910,-80.417776,-80.417921,-80.418296', '37.223853,37.223712,37.223802,37.223349,37.223456,37.223883,37.223998,37.224126,37.223853', 'FACULTY/STAFF/VISITOR'),
 ('Cranwell Center Lot', '-80.416167,-80.415979,-80.415904,-80.415829,-80.415791,-80.415781,-80.415904,-80.415963,-80.416049,-80.416167', '37.223554,37.223584,37.223289,37.223298,37.223131,37.223114,37.223076,37.223199,37.223187,37.223554', 'FACULTY/STAFF/VISITOR');
+
