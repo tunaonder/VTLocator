@@ -354,7 +354,7 @@ public class AccountManager implements Serializable {
                 .getExternalContext().getSessionMap().get("email");
         User user = userFacade.findByEmail(email);
         List<UserPhoto> photoList = photoFacade.findPhotosByUserID(user.getId());
-        if (photoList == null) {
+        if (photoList.isEmpty()) {
             return "user-placeholder.jpg";
         }
         return photoList.get(0).getExtension();

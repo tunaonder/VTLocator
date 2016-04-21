@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "UserPhoto.findAll", query = "SELECT u FROM UserPhoto u"),
     @NamedQuery(name = "UserPhoto.findById", query = "SELECT u FROM UserPhoto u WHERE u.id = :id"),
+    @NamedQuery(name = "UserPhoto.findPhotosByUserId", query = "SELECT u FROM UserPhoto u WHERE u.userId.id = :userId"),
     @NamedQuery(name = "UserPhoto.findByExtension", query = "SELECT u FROM UserPhoto u WHERE u.extension = :extension"),
     @NamedQuery(name = "UserPhoto.findByCreatedAt", query = "SELECT u FROM UserPhoto u WHERE u.createdAt = :createdAt"),
     @NamedQuery(name = "UserPhoto.findByUpdatedAt", query = "SELECT u FROM UserPhoto u WHERE u.updatedAt = :updatedAt")})
@@ -56,11 +57,11 @@ public class UserPhoto implements Serializable {
     private Date createdAt;
     @Basic(optional = true)
     @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
     private User userId;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
     
     public UserPhoto() {
     }
