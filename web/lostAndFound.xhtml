@@ -10,18 +10,63 @@
         <!-- Do not enter tags before the composition line since they are ignored by JSF -->
         <ui:composition template="template/siteTemplate.xhtml">
             <ui:define name="sidebar">
-                <div class="text-center">
+                <div class="text-center lost-and-found-sidebar-wrapper">
                     <h3>Search</h3>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Search..." aria-describedby="basic-addon1" />
+                    </div>
+                    <h:button class="btn btn-custom pull-right" value="Search" />
                 </div>
             </ui:define>
             <ui:define name="mainPanel">
                 <div class="lost-and-found-home-wrapper">
                     <h:button outcome="createItem" class="btn btn-lg btn-default pull-right" value="Create" /> 
                     <h1>VT Lost and Found</h1>
-                    <p>Lose an item on campus or around Blacksburg?  We have got you covered with VTLocator's Lost and Found service.  Search through found items, filter items by type, subscribe to lost item threads, and be updated whenever new items that are potentially yours are posted to the system!</p>
-                    <p>Find an item and not sure who the owner is?  Create a new lost item post such that the community can see what you found.  It is just a matter of time before the true owner is located and reunited with their belonging.</p>
+                    <div class="row">
+                        <div class="col-md-6"><p><b>Lose an item on campus or around Blacksburg?</b><br />  We have got you covered with VTLocator's Lost and Found service.  Search through found items, filter items by type, subscribe to lost item threads, and be updated whenever new items that are potentially yours are posted to the system!</p></div>
+                        <div class="col-md-6"><p><b>Find an item and not sure who the owner is?</b><br />  Create a new lost item post such that the community can see what you found.  It is just a matter of time before the true owner is located and reunited with their belonging.</p></div>
+                    </div>
                     <hr/>
-                    <h4>Recently Found Items:</h4>
+                    <a href="#" class="pull-right view-all-link">View All</a>
+                    <h4 style="margin-bottom: 40px;">Recently Found Items:</h4>
+                    <div class="row">
+                        <div class="item-list-view text-center col-md-4">
+                            <img src="resources/images/phone.jpg" />
+                            <h3 class="item-title">Test Title of Item</h3>
+                            <p class="item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis viverra odio...</p>
+                        </div>
+                        <div class="item-list-view text-center col-md-4">
+                            <img src="resources/images/phone.jpg" />
+                            <h3 class="item-title">Test Title of Item</h3>
+                            <p class="item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis viverra odio...</p>
+                        </div>
+                        <div class="item-list-view text-center col-md-4">
+                            <img src="resources/images/phone.jpg" />
+                            <h3 class="item-title">Test Title of Item</h3>
+                            <p class="item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis viverra odio...</p>
+                        </div>
+                    </div>
+                    <hr/>
+                    <h4>Subscribe to a lost item thread:</h4>
+                    <p>Be notified whenever a new item is posted to one or more of the following categories.  Simply let us know which categories you wish to subscribe to below...</p>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" />Cell Phones</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" />Hokie Passport</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" />Keys</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" />Electronics</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" />Other</label>
+                    </div>
+                    <h:commandButton class="btn btn-custom btn-subscription" id="submit" value="Save These Settings" />   
+                    <h:commandButton class="btn btn-default btn-subscription" id="cancel" value="Revert to Previous Settings" /> 
                 </div>
             </ui:define>
         </ui:composition>
