@@ -1,14 +1,5 @@
 DROP TABLE IF EXISTS ItemPhoto, Subscription, Notification, Item, User, UserPhoto, Building, ParkingLot;
 
-/* The UserPhoto table contains attributes of interest of a user's profile photo. */
-CREATE TABLE UserPhoto
-(
-    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    extension ENUM('jpeg', 'jpg', 'png') NOT NULL,
-    created_at timestamp default now(), 
-    updated_at timestamp default now() on update now()
-);
-
 /* The User table contains attributes of interest of a user. */
 CREATE TABLE User
 (
@@ -22,9 +13,18 @@ CREATE TABLE User
     password VARCHAR (256) NOT NULL,
     created_at timestamp default now(), 
     updated_at timestamp default now() on update now(),
-    profile_photo INT UNSIGNED,
-    FOREIGN KEY (profile_photo) REFERENCES UserPhoto(id) ON DELETE CASCADE,
     PRIMARY KEY (id)
+);
+
+/* The UserPhoto table contains attributes of interest of a user's profile photo. */
+CREATE TABLE UserPhoto
+(
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    extension ENUM('jpeg', 'jpg', 'png') NOT NULL,
+    created_at timestamp default now(), 
+    updated_at timestamp default now() on update now(),
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
 );
 
 /* The Item table contains attributes of interest of an item. */
