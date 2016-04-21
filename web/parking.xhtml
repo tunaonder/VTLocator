@@ -18,7 +18,12 @@
             </ul>
             <div class="text-center">
                 <h4 style="margin-top: 20px; margin-bottom: 20px;">Select your parking pass type</h4>
-                <h:commandButton value="Commuter Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getANY()})" />
+                <h:commandButton value="Any Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getANY()})" />
+                <h:commandButton value="Commuter Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getCOMMUTER()})" />
+                <h:commandButton value="Resident Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getRESIDENT()})" />
+                <h:commandButton value="Faculty Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getFACULTY()})" />
+                <h:commandButton value="Metered Spots" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getMETERED()})" />
+                <h:commandButton value="Parking Pass Office" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getPARKING()})" />
             </div>
         </ui:define>
         <ui:define name="mainPanel">
