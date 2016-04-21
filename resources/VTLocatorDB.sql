@@ -1,16 +1,3 @@
-﻿/* 
- * Created by Sait Tuna Onder on 2016.04.03  * 
- * Copyright © 2016 Sait Tuna Onder. All rights reserved. * 
- */
-/**
- * Author:  Onder
- * Created: Apr 3, 2016
- */
-
-# ----------------------------------------------------------------
-# SQL Script to Create All VTLocatorDB Tables
-# ----------------------------------------------------------------
- 
 DROP TABLE IF EXISTS ItemPhoto, Subscription, Notification, Item, User, UserPhoto, Building, ParkingLot;
 
 /* The UserPhoto table contains attributes of interest of a user's profile photo. */
@@ -241,7 +228,7 @@ INSERT INTO Building (name, abbreviation, latitude, longitude, category, descrip
 INSERT INTO Item (name, description, latitude_found, longitude_found, category) VALUES 
 ('Mike''s iPhone', 'iPhone 5. Lost in the cloud computing lab', '37.2305915726', '-80.4217767404','PHONE'),
 ('Seb''s Watch', 'Lost my fancy watch while waiting for the bus in front of Burruss', '37.229031934', '-80.4237145305','OTHER'),
-('Tuna''s Keys', 'I lost my keys in the parking garage.  Keys to a sweet Mustang', '37.23086', '-80.42565','KEYS'),;
+('Tuna''s Keys', 'I lost my keys in the parking garage.  Keys to a sweet Mustang', '37.23086', '-80.42565','KEYS');
 
 INSERT INTO ItemPhoto (extension, photo_for) VALUES
 ('jpeg', (SELECT id from Item WHERE name='Mike''s iPhone') ),
