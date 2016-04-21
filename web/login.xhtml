@@ -31,12 +31,12 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                     </h:panelGrid>
                     <br/>
                     <fieldset style="width:60%; margin:0 auto;">
-                        <h:commandButton id="login" action="#{loginManager.loginUser()}" value="Login" styleClass="btn btn-default"/>
+                        <h:commandButton id="login" action="#{loginManager.loginUser()}" value="Login" styleClass="btn btn-custom"/>
                         <p:link outcome="enterEmail" id="retrieve" value="Forgot Password" styleClass="btn btn-default"/>                
                     </fieldset>  
                     </div>
                     <br/>
-                    <h:outputLabel value ="#{loginManager.errorMessage}" />
+                    <h:outputLabel value="#{loginManager.errorMessage}" />
                 </h:form>
             </div>
         </ui:define>
