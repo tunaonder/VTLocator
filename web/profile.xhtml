@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Sait Tuna Onder on 2016.04.05 
+Created by Sait Tuna Onder on 2016.04.05
 Copyright © 2016 Sait Tuna Onder. All rights reserved.
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"   
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
@@ -33,7 +33,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                                                  value="#{accountManager.selected.firstName}" />
                                 </p:inplace>
                                 <i class="fa fa-pencil-square-o fa-2x fa-fw" onclick="PF('firstName-inplace').show()"></i>
-                                <p:message for="firstName" display="icon" />   
+                                <p:message for="firstName" display="icon" />
 
                                 <p:outputLabel for="lastName" value="Last Name" />
                                 <p:inplace id="lastName" editor="true" widgetVar="lastName-inplace">
@@ -42,7 +42,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                                                  value="#{accountManager.selected.lastName}" />
                                 </p:inplace>
                                 <i class="fa fa-pencil-square-o fa-2x fa-fw" onclick="PF('lastName-inplace').show()"></i>
-                                <p:message for="lastName" display="icon" /> 
+                                <p:message for="lastName" display="icon" />
 
                                 <p:outputLabel for="phone" value="Phone Number" />
                                 <p:inplace id="phone" editor="true" widgetVar="phone-inplace">
@@ -51,30 +51,16 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                                                  value="#{accountManager.selected.phoneNumber}" />
                                 </p:inplace>
                                 <i class="fa fa-pencil-square-o fa-2x fa-fw" onclick="PF('phone-inplace').show()"></i>
-                                <p:message for="phone" display="icon" />  
+                                <p:message for="phone" display="icon" />
 
                                 <p:outputLabel for="email" value="Email" />
-                                <p:outputLabel id="email" styleClass="output-email"
-                                               value="#{accountManager.selected.email}" />
-                                <i class="fa fa-pencil-square-o fa-2x fa-fw fa-email"></i>
-                                <p:message for="email" display="icon" />
-
-                                <p:outputLabel for="security_ques" value="Security Question" />
-                                <h:selectOneMenu id="security_ques" value="#{accountManager.security_question}" class="profile-question">
-                                    <f:selectItems value="#{accountManager.security_questions}"/>
-                                </h:selectOneMenu>
-                                <i class="fa fa-pencil-square-o fa-2x fa-fw fa-security-question"></i>
-                                <p:message for="security_ques" display="icon" />  
-
-                                <p:outputLabel for="security_ans" value="Security Answer" />
-                                <p:inplace id="security_ans" editor="true" widgetVar="security-answer-inplace">
-                                    <p:ajax event="save" listener="#{accountManager.updateSecurityAnswer()}" />
+                                <p:inplace id="email" editor="true" widgetVar="email-inplace">
+                                    <p:ajax event="save" listener="#{accountManager.updateEmail}" />
                                     <p:inputText label="text" class="form-display"
-                                                 value="#{accountManager.selected.securityAnswer}" />
+                                                 value="#{accountManager.selected.email}" />
                                 </p:inplace>
-                                <i class="fa fa-pencil-square-o fa-2x fa-fw" onclick="PF('security-answer-inplace').show()"></i>
-                                <p:message for="security_ans" display="icon" />                
-                                <br/>
+                                <i class="fa fa-pencil-square-o fa-2x fa-fw" onclick="PF('email-inplace').show()"></i>
+                                <p:message for="email" display="icon" />
                             </h:panelGrid>
                         </div>
                         <br/>
