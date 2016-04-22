@@ -278,6 +278,10 @@ div.footer .footer-text {
     margin-top: 10px;
 }
 
+.afterhours-panel {
+    margin: 20px 10px;
+}
+
 /**
  * Lost and Found CSS Rules
  */
@@ -443,4 +447,48 @@ div.footer .footer-text {
     height: 500px;
     background-color: lightblue;
     margin-bottom: 20px;
+}
+
+.finder-wrapper {
+    max-width: 400px;
+}
+
+.finder-wrapper .finder-photo {
+    border-radius: 50%;
+    height: 100px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+/**
+ * Profile CSS Rules
+ */
+.profile-logo {
+    width: 75%;
+    height: auto;
+    max-width: 500px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.signup-input {
+    width: 54%;
+}
+
+.fa-email, .fa-security-question {
+    visibility: hidden;
+}
+
+.output-email {
+    font-weight: normal;
+}
+
+.profile-question {
+    border: none;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+}
+
+.fa-2x:hover {
+    cursor: pointer;
 }

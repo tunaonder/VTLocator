@@ -64,18 +64,12 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                             </h:panelGrid>
                         </div>
                         <br/>
-                        <h:button class="btn btn-lg btn-danger" id="editPhoto" outcome="editPhoto" value="Edit Photo" />
-                        <h:button class="btn btn-lg btn-danger" id="changePassword" outcome="changePassword" value="Change Password" />
+                        <h:button class="btn btn-lg btn-default" id="editPhoto" outcome="editPhoto" value="Edit Photo" />
+                        <h:button class="btn btn-lg btn-default" id="changePassword" outcome="changePassword" value="Change Password" />
                         <br/>
                         <h:outputLabel value ="#{accountManager.statusMessage}" />
                     </h:form>
                 </div>
-            </ui:define>
-
-
-
-            <ui:define name="css">
-                <link rel="stylesheet" type="text/css" href="resources/css/profile-stylesheet.css"/>
             </ui:define>
         </ui:composition>
         <!-- Do not enter tags after the composition line since they are ignored by JSF -->
