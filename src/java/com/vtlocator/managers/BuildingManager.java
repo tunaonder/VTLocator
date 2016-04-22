@@ -39,7 +39,7 @@ public class BuildingManager  implements Serializable{
     private List<String> buildingNamesJSON;
     
     //Restful Requests Base URL
-    private final String baseUrl = "http://localhost:8080/VTBuildingsData/webresources/buildings/";
+    private final String baseUrl = "http://jupiter.cs.vt.edu/VTBuildingsData/webresources/buildings/";
 
     //Building Values
     private double lat;
