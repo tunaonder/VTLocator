@@ -46,11 +46,11 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                     </div>
                     <h4>Found by...</h4>
                     <div class="well finder-wrapper">
-                        <img class="finder-photo pull-left" src="resources/images/user-placeholder.jpg" />
+                        <img class="finder-photo pull-left" src="FileStorageLocation/#{itemManager.finderPhoto(itemManager.detailItem.createdBy)}" />
                         <span>
-                            <h4 class="finder-name">Sebastian Welsh</h4>
-                            <p class="finder-attribute">610-368-5539</p>
-                            <p class="finder-attribute">welshs16@vt.edu</p>
+                            <h4 class="finder-name">#{itemManager.detailItem.createdBy.firstName} #{itemManager.detailItem.createdBy.lastName}</h4>
+                            <p class="finder-attribute">#{itemManager.detailItem.createdBy.phoneNumber}</p>
+                            <p class="finder-attribute">#{itemManager.detailItem.createdBy.email}</p>
                         </span>
                     </div>
                 </div>
