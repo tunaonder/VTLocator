@@ -9,12 +9,18 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
     
     <ui:composition>
         <div class="content-wrapper">
-            <div id="sidebar">
+            <div id="sidebar" style="display: none;">
+                <div class="sidebar-collapser">
+                    <i class="fa fa-angle-double-left"></i>
+                </div>
                 <ui:insert name="sidebar" >
                     <ui:include src="sidebarTemplate.xhtml" />
                 </ui:insert>
             </div>
             <div id="mainPanel">
+                <div class="sidebar-collapser-hidden" style="display: none;">
+                    <i class="fa fa-angle-double-right"></i>
+                </div>
                 <ui:insert name="mainPanel" >
                     <ui:include src="mainPanelTemplate.xhtml" />
                 </ui:insert>

@@ -264,6 +264,21 @@ public class AccountManager implements Serializable {
         }
     }
     
+    // Updates the email on the account
+    public void updateEmail() {
+        int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
+        User editUser = userFacade.getUser(user_id);
+        if (this.selected != null && this.selected.getEmail() != null) {
+            try {
+                editUser.setEmail(this.selected.getEmail());
+                userFacade.edit(editUser);
+            } catch (EJBException e) {
+                statusMessage = "Something went wrong while editing your profile!";
+            }
+        }
+    }
+    
+    
     // Updates the info on the account
     public void updateSecurityAnswer() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
