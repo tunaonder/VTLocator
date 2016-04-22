@@ -8,6 +8,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.vtlocator.jpaentityclasses.Item;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -30,5 +32,11 @@ public class ItemFacade extends AbstractFacade<Item> {
     
     public Item getItem(int id) {
         return em.find(Item.class, id);
+    }
+    
+    public List<Item> getRecentItems() {
+        //select * from Item order by created_at desc limit 3;
+        return em.createQuery("SELECT i FROM Item i ORDER BY i.createdAt desc").setMaxResults(3).getResultList();
+        
     }
 }

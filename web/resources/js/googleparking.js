@@ -126,3 +126,29 @@ function initMap() {
 
 
 }
+
+function initItem(longitude, latitude) {
+    
+    // Define the LatLng coordinates for the polygon's path.
+    map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 16,
+        center: {
+            lat: latitude,
+            lng: longitude
+        },
+        mapTypeControl: true,
+        mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+            position: google.maps.ControlPosition.BOTTOM_LEFT
+        },
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+    });
+    var latLng = new google.maps.LatLng(latitude, longitude);
+     marker = new google.maps.Marker({
+        position: latLng,
+        map: map
+      });
+
+
+}
+
