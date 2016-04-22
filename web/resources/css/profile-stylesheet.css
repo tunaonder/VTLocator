@@ -9,8 +9,9 @@ Copyright © 2016 Jaemin Seo. All rights reserved.
 
 
 .profile-logo {
-    width: 100px;
-    height: 100px;
+    width: 75%;
+    height: auto;
+    max-width: 500px;
     margin-top: 20px;
     margin-bottom: 20px;
 }
