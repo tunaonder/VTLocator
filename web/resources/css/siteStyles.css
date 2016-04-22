@@ -99,13 +99,14 @@ nav.navbar-default {
     border-right: 2px solid #e95051;
     width: 300px;
     height: 100%;
-    padding-top: 10px;
     overflow: scroll;
     position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
     padding-top: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .sidebar-collapser {
@@ -136,6 +137,16 @@ nav.navbar-default {
     font-weight: bold;
     margin-top: 5px;
     margin-left: 10px;
+}
+
+.location-searh-wrapper {
+    background-color: lightblue;
+    width: 100%;
+    height: 200px;
+}
+
+.search-header {
+    margin-top: 80px;
 }
 
 /**
@@ -259,11 +270,13 @@ div.footer .footer-text {
     left: 20px;
 }
 
+#dropDownForm {
+    width: 100%;
+}
+
 .dropdown .dropMenu {
-    
-    max-width: 280px;
+    width: 100%;
     margin-top: 20px;
-    margin-left: -30px;
 }
 
 .building-label {
@@ -410,7 +423,6 @@ div.footer .footer-text {
 }
 
 .lost-and-found-sidebar-wrapper {
-    padding: 0 10px;
 }
 
 .lost-and-found-sidebar-wrapper .btn {

@@ -14,14 +14,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
         <!-- Do not enter tags before the composition line since they are ignored by JSF -->
         <ui:composition template="template/siteTemplate.xhtml">
             <ui:define name="sidebar">
-                <div class="text-center lost-and-found-sidebar-wrapper">
-                    <h3>Search</h3>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Search..." aria-describedby="basic-addon1" />
-                    </div>
-                    <h:button class="btn btn-custom pull-right" value="Search" />
-                </div>
+                <ui:include src="template/itemSearch.xhtml"></ui:include>
             </ui:define>
             <ui:define name="mainPanel">
                 <div class="lost-and-found-home-wrapper">
