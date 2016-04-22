@@ -104,6 +104,25 @@ public class ItemManager implements Serializable {
     private String category;
     private String statusMessage;
     private Collection<ItemPhoto> itemPhotoCollection;
+    private List<Item> recent = null;
+    private Item detailItem;
+
+    public Item getDetailItem() {
+        return detailItem;
+    }
+
+    public void setDetailItem(Item detailItem) {
+        this.detailItem = detailItem;
+    }
+
+    public List<Item> getRecent() {
+        recent = itemFacade.getRecentItems();
+        return recent;
+    }
+
+    public void setRecent(List<Item> recent) {
+        this.recent = recent;
+    }
     
     public String getStatusMessage() {
         return statusMessage;
@@ -195,5 +214,8 @@ public class ItemManager implements Serializable {
         return photoList;
     }
     
-    
+    public String detailPage(int id) {
+        detailItem = itemFacade.getItem(id);
+        return "detailedItemView";
+    }
 }
