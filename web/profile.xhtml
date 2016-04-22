@@ -56,12 +56,15 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                             <p:message for="phone" display="icon" />  
                             
                             <p:outputLabel for="email" value="Email" />
-                            <p:outputLabel id="email" styleClass="output-email"
-                                           value="#{accountManager.selected.email}" />
-                            <i class="fa fa-pencil-square-o fa-2x fa-fw fa-email"></i>
+                            <p:inplace id="email" editor="true" widgetVar="email-inplace">
+                                <p:ajax event="save" listener="#{accountManager.updateEmail}" />
+                                <p:inputText label="text" class="form-display"
+                                             value="#{accountManager.selected.email}" />
+                            </p:inplace>
+                            <i class="fa fa-pencil-square-o fa-2x fa-fw" onclick="PF('email-inplace').show()"></i>
                             <p:message for="email" display="icon" />
 
-                            <p:outputLabel for="security_ques" value="Security Question" />
+<!--                            <p:outputLabel for="security_ques" value="Security Question" />
                             <h:selectOneMenu id="security_ques" value="#{accountManager.security_question}" class="profile-question">
                                  <f:selectItems value="#{accountManager.security_questions}"/>
                             </h:selectOneMenu>
@@ -75,7 +78,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                                              value="#{accountManager.selected.securityAnswer}" />
                             </p:inplace>
                             <i class="fa fa-pencil-square-o fa-2x fa-fw" onclick="PF('security-answer-inplace').show()"></i>
-                            <p:message for="security_ans" display="icon" />                
+                            <p:message for="security_ans" display="icon" />                -->
                             <br/>
                         </h:panelGrid>
                         </div>
