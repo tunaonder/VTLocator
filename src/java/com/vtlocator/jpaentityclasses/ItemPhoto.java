@@ -4,6 +4,7 @@
  */
 package com.vtlocator.jpaentityclasses;
 
+import com.vtlocator.managers.Constants;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -34,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ItemPhoto.findAll", query = "SELECT i FROM ItemPhoto i"),
     @NamedQuery(name = "ItemPhoto.findById", query = "SELECT i FROM ItemPhoto i WHERE i.id = :id"),
     @NamedQuery(name = "ItemPhoto.findByExtension", query = "SELECT i FROM ItemPhoto i WHERE i.extension = :extension"),
+    @NamedQuery(name = "ItemPhoto.findItemPhotosByItemId", query = "SELECT i FROM ItemPhoto i WHERE i.itemId.id = :itemId"),
     @NamedQuery(name = "ItemPhoto.findByCreatedAt", query = "SELECT i FROM ItemPhoto i WHERE i.createdAt = :createdAt"),
     @NamedQuery(name = "ItemPhoto.findByUpdatedAt", query = "SELECT i FROM ItemPhoto i WHERE i.updatedAt = :updatedAt")})
 public class ItemPhoto implements Serializable {
@@ -59,13 +61,18 @@ public class ItemPhoto implements Serializable {
     private Date updatedAt;
     @JoinColumn(name = "photo_for", referencedColumnName = "id")
     @ManyToOne
-    private Item photoFor;
+    private Item itemID;
     
     public ItemPhoto() {
     }
 
     public ItemPhoto(Integer id) {
         this.id = id;
+    }
+    
+    public ItemPhoto( String extension, Item item) {
+        this.extension = extension;
+        this.itemID = item;
     }
 
     public ItemPhoto(Integer id, String extension, Date createdAt, Date updatedAt) {
@@ -108,11 +115,11 @@ public class ItemPhoto implements Serializable {
     }
 
     public Item getPhotoFor() {
-        return photoFor;
+        return itemID;
     }
 
     public void setPhotoFor(Item photoFor) {
-        this.photoFor = photoFor;
+        this.itemID = photoFor;
     }
 
     @Override
@@ -138,6 +145,15 @@ public class ItemPhoto implements Serializable {
     @Override
     public String toString() {
         return "jpaentityclasses.ItemPhoto[ id=" + id + " ]";
+    }
+    
+     // Added methods:
+    public String getFilePath() {
+        return Constants.ROOT_DIRECTORY + getFilename();
+    }
+
+    public String getFilename() {
+        return "item_" + getId() + "." + getExtension();
     }
     
 }

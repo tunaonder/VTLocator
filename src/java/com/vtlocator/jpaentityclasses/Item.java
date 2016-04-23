@@ -91,7 +91,7 @@ public class Item implements Serializable {
     @JoinColumn(name = "created_by", referencedColumnName = "id")
     @ManyToOne
     private User createdBy;
-    @OneToMany(mappedBy = "photoFor")
+    @OneToMany(mappedBy = "itemID")
     private Collection<ItemPhoto> itemPhotoCollection;
 
     public Item() {
