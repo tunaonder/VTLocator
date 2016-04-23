@@ -85,7 +85,7 @@
                         <h:inputHidden id="startBuildingLong" value="#{buildingManager.lng2}" />
 
                         <!--                        Resets the Page to its initial state-->
-                        <p:commandButton  value="Go Back" onclick="refreshMap()"
+                        <p:commandButton  value="Refresh" onclick="refreshMap()"
                                           styleClass="btn btn-default btn-direction" rendered="#{buildingManager.directionPressed == true}">
                             <p:ajax listener="#{buildingManager.init()}" update="dropDownForm"/>
 
@@ -144,7 +144,7 @@
                     //Displays location of selected building
                     function displayBuilding() {
 
-
+                        
                         //Only one marker will be displayed at a time
                         if (currentMarker !== null) {
                             currentMarker.setMap(null);
@@ -169,53 +169,65 @@
 
                     //Add starting point and draw route to destination
                     function drawRoute() {
-                        //If there is route drawed before, delete that data by setting the information null
-                        if (routeRefreshed === true) {
-                            directionsDisplay.setMap(null);
-                            directionsDisplay.setDirections(null);
+
+
+                        //Check If Starting Building Selected
+                        if (document.getElementById("dropDownForm:startBuildingLat").value === '0.0') {
+                            alert('Please Select Starting Building');
 
                         } else {
-                            //Set Destination Marker Null.It will be automatically created with route!
-                            currentMarker.setMap(null);
+                            //If there is route drawed before, delete that data by setting the information null
+                            if (routeRefreshed === true) {
+                                directionsDisplay.setMap(null);
+                                directionsDisplay.setDirections(null);
 
-                        }
-
-                        currentMarker = null;
-                        directionsDisplay = new google.maps.DirectionsRenderer;
-                        directionsDisplay.setMap(map);
-
-                        //Coordinates of starting building and destination building
-                        var start = new google.maps.LatLng(document.getElementById("dropDownForm:startBuildingLat").value.toString(), document.getElementById("dropDownForm:startBuildingLong").value.toString());
-                        var end = new google.maps.LatLng(document.getElementById("dropDownForm:buildingLat").value.toString(), document.getElementById("dropDownForm:buildingLong").value.toString());
-
-
-                        var request = {
-                            origin: start,
-                            destination: end,
-                            travelMode: google.maps.TravelMode.WALKING
-                        };
-
-                        directionsService.route(request, function (response, status) {
-
-                            if (status === google.maps.DirectionsStatus.OK) {
-
-                                directionsDisplay.setDirections(response);
-
+                            } else {
+                                //Set Destination Marker Null.It will be automatically created with route!
+                                currentMarker.setMap(null);
 
                             }
-                        });
 
-                        routeRefreshed = true;
+                            currentMarker = null;
+                            directionsDisplay = new google.maps.DirectionsRenderer;
+                            directionsDisplay.setMap(map);
+                            //Coordinates of starting building and destination building
+                            var start = new google.maps.LatLng(document.getElementById("dropDownForm:startBuildingLat").value.toString(), document.getElementById("dropDownForm:startBuildingLong").value.toString());
+                            var end = new google.maps.LatLng(document.getElementById("dropDownForm:buildingLat").value.toString(), document.getElementById("dropDownForm:buildingLong").value.toString());
+                            var request = {
+                                origin: start,
+                                destination: end,
+                                travelMode: google.maps.TravelMode.WALKING
+                            };
+
+                            directionsService.route(request, function (response, status) {
+
+                                if (status === google.maps.DirectionsStatus.OK) {
+
+                                    directionsDisplay.setDirections(response);
+
+
+                                }
+                            });
+
+                            routeRefreshed = true;
+                        }
 
 
                     }
 
                     //Clear All Data On The Map
                     function refreshMap() {
-                        directionsDisplay.setMap(null);
-                        directionsDisplay.setDirections(null);
+                        
                         currentMarker = null;
-                        routeRefreshed = false;
+                        
+                        //This checks if Starting point is chosen ever. This means that route is drawed before. If route is not drawed before
+                        //There is no need to refresh this data
+                        if (document.getElementById("dropDownForm:startBuildingLat").value !== '0.0') {
+                            directionsDisplay.setMap(null);
+                            directionsDisplay.setDirections(null);
+                            routeRefreshed = false;
+
+                        }
 
                         //Reset The Map
                         initilaizeMap();
