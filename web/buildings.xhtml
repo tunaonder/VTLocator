@@ -169,43 +169,48 @@
 
                     //Add starting point and draw route to destination
                     function drawRoute() {
-                        //If there is route drawed before, delete that data by setting the information null
-                        if (routeRefreshed === true) {
-                            directionsDisplay.setMap(null);
-                            directionsDisplay.setDirections(null);
+
+
+                        //Check If Starting Building Selected
+                        if (document.getElementById("dropDownForm:startBuildingLat").value === '0.0') {
+                            alert('Please Select Starting Building');
 
                         } else {
-                            //Set Destination Marker Null.It will be automatically created with route!
-                            currentMarker.setMap(null);
+                            //If there is route drawed before, delete that data by setting the information null
+                            if (routeRefreshed === true) {
+                                directionsDisplay.setMap(null);
+                                directionsDisplay.setDirections(null);
 
-                        }
-
-                        currentMarker = null;
-                        directionsDisplay = new google.maps.DirectionsRenderer;
-                        directionsDisplay.setMap(map);
-
-                        //Coordinates of starting building and destination building
-                        var start = new google.maps.LatLng(document.getElementById("dropDownForm:startBuildingLat").value.toString(), document.getElementById("dropDownForm:startBuildingLong").value.toString());
-                        var end = new google.maps.LatLng(document.getElementById("dropDownForm:buildingLat").value.toString(), document.getElementById("dropDownForm:buildingLong").value.toString());
-
-
-                        var request = {
-                            origin: start,
-                            destination: end,
-                            travelMode: google.maps.TravelMode.WALKING
-                        };
-
-                        directionsService.route(request, function (response, status) {
-
-                            if (status === google.maps.DirectionsStatus.OK) {
-
-                                directionsDisplay.setDirections(response);
-
+                            } else {
+                                //Set Destination Marker Null.It will be automatically created with route!
+                                currentMarker.setMap(null);
 
                             }
-                        });
 
-                        routeRefreshed = true;
+                            currentMarker = null;
+                            directionsDisplay = new google.maps.DirectionsRenderer;
+                            directionsDisplay.setMap(map);
+                            //Coordinates of starting building and destination building
+                            var start = new google.maps.LatLng(document.getElementById("dropDownForm:startBuildingLat").value.toString(), document.getElementById("dropDownForm:startBuildingLong").value.toString());
+                            var end = new google.maps.LatLng(document.getElementById("dropDownForm:buildingLat").value.toString(), document.getElementById("dropDownForm:buildingLong").value.toString());
+                            var request = {
+                                origin: start,
+                                destination: end,
+                                travelMode: google.maps.TravelMode.WALKING
+                            };
+
+                            directionsService.route(request, function (response, status) {
+
+                                if (status === google.maps.DirectionsStatus.OK) {
+
+                                    directionsDisplay.setDirections(response);
+
+
+                                }
+                            });
+
+                            routeRefreshed = true;
+                        }
 
 
                     }
