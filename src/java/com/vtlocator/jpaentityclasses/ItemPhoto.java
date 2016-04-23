@@ -61,7 +61,7 @@ public class ItemPhoto implements Serializable {
     private Date updatedAt;
     @JoinColumn(name = "photo_for", referencedColumnName = "id")
     @ManyToOne
-    private Item itemID;
+    private Item itemId;
     
     public ItemPhoto() {
     }
@@ -72,7 +72,7 @@ public class ItemPhoto implements Serializable {
     
     public ItemPhoto( String extension, Item item) {
         this.extension = extension;
-        this.itemID = item;
+        this.itemId = item;
     }
 
     public ItemPhoto(Integer id, String extension, Date createdAt, Date updatedAt) {
@@ -115,11 +115,11 @@ public class ItemPhoto implements Serializable {
     }
 
     public Item getPhotoFor() {
-        return itemID;
+        return itemId;
     }
 
     public void setPhotoFor(Item photoFor) {
-        this.itemID = photoFor;
+        this.itemId = photoFor;
     }
 
     @Override

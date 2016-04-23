@@ -14,7 +14,7 @@ fileManager.upload() checks the uploaded file, creates a thumbnail, places in DB
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
-        <title>Edit Photo</title>
+        <title>Edit Item Photo</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <h:outputStylesheet name="css/jsfcrud.css"/>
         <h:outputStylesheet library="css" name="globalStyles.css"/>
@@ -29,15 +29,15 @@ fileManager.upload() checks the uploaded file, creates a thumbnail, places in DB
                     <h:form class="form-horizontal" enctype="multipart/form-data">
                         <p:growl id="messages" showDetail="true" redisplay="false"/>
                         <h2>Please Choose a File for Your Photo</h2>
-                        <p:fileUpload id="upload" value="#{fileManager.file}" mode="simple" />
+                        <p:fileUpload id="upload" value="#{itemManager.file}" mode="simple" />
                         <br/>
                         <fieldset>
                             <p:commandButton id="button" styleClass="btn btn-default" value="Upload" 
-                                             ajax="false" action="#{fileManager.upload}" />
+                                             ajax="false" action="#{itemManager.upload}" />
                         </fieldset>
-                        <h:outputText value="#{fileManager.message}" />
+                        <h:outputText value="#{itemManager.message}" />
                         <br/>
-                        <h:commandButton styleClass="btn btn-default" value="Cancel" action="#{fileManager.cancel()}"/>
+                        <h:commandButton styleClass="btn btn-default" value="Cancel" action="#{itemManager.cancel()}"/>
                     </h:form>
                 </div>
             </ui:define>

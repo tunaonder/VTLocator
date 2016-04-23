@@ -4,11 +4,16 @@
  */
 package com.vtlocator.managers;
 
+import com.vtlocator.jpaentityclasses.Subscription;
 import com.vtlocator.jpaentityclasses.UserPhoto;
 import com.vtlocator.jpaentityclasses.User;
+import com.vtlocator.sessionbeans.SubscriptionFacade;
 import com.vtlocator.sessionbeans.UserPhotoFacade;
 import com.vtlocator.sessionbeans.UserFacade;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +87,14 @@ public class AccountManager implements Serializable {
      */
     @EJB
     private UserPhotoFacade photoFacade;
+    
+    /**
+     * The instance variable 'subscriptionFacade' is annotated with the @EJB annotation.
+     * This means that the GlassFish application server, at runtime, will inject in
+     * this instance variable a reference to the @Stateless session bean PhotoFacade.
+     */
+    @EJB
+    private SubscriptionFacade subscriptionFacade;
 
     /**
      * Creates a new instance of AccountManager
@@ -264,6 +277,21 @@ public class AccountManager implements Serializable {
         }
     }
     
+    // Updates the email on the account
+    public void updateEmail() {
+        int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
+        User editUser = userFacade.getUser(user_id);
+        if (this.selected != null && this.selected.getEmail() != null) {
+            try {
+                editUser.setEmail(this.selected.getEmail());
+                userFacade.edit(editUser);
+            } catch (EJBException e) {
+                statusMessage = "Something went wrong while editing your profile!";
+            }
+        }
+    }
+    
+    
     // Updates the info on the account
     public void updateSecurityAnswer() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
@@ -357,4 +385,95 @@ public class AccountManager implements Serializable {
         }
         return photoList.get(0).getFilename();
     }
+    
+    private Collection<Subscription> subscriptions;
+    
+    private List<String> selectedSubscriptions;
+
+    public List<String> getSelectedSubscriptions() {
+        selectedSubscriptions = new ArrayList();
+        Collection<Subscription> currentSubs = getSubscriptions();
+        if (currentSubs == null) {
+            return selectedSubscriptions;
+        }
+        subscriptions = currentSubs;
+        Iterator<Subscription> iterator = currentSubs.iterator();
+        while (iterator.hasNext()) {
+            Subscription sub = iterator.next();
+            selectedSubscriptions.add(sub.getCategory());
+        }
+
+        
+        return selectedSubscriptions;
+    }
+
+    public void setSelectedSubscriptions(List<String> selectedSubscriptions) {
+        subscriptions = getSubscriptions();
+        this.selectedSubscriptions = selectedSubscriptions;
+        for (int i = 0; i < selectedSubscriptions.size(); i++) {
+            boolean exists = false;
+            if (subscriptions != null) {
+                 Iterator<Subscription> iterator = subscriptions.iterator();
+                 while (iterator.hasNext()) {
+                    Subscription curr = iterator.next();
+                    if (curr.getCategory().equals(selectedSubscriptions.get(i))) {
+                        exists = true;
+                    }
+                 }
+            }
+            if (!exists) {
+                Subscription subscription = new Subscription();
+                subscription.setCategory(selectedSubscriptions.get(i));
+                subscription.setSubscriber(selected);
+                subscriptionFacade.create(subscription);
+            }
+        }
+        if (subscriptions != null) {
+            System.out.println("hereYOYOYO");
+            Iterator<Subscription> iterator = subscriptions.iterator();
+            while (iterator.hasNext()) {
+                
+                Subscription oldSub = iterator.next();
+                System.out.println(oldSub.getCategory() + "OLD");
+                boolean shouldExist = false;
+                for (int i = 0; i < selectedSubscriptions.size(); i++) {
+                    System.out.println(selectedSubscriptions.get(i) + "NEW");
+                    if (oldSub.getCategory().equals(selectedSubscriptions.get(i))) {
+                        shouldExist = true;
+                    }
+                }
+                if (!shouldExist) {
+                    System.out.println("REMOVE IN");
+                    subscriptionFacade.deleteBySub(oldSub.getId());
+                }
+            }
+        }
+
+        
+    }
+
+    public Collection<Subscription> getSubscriptions() {
+        selected = getSelected();
+        System.out.println(selected.getFirstName() + "YOYOYO");
+        List<Subscription> others = subscriptionFacade.getByUserId(selected);
+        if (others.isEmpty()) {
+            System.out.println("OTHER IS EMPTY");
+        } else {
+            return others;
+        }
+        if (selected.getSubscriptionCollection().isEmpty()) {
+            System.out.println(selected.getFirstName() + "NADAHERE");
+            return null;
+        } else {
+            System.out.println("HERE!");
+            return selected.getSubscriptionCollection();
+        }
+    }
+
+    public void setSubscriptions(Collection<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+    
+    
+    
 }

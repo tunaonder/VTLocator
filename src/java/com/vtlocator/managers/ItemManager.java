@@ -6,11 +6,15 @@ package com.vtlocator.managers;
 
 import com.vtlocator.jpaentityclasses.Item;
 import com.vtlocator.jpaentityclasses.ItemPhoto;
+import com.vtlocator.jpaentityclasses.Subscription;
 import com.vtlocator.jpaentityclasses.User;
 import com.vtlocator.jpaentityclasses.UserPhoto;
+import com.vtlocator.jsfclasses.util.MessageClient;
 import com.vtlocator.sessionbeans.ItemFacade;
 import com.vtlocator.sessionbeans.ItemPhotoFacade;
+import com.vtlocator.sessionbeans.SubscriptionFacade;
 import com.vtlocator.sessionbeans.UserFacade;
+import com.vtlocator.sessionbeans.UserPhotoFacade;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,6 +33,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 /*
@@ -107,6 +112,9 @@ public class ItemManager implements Serializable {
     @EJB
     private UserFacade userFacade;
     
+    @EJB
+    private SubscriptionFacade subscriptionFacade;
+    
     private String name;
     private BigDecimal latitudeFound = new BigDecimal(0);
     private BigDecimal longitudeFound = new BigDecimal(0);
@@ -114,6 +122,25 @@ public class ItemManager implements Serializable {
     private String category;
     private String statusMessage;
     private Collection<ItemPhoto> itemPhotoCollection;
+    private List<Item> recent = null;
+    private Item detailItem;
+
+    public Item getDetailItem() {
+        return detailItem;
+    }
+
+    public void setDetailItem(Item detailItem) {
+        this.detailItem = detailItem;
+    }
+
+    public List<Item> getRecent() {
+        recent = itemFacade.getRecentItems();
+        return recent;
+    }
+
+    public void setRecent(List<Item> recent) {
+        this.recent = recent;
+    }
     
     public String getStatusMessage() {
         return statusMessage;
@@ -141,10 +168,20 @@ public class ItemManager implements Serializable {
     @EJB
     private ItemPhotoFacade itemPhotoFacade;
 
+    
+     /**
+     * The instance variable 'photoFacade' is annotated with the @EJB annotation.
+     * This means that the GlassFish application server, at runtime, will inject in
+     * this instance variable a reference to the @Stateless session bean PhotoFacade.
+     */
+    @EJB
+    private UserPhotoFacade photoFacade;
+    
     /**
      * Creates a new instance of ItemManager
      */
     public ItemManager() {
+        fileList = new ArrayList<UploadedFile>();
     }
 
     public Item getSelected() {
@@ -182,10 +219,9 @@ public class ItemManager implements Serializable {
             item.setItemPhotoCollection(itemPhotoCollection);
 
             itemFacade.create(item);
-            
+            notifyForCategory(item);
             this.selected = item;
-            
-            
+            uploadMultiple();
 
         } catch (EJBException e) {
             //email = "";
@@ -208,26 +244,11 @@ public class ItemManager implements Serializable {
         }
         return photoList;
     }
-    
+   
     // Instance Variables (Properties)
     private UploadedFile file;
+    private List<UploadedFile> fileList;
     private String message = "";
-    
-    /**
-     * The instance variable 'customerFacade' is annotated with the @EJB annotation.
-     * This means that the GlassFish application server, at runtime, will inject in
-     * this instance variable a reference to the @Stateless session bean UserFacade.
-     */
-    @EJB
-    private UserFacade customerFacade;
-
-    /**
-     * The instance variable 'photoFacade' is annotated with the @EJB annotation.
-     * This means that the GlassFish application server, at runtime, will inject in
-     * this instance variable a reference to the @Stateless session bean UserPhotoFacade.
-     */
-    @EJB
-    private ItemPhotoFacade photoFacade;
 
     // Returns the uploaded file
     public UploadedFile getFile() {
@@ -266,10 +287,32 @@ public class ItemManager implements Serializable {
         }
     }
     
+    public String uploadMultiple() {
+        for (UploadedFile aFile : fileList) {
+            if (aFile.getSize() != 0) {
+                copyFile(aFile);
+            }
+        }
+        if (fileList.isEmpty() || fileList.get(0).getSize() == 0) {
+            message = "You need to upload a file first!";
+            return "";
+        }
+        else {
+            message = "";
+            return "profile?faces-redirect=true";
+        }
+    }
+    
     // redirect to profile
     public String cancel() {
         message = "";
         return "profile?faces-redirect=true";
+    }
+    
+    public void handleFileUpload(FileUploadEvent event) {
+        FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+        fileList.add(event.getFile());
     }
 
     // Takes an uploaded file
@@ -286,17 +329,12 @@ public class ItemManager implements Serializable {
 
             FacesMessage resultMsg;
 
-            int id = (int) FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("id");
-        
-            List<ItemPhoto> photoList = photoFacade.findItemPhotosByItemID(id);
-
             // Insert photo record into database
             String extension = file.getContentType();
             extension = extension.startsWith("image/") ? extension.subSequence(6, extension.length()).toString() : "png";
 
             ItemPhoto photo = new ItemPhoto(extension, this.selected);
-            photoFacade.create(photo);
+            itemPhotoFacade.create(photo);
             in = file.getInputstream();
             File uploadedFile = inputStreamToFile(in, photo.getFilename());
             resultMsg = new FacesMessage("Success!", "File Successfully Uploaded!");
@@ -327,5 +365,31 @@ public class ItemManager implements Serializable {
         return targetFile;
     }
     
+    public String detailPage(int id) {
+        detailItem = itemFacade.getItem(id);
+        return "detailedItemView";
+    }
     
+    public String finderPhoto(User finder) {
+        List<UserPhoto> photoList = photoFacade.findPhotosByUserID(finder.getId());
+        if (photoList.isEmpty()) {
+            return "user-placeholder.jpg";
+        }
+        return photoList.get(0).getFilename();
+    }
+  
+    public void notifyForCategory(Item item) {
+        System.out.println(item.getCategory());
+        List<Subscription> subscribed = subscriptionFacade.getFromCategory(item.getCategory());
+        for (int i = 0; i < subscribed.size(); i++) {
+            //this line stops the system from sending a text to the person who posted the item
+            if (!item.getCreatedBy().getId().equals(subscribed.get(i).getSubscriber().getId())) {
+                String message = "Hi " + subscribed.get(i).getSubscriber().getFirstName() +  ", an item" +
+                        " in the category '" + item.getCategory().toLowerCase() + "' was found and posted on VTLocator." +
+                        " This item was found by " + item.getCreatedBy().getFirstName() + " " + item.getCreatedBy().getLastName() +
+                        ". Go on VTLocator to find more information about this item.";
+                MessageClient.sendMessage(subscribed.get(i).getSubscriber().getPhoneNumber(), message);
+            }
+        }
+    }
 }

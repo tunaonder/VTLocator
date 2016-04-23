@@ -16,14 +16,24 @@
                 <li role="presentation"><h:link outcome="buildings">Buildings</h:link></li>
                 <li role="presentation" class="active"><h:link outcome="parking">Parking</h:link></li>
             </ul>
-            <div class="text-center">
+            <div class="text-center parking-sidebar-wrapper">
                 <h4 style="margin-top: 20px; margin-bottom: 20px;">Select your parking pass type</h4>
-                <h:commandButton value="Any Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getANY()})" />
-                <h:commandButton value="Commuter Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getCOMMUTER()})" />
-                <h:commandButton value="Resident Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getRESIDENT()})" />
-                <h:commandButton value="Faculty Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getFACULTY()})" />
-                <h:commandButton value="Metered Spots" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getMETERED()})" />
-                <h:commandButton value="Parking Pass Office" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getPARKING()})" />
+                <h:commandButton value="Any Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getANY()})" /><br />
+                <h:commandButton value="Commuter Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getCOMMUTER()})" /><br />
+                <h:commandButton value="Resident Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getRESIDENT()})" /><br />
+                <h:commandButton value="Faculty Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getFACULTY()})" /><br />
+                <h:commandButton value="Metered Spots" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getMETERED()})" /><br />
+                <h:commandButton value="Parking Pass Office" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getPARKING()})" /><br />
+                
+                <br />
+                
+                <div class="panel panel-info afterhours-panel">
+                    <div class="panel-heading">After Hours</div>
+                    <div class="panel-body">
+                        <p>Drillfield is for faculty and staff from <mark>7 am</mark> to <mark>5 pm</mark>, graduate students from <mark>5 pm</mark> and open to the public after <mark>8 pm.</mark>
+                            Bookstore meters are enforced <mark>7 am</mark> to <mark>6 pm</mark> 7 days a week.</p>
+                    </div>
+                </div>
             </div>
         </ui:define>
         <ui:define name="mainPanel">

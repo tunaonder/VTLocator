@@ -99,12 +99,54 @@ nav.navbar-default {
     border-right: 2px solid #e95051;
     width: 300px;
     height: 100%;
-    padding-top: 10px;
     overflow: scroll;
     position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
+    padding-top: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.sidebar-collapser {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #e95051;
+    cursor: pointer;
+}
+
+.sidebar-collapser-hidden {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #e95051;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.sidebar-collapser i,
+.sidebar-collapser-hidden i {
+    color: white;
+    font-size: 2em;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.location-searh-wrapper {
+    background-color: lightblue;
+    width: 100%;
+    height: 200px;
+}
+
+.search-header {
+    margin-top: 80px;
 }
 
 /**
@@ -228,16 +270,29 @@ div.footer .footer-text {
     left: 20px;
 }
 
+#dropDownForm {
+    width: 100%;
+}
+
 .dropdown .dropMenu {
-    
-    max-width: 280px;
+    width: 100%;
     margin-top: 20px;
-    margin-left: -30px;
 }
 
 .building-label {
     padding-top: 20px;
     padding-right: 10px;
+}
+
+/**
+ * Parking CSS Rules
+ */
+.parking-sidebar-wrapper .btn {
+    margin-top: 10px;
+}
+
+.afterhours-panel {
+    margin: 20px 10px;
 }
 
 /**
@@ -322,7 +377,7 @@ div.footer .footer-text {
 }
 
 .lost-and-found-home-wrapper {
-    margin: 0 15px;
+    margin: 0 65px;
 }
 
 .lost-and-found-home-wrapper h1 {
@@ -337,9 +392,20 @@ div.footer .footer-text {
    display: none;
 }
 
+.item-list-view-wrapper {
+    padding: 10px;
+}
+
 .item-list-view {
     cursor: pointer;
     margin-bottom: 30px;
+    padding: 10px;
+    border: 2px dashed white;
+}
+
+.item-list-view:hover {
+    border: 2px dashed #e95051;
+    border-radius: 10px;
 }
 
 .item-list-view img {
@@ -357,7 +423,6 @@ div.footer .footer-text {
 }
 
 .lost-and-found-sidebar-wrapper {
-    padding: 0 10px;
 }
 
 .lost-and-found-sidebar-wrapper .btn {
@@ -365,7 +430,7 @@ div.footer .footer-text {
 }
 
 .item-view-wrapper {
-    margin: 0 50px;
+    margin: 0 65px;
 }
 
 .item-view-wrapper .item-view-title {
@@ -394,4 +459,48 @@ div.footer .footer-text {
     height: 500px;
     background-color: lightblue;
     margin-bottom: 20px;
+}
+
+.finder-wrapper {
+    max-width: 400px;
+}
+
+.finder-wrapper .finder-photo {
+    border-radius: 50%;
+    height: 100px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+/**
+ * Profile CSS Rules
+ */
+.profile-logo {
+    width: 75%;
+    height: auto;
+    max-width: 500px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.signup-input {
+    width: 54%;
+}
+
+.fa-email, .fa-security-question {
+    visibility: hidden;
+}
+
+.output-email {
+    font-weight: normal;
+}
+
+.profile-question {
+    border: none;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+}
+
+.fa-2x:hover {
+    cursor: pointer;
 }

@@ -14,22 +14,15 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
         <!-- Do not enter tags before the composition line since they are ignored by JSF -->
         <ui:composition template="template/siteTemplate.xhtml">
             <ui:define name="sidebar">
-                <div class="text-center lost-and-found-sidebar-wrapper">
-                    <h3>Search</h3>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Search..." aria-describedby="basic-addon1" />
-                    </div>
-                    <h:button class="btn btn-custom pull-right" value="Search" />
-                </div>
+                <ui:include src="template/itemSearch.xhtml"></ui:include>
             </ui:define>
             <ui:define name="mainPanel">
                 <div class="item-view-wrapper">
                     <div class="text-center">
                         <img class="item-photo" src="resources/images/phone.jpg" />
                     </div>
-                    <h3 class="item-view-title">Title Goes Here</h3>
-                    <p class="item-decription">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel viverra lectus. Morbi euismod felis a neque condimentum tristique. Nunc varius placerat lorem, et vulputate leo egestas non. Vivamus in congue enim, sed pellentesque nulla. Curabitur mattis convallis maximus. Aliquam luctus libero leo, ut pretium metus interdum at. Aenean sed facilisis urna, vel sodales enim. Integer porttitor dolor et dui efficitur, vel</p>
+                    <h3 class="item-view-title">#{itemManager.detailItem.name}</h3>
+                    <p class="item-decription">#{itemManager.detailItem.description}</p>
                     <h4>Let your friend know you found their belonging...</h4>
                     <div class="input-group" style="max-width: 400px;">
                         <input type="text" class="form-control" placeholder="Search by name or phone number..." />
@@ -38,7 +31,21 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                         </span>
                     </div>
                     <h4>This item was located at...</h4>
-                    <div class="item-view-map-wrapper"></div>
+                    <div class="item-view-map-wrapper">
+                        <div id="map" style="width:100%; height:100%;"></div>
+                        <script type="text/javascript" >
+                            initItem(#{itemManager.detailItem.longitudeFound}, #{itemManager.detailItem.latitudeFound});
+                        </script>
+                    </div>
+                    <h4>Found by...</h4>
+                    <div class="well finder-wrapper">
+                        <img class="finder-photo pull-left" src="FileStorageLocation/#{itemManager.finderPhoto(itemManager.detailItem.createdBy)}" />
+                        <span>
+                            <h4 class="finder-name">#{itemManager.detailItem.createdBy.firstName} #{itemManager.detailItem.createdBy.lastName}</h4>
+                            <p class="finder-attribute">#{itemManager.detailItem.createdBy.phoneNumber}</p>
+                            <p class="finder-attribute">#{itemManager.detailItem.createdBy.email}</p>
+                        </span>
+                    </div>
                 </div>
             </ui:define>
         </ui:composition>

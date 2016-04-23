@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Sebastian Welsh on 2016.04.22 
+Copyright © 2016 Sebastian Welsh. All rights reserved.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <ui:composition>
+        <div class="text-center lost-and-found-sidebar-wrapper">
+            <h3>Text Search</h3>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>
+                <input type="text" class="form-control" placeholder="Search..." aria-describedby="basic-addon1" />
+            </div>
+            <h:button class="btn btn-custom pull-right" value="Search" />
+            <h3 class="search-header">Location Search</h3>
+            <div class="location-searh-wrapper">Geocoding Map Here</div>
+            <h:button class="btn btn-custom pull-right" value="Search" />
+            <h3 class="search-header">View by type</h3>
+            <h:form id="dropDownForm">
+                <div class="dropdown" >
+                    <p:selectOneMenu styleClass="dropMenu">
+                        <f:selectItem itemLabel="Select Item Type" itemValue="" noSelectionOption="true" />
+                        <f:selectItem itemLabel="Cell Phone" itemValue="" />
+                        <f:selectItem itemLabel="Hokie Passport" itemValue="" />
+                        <f:selectItem itemLabel="Keys" itemValue="" />
+                        <f:selectItem itemLabel="ADD MORE HERE" itemValue="" />
+                    </p:selectOneMenu>
+                </div>
+            </h:form>
+            <h:button class="btn btn-custom pull-right" value="Go" />
+        </div>
+    </ui:composition>
+</html>
