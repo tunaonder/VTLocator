@@ -7,9 +7,11 @@ package com.vtlocator.managers;
 import com.vtlocator.jpaentityclasses.Item;
 import com.vtlocator.jpaentityclasses.ItemPhoto;
 import com.vtlocator.jpaentityclasses.User;
+import com.vtlocator.jpaentityclasses.UserPhoto;
 import com.vtlocator.sessionbeans.ItemFacade;
 import com.vtlocator.sessionbeans.ItemPhotoFacade;
 import com.vtlocator.sessionbeans.UserFacade;
+import com.vtlocator.sessionbeans.UserPhotoFacade;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -150,6 +152,15 @@ public class ItemManager implements Serializable {
     @EJB
     private ItemPhotoFacade itemPhotoFacade;
 
+    
+     /**
+     * The instance variable 'photoFacade' is annotated with the @EJB annotation.
+     * This means that the GlassFish application server, at runtime, will inject in
+     * this instance variable a reference to the @Stateless session bean PhotoFacade.
+     */
+    @EJB
+    private UserPhotoFacade photoFacade;
+    
     /**
      * Creates a new instance of ItemManager
      */
@@ -217,5 +228,13 @@ public class ItemManager implements Serializable {
     public String detailPage(int id) {
         detailItem = itemFacade.getItem(id);
         return "detailedItemView";
+    }
+    
+    public String finderPhoto(User finder) {
+        List<UserPhoto> photoList = photoFacade.findPhotosByUserID(finder.getId());
+        if (photoList.isEmpty()) {
+            return "user-placeholder.jpg";
+        }
+        return photoList.get(0).getFilename();
     }
 }
