@@ -6,15 +6,17 @@ package com.vtlocator.managers;
 
 import com.vtlocator.jpaentityclasses.Item;
 import com.vtlocator.jpaentityclasses.ItemPhoto;
+import com.vtlocator.jpaentityclasses.Subscription;
 import com.vtlocator.jpaentityclasses.User;
 import com.vtlocator.jpaentityclasses.UserPhoto;
+import com.vtlocator.jsfclasses.util.MessageClient;
 import com.vtlocator.sessionbeans.ItemFacade;
 import com.vtlocator.sessionbeans.ItemPhotoFacade;
+import com.vtlocator.sessionbeans.SubscriptionFacade;
 import com.vtlocator.sessionbeans.UserFacade;
 import com.vtlocator.sessionbeans.UserPhotoFacade;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -98,6 +100,9 @@ public class ItemManager implements Serializable {
     
     @EJB
     private UserFacade userFacade;
+    
+    @EJB
+    private SubscriptionFacade subscriptionFacade;
     
     private String name;
     private BigDecimal latitudeFound = new BigDecimal(0);
@@ -202,6 +207,7 @@ public class ItemManager implements Serializable {
             item.setItemPhotoCollection(itemPhotoCollection);
 
             itemFacade.create(item);
+            notifyForCategory(item);
 
         } catch (EJBException e) {
             //email = "";
@@ -236,5 +242,21 @@ public class ItemManager implements Serializable {
             return "user-placeholder.jpg";
         }
         return photoList.get(0).getFilename();
+    }
+    
+    
+    public void notifyForCategory(Item item) {
+        System.out.println(item.getCategory());
+        List<Subscription> subscribed = subscriptionFacade.getFromCategory(item.getCategory());
+        for (int i = 0; i < subscribed.size(); i++) {
+            //this line stops the system from sending a text to the person who posted the item
+            if (!item.getCreatedBy().getId().equals(subscribed.get(i).getSubscriber().getId())) {
+                String message = "Hi " + subscribed.get(i).getSubscriber().getFirstName() +  ", an item" +
+                        " in the category '" + item.getCategory().toLowerCase() + "' was found and posted on VTLocator." +
+                        " This item was found by " + item.getCreatedBy().getFirstName() + " " + item.getCreatedBy().getLastName() +
+                        ". Go on VTLocator to find more information about this item.";
+                MessageClient.sendMessage(subscribed.get(i).getSubscriber().getPhoneNumber(), message);
+            }
+        }
     }
 }
