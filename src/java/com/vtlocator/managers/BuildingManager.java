@@ -28,7 +28,7 @@ import org.primefaces.json.JSONObject;
 @ManagedBean
 @SessionScoped
 @Named(value = "buildingManager")
-public class BuildingManager  implements Serializable{
+public class BuildingManager implements Serializable {
 
     //Selected Building to display Building Information
     private String selectedBuildingName;
@@ -37,7 +37,7 @@ public class BuildingManager  implements Serializable{
 
     //List of All Buildings Names From Restful Service
     private List<String> buildingNamesJSON;
-    
+
     //Restful Requests Base URL
     private final String baseUrl = "http://jupiter.cs.vt.edu/VTBuildingsData/webresources/buildings/";
 
@@ -55,7 +55,6 @@ public class BuildingManager  implements Serializable{
     private double vtLat = 37.227264;
     private double vtLong = -80.420745;
 
-
     private boolean directionPressed;
 
     @PostConstruct
@@ -63,11 +62,10 @@ public class BuildingManager  implements Serializable{
 
         //Virginia Tech Logo is the Default Image
         imageUrl = "https://lh5.googleusercontent.com/-A6mD3SlNkSM/AAAAAAAAAAI/AAAAAAAAAXE/yyIqI5mrcOk/s0-c-k-no-ns/photo.jpg";
-        
+
         selectedBuildingName = "";
         selectedStartPoint = "";
 
-        
         lat = 0;
         lng = 0;
         lat2 = 0;
@@ -75,14 +73,13 @@ public class BuildingManager  implements Serializable{
         description = "";
         directionPressed = false;
 
-        
         JSONArray json;
         buildingNamesJSON = new ArrayList<>();
         try {
             //Get Names Of all Buildings from Restful Service
-            String url = baseUrl+"names";
+            String url = baseUrl + "names";
             json = new JSONArray(readJSON(url));
-            
+
             int counter = 0;
             //Get Names of Buildings From JSON Data and make a building names List
             while (json != null && json.length() > counter) {
@@ -95,9 +92,9 @@ public class BuildingManager  implements Serializable{
         }
 
     }
-    
+
     //This method Returns JSON data as String from Given URL
-        public String readJSON(String urlString) throws Exception {
+    public String readJSON(String urlString) throws Exception {
         BufferedReader reader = null;
         try {
             URL url = new URL(urlString);
@@ -125,8 +122,6 @@ public class BuildingManager  implements Serializable{
         this.buildingNamesJSON = buildingNamesJSON;
     }
 
-
-
     public String getSelectedBuildingName() {
         return selectedBuildingName;
     }
@@ -134,7 +129,6 @@ public class BuildingManager  implements Serializable{
     public void setSelectedBuildingName(String selectedBuildingName) {
         this.selectedBuildingName = selectedBuildingName;
     }
-
 
     public double getLat() {
         return lat;
@@ -216,7 +210,6 @@ public class BuildingManager  implements Serializable{
         this.lng2 = lng2;
     }
 
-
     //Gets All Data From Selected Json Object and Parse it. Therefore, view can be updated with the information of selected building
     public void displayBuildingInformation() throws IOException {
 
@@ -227,7 +220,7 @@ public class BuildingManager  implements Serializable{
             //Replace Slah character with %2F
             modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
             //Create Restful Request Url
-            String restfulUrl = baseUrl+modifiedBuildingName;
+            String restfulUrl = baseUrl + modifiedBuildingName;
             //Return Result As JSON
             json = new JSONObject(readJSON(restfulUrl));
             //Get Specific Data from Returned Json
@@ -250,26 +243,24 @@ public class BuildingManager  implements Serializable{
 
     }
 
-
     public void directionButtonPressed() {
         System.out.print(directionPressed);
         directionPressed = true;
 
     }
 
-    
     //This Methods sets the Coordinates of starting point for routes
     public void createStartPoint() {
 
         JSONObject json;
         try {
             //URL REPLACEMENTS
-             //Replace Space with %20
+            //Replace Space with %20
             String modifiedBuildingName = selectedStartPoint.replaceAll(" ", "%20");
             //Replace Slah character with %2F
             modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
             //Create Restful Request Url
-            String restfulUrl = baseUrl+modifiedBuildingName;
+            String restfulUrl = baseUrl + modifiedBuildingName;
             json = new JSONObject(readJSON(restfulUrl));
             lat2 = json.getDouble("latitude");
             lng2 = json.getDouble("longitude");
@@ -278,6 +269,26 @@ public class BuildingManager  implements Serializable{
             Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public void createDestinationPoint() {
+        JSONObject json;
+        try {
+            //Replace Space with %20
+            String modifiedBuildingName = selectedBuildingName.replaceAll(" ", "%20");
+            //Replace Slah character with %2F
+            modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
+            //Create Restful Request Url
+            String restfulUrl = baseUrl + modifiedBuildingName;
+            //Return Result As JSON
+            json = new JSONObject(readJSON(restfulUrl));
+            //Get Specific Data from Returned Json
+            lat = json.getDouble("latitude");
+            lng = json.getDouble("longitude");
+        } catch (JSONException ex) {
+        } catch (Exception ex) {
+            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void refreshForm() {
