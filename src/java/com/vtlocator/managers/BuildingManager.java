@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,13 @@ public class BuildingManager implements Serializable {
     private double vtLong = -80.420745;
 
     private boolean directionPressed;
+    
+    //Selected building category from building category list
+    private String buildingCategory;
+    //List of All categories from Restul service
+    private List<String> buildingCategoriesJSON;
+    
+    String jsonCategory;
 
     @PostConstruct
     public void init() {
@@ -84,6 +92,24 @@ public class BuildingManager implements Serializable {
             //Get Names of Buildings From JSON Data and make a building names List
             while (json != null && json.length() > counter) {
                 buildingNamesJSON.add(json.getJSONObject(counter).get("name").toString());
+                counter++;
+            }
+        } catch (JSONException ex) {
+        } catch (Exception ex) {
+            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+                //Read all building categories from  ../VTBuildingsData/webresources/buildings/categories
+        buildingCategoriesJSON = new ArrayList<>();
+        try {
+            //Get Names Of all Buildings from Restful Service
+            String url = baseUrl+"categories";
+            json = new JSONArray(readJSON(url));
+            
+            int counter = 0;
+            //Get Categories of Buildings From JSON Data and make a building names List
+            while (json != null && json.length() > counter) {
+                buildingCategoriesJSON.add(json.getJSONObject(counter).get("category").toString());
                 counter++;
             }
         } catch (JSONException ex) {
@@ -210,6 +236,36 @@ public class BuildingManager implements Serializable {
         this.lng2 = lng2;
     }
 
+    public String getBuildingCategory() {
+        return buildingCategory;
+    }
+
+    public void setBuildingCategory(String buildingCategory) {
+        this.buildingCategory = buildingCategory;
+    }
+
+    public List<String> getBuildingCategoriesJSON() {
+        return buildingCategoriesJSON;
+    }
+
+    public void setBuildingCategoriesJSON(List<String> buildingCategoriesJSON) {
+        this.buildingCategoriesJSON = buildingCategoriesJSON;
+    }
+
+    public String getJsonCategory() {
+        return jsonCategory;
+    }
+
+    public void setJsonCategory(String jsonCategory) {
+        this.jsonCategory = jsonCategory;
+    }
+
+    
+    
+    
+    
+    
+
     //Gets All Data From Selected Json Object and Parse it. Therefore, view can be updated with the information of selected building
     public void displayBuildingInformation() throws IOException {
 
@@ -244,7 +300,6 @@ public class BuildingManager implements Serializable {
     }
 
     public void directionButtonPressed() {
-        System.out.print(directionPressed);
         directionPressed = true;
 
     }
@@ -293,6 +348,30 @@ public class BuildingManager implements Serializable {
 
     public void refreshForm() {
         directionPressed = false;
+
+    }
+    
+        //This method creates buildings array list with the provided category
+    //Works same as searchBuilding(). All buildings are added to buildings array list.
+    //So that users can only view buildings from specific category
+    public void searchByCategory(){
+
+        
+        
+        try {
+            //Add categories sub Path. And Replace Space with %20
+            String modifiedCategoryName = "categories/" + buildingCategory.replaceAll(" ", "%20");
+            
+            //Create Restful Request Url
+            String restfulUrl = baseUrl + modifiedCategoryName;
+            jsonCategory = readJSON(restfulUrl);
+
+        } catch (JSONException ex) {
+        } catch (Exception ex) {
+            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+        
 
     }
 

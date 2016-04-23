@@ -1,16 +1,3 @@
-﻿/*
- * Created by Sait Tuna Onder on 2016.04.03  *
- * Copyright © 2016 Sait Tuna Onder. All rights reserved. *
- */
-/**
- * Author:  Onder
- * Created: Apr 3, 2016
- */
-
-# ----------------------------------------------------------------
-# SQL Script to Create All VTLocatorDB Tables
-# ----------------------------------------------------------------
-
 DROP TABLE IF EXISTS ItemPhoto, Subscription, Notification, Item, UserPhoto, User, Building, ParkingLot;
 
 /* The User table contains attributes of interest of a user. */

@@ -32,21 +32,36 @@
                             <f:selectItems value="#{buildingManager.buildingNamesJSON}"  />
 
                         </p:selectOneMenu>
-                        <!--                        Get The Value Of Building Name To An Hidden Input-->
-                        <h:inputHidden id="address" value="#{buildingManager.selectedBuildingName}"/>
-
-                    </div>
-                    <!--                    Latitude and Longitude of currently selected building-->
-                    <h:inputHidden id="buildingLat" value="#{buildingManager.lat}" />
-                    <h:inputHidden id="buildingLong" value="#{buildingManager.lng}" />
-
-
-                    <div align="center">
                         <p:commandButton id="getDirection"  value="Get Directions" 
                                          styleClass="btn btn-default btn-direction" rendered="#{buildingManager.directionPressed == false}">
                             <p:ajax listener="#{buildingManager.directionButtonPressed()}" update="dropDownForm dropDownForm:destinationDropdown dropDownForm:buildingDescription dropDownForm:buildingImage" />
 
                         </p:commandButton>
+
+
+                        <p:selectOneMenu value="#{buildingManager.buildingCategory}" styleClass="dropMenu"  rendered="#{buildingManager.directionPressed == false}">
+                            <f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true" />
+                            <!--                            Building Categories are returned from Restful Service-->
+                            <f:selectItems value="#{buildingManager.buildingCategoriesJSON}"  />
+
+                        </p:selectOneMenu>
+                        <p:commandButton value = "Display Buildings" action="#{buildingManager.searchByCategory}" styleClass="btn btn-default btn-direction" 
+                                         rendered="#{buildingManager.directionPressed == false}" update="jsonResult">
+                            <p:ajax oncomplete="displayBuildingLocations()"></p:ajax>
+                        </p:commandButton> 
+
+                    </div>
+                    <!--                        Get The Value Of Building Name To An Hidden Input-->
+                    <h:inputHidden id="address" value="#{buildingManager.selectedBuildingName}"/>
+                    <!--                    Latitude and Longitude of currently selected building-->
+                    <h:inputHidden id="buildingLat" value="#{buildingManager.lat}" />
+                    <h:inputHidden id="buildingLong" value="#{buildingManager.lng}" />
+                    <h:inputHidden id="jsonResult" value="#{buildingManager.jsonCategory}" />
+                    
+
+
+                    <div align="center">
+
 
 
 
@@ -144,7 +159,7 @@
                     //Displays location of selected building
                     function displayBuilding() {
 
-                        
+
                         //Only one marker will be displayed at a time
                         if (currentMarker !== null) {
                             currentMarker.setMap(null);
@@ -165,6 +180,20 @@
                         currentMarker.setMap(map);
 
 
+                    }
+                    
+                    function displayBuildingLocations(){
+                        var jsonData = JSON.parse(document.getElementById("dropDownForm:jsonResult").value);
+                        for (var i = 0; i &lt; < jsonData.counters.length; i++) {
+                            var counter = jsonData.counters[i];
+                            console.log(counter.name);
+                        }
+                        
+                        
+                       
+                        
+                        
+                        alert(document.getElementById("dropDownForm:jsonResult").value);
                     }
 
                     //Add starting point and draw route to destination
@@ -217,9 +246,9 @@
 
                     //Clear All Data On The Map
                     function refreshMap() {
-                        
+
                         currentMarker = null;
-                        
+
                         //This checks if Starting point is chosen ever. This means that route is drawed before. If route is not drawed before
                         //There is no need to refresh this data
                         if (document.getElementById("dropDownForm:startBuildingLat").value !== '0.0') {
