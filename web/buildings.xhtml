@@ -22,7 +22,7 @@
 
                 <h:form id="dropDownForm">
 <!--                    Initial DropDown Menu, Thats why it is rendered if direction button is not pressed yet-->
-                    <ul class="dropdown" >
+                    <div class="dropdown" >
                         <p:selectOneMenu value="#{buildingManager.selectedBuildingName}" styleClass="dropMenu" rendered="#{buildingManager.directionPressed == false}" >
                             <!--                            Display Building Location and Update the value of selected building-->
                             <p:ajax  oncomplete="displayBuilding()" update="address buildingLat buildingLong buildingImage buildingDescription" />
@@ -35,7 +35,7 @@
                         <!--                        Get The Value Of Building Name To An Hidden Input-->
                         <h:inputHidden id="address" value="#{buildingManager.selectedBuildingName}"/>
 
-                    </ul>
+                    </div>
                     <!--                    Latitude and Longitude of currently selected building-->
                     <h:inputHidden id="buildingLat" value="#{buildingManager.lat}" />
                     <h:inputHidden id="buildingLong" value="#{buildingManager.lng}" />
