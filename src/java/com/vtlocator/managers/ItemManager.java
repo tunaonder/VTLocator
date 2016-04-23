@@ -124,6 +124,13 @@ public class ItemManager implements Serializable {
     private Collection<ItemPhoto> itemPhotoCollection;
     private List<Item> recent = null;
     private Item detailItem;
+    private UploadedFile file;
+    private List<UploadedFile> fileList;
+
+    public List<UploadedFile> getFileList() {
+        return fileList;
+    }
+    private String message = "";
 
     public Item getDetailItem() {
         return detailItem;
@@ -244,11 +251,6 @@ public class ItemManager implements Serializable {
         }
         return photoList;
     }
-   
-    // Instance Variables (Properties)
-    private UploadedFile file;
-    private List<UploadedFile> fileList;
-    private String message = "";
 
     // Returns the uploaded file
     public UploadedFile getFile() {
