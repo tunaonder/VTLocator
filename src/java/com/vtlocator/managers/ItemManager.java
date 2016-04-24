@@ -17,6 +17,8 @@ import com.vtlocator.sessionbeans.UserFacade;
 import com.vtlocator.sessionbeans.UserPhotoFacade;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -107,7 +109,7 @@ public class ItemManager implements Serializable {
     private String name;
     private BigDecimal latitudeFound = new BigDecimal(0);
     private BigDecimal longitudeFound = new BigDecimal(0);
-    private Date dateFound;
+    private Date dateFound = new Date();
     private String category;
     private String statusMessage;
     private Collection<ItemPhoto> itemPhotoCollection;
@@ -217,6 +219,7 @@ public class ItemManager implements Serializable {
          // 
         return "manageItems";
     }
+   
     
    
     // returns the item's photos file name
