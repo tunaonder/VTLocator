@@ -22,15 +22,16 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                     <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>
                     <input type="text" class="form-control" placeholder="Search..." aria-describedby="basic-addon1" />
                 </div>
-                <h4 class="search-header">Filter (optional):</h4>
+                <h4 class="search-header">Filter:</h4>
                 <h:form id="dropDownForm">
                     <div class="dropdown" >
                         <p:selectOneMenu styleClass="dropMenu">
-                            <f:selectItem itemLabel="Select Item Type" itemValue="" noSelectionOption="true" />
-                            <f:selectItem itemLabel="Cell Phone" itemValue="" />
-                            <f:selectItem itemLabel="Hokie Passport" itemValue="" />
-                            <f:selectItem itemLabel="Keys" itemValue="" />
-                            <f:selectItem itemLabel="ADD MORE HERE" itemValue="" />
+                            <f:selectItem itemLabel="All" itemValue="ALL" noSelectionOption="true" />
+                            <f:selectItem itemLabel="Cell Phone" itemValue="PHONE" />
+                            <f:selectItem itemLabel="Hokie Passport" itemValue="HOKIE_PASSPORT" />
+                            <f:selectItem itemLabel="Keys" itemValue="KEYS" />
+                            <f:selectItem itemLabel="Clothing" itemValue="CLOTHING" />
+                            <f:selectItem itemLabel="Other" itemValue="OTHER" />
                         </p:selectOneMenu>
                     </div>
                 </h:form>
