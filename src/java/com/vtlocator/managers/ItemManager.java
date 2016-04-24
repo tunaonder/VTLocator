@@ -124,6 +124,7 @@ public class ItemManager implements Serializable {
     private Collection<ItemPhoto> itemPhotoCollection;
     private List<Item> recent = null;
     private List<Item> allRecent = null;
+    private List<Item> allItems = null;
     private Item detailItem;
     private UploadedFile file;
     private List<UploadedFile> fileList;
@@ -158,7 +159,15 @@ public class ItemManager implements Serializable {
     public void setAllRecent(List<Item> allRecent) {
         this.allRecent = allRecent;
     }
-    
+
+    public List<Item> getAllItems() {
+        allItems = itemFacade.getAllRecentItems();
+        return allItems;
+    }
+
+    public void setAllItems(List<Item> allItems) {
+        this.allItems = allItems;
+    }
     
     public String getStatusMessage() {
         return statusMessage;
