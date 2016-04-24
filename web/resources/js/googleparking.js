@@ -167,6 +167,7 @@ function initItem(longitude, latitude) {
 function initLostAndFoundSearch() {
 
   // Define the LatLng coordinates for the polygon's path.
+  lfmap = new google.maps.Map(document.getElementById('lfmap'), {
          zoom: 15,
          center: {lat: 37.227612, lng: -80.422135},
          mapTypeId: google.maps.MapTypeId.TERRAIN
@@ -175,9 +176,13 @@ function initLostAndFoundSearch() {
   var marker;
   var geocoder = new google.maps.Geocoder;
   var infowindow = new google.maps.InfoWindow;
+  lfmap.addListener('click', function(e) {
       if (x>0) {
           marker.setMap(null);
       }
+      marker = placeMarkerAndPanTo(e.latLng, lfmap, marker);
+      marker.setMap(lfmap);
+      geocodeLatLng(geocoder,lfmap, infowindow, e.latLng, marker);
       setLocationSearchFields(e.latLng.lng(), e.latLng.lat());
       
       setGeocodedAddress(geocoder, e.latLng);
