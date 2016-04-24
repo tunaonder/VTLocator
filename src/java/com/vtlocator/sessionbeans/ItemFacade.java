@@ -36,7 +36,17 @@ public class ItemFacade extends AbstractFacade<Item> {
     
     public List<Item> getRecentItems() {
         //select * from Item order by created_at desc limit 3;
-        return em.createQuery("SELECT i FROM Item i ORDER BY i.createdAt desc").setMaxResults(3).getResultList();
-        
+        return em.createQuery("SELECT i FROM Item i ORDER BY i.createdAt desc").setMaxResults(3).getResultList();    
+    }
+    
+    public List<Item> getAllRecentItems() {
+        //select * from Item order by created_at desc limit 3;
+        return em.createQuery("SELECT i FROM Item i ORDER BY i.createdAt desc").getResultList();    
+    }
+    
+    public List<Item> getItemsForUser(int userId) {
+        return em.createNamedQuery("Item.findByUserCreatorOrdered")
+                .setParameter("userId", userId)
+                .getResultList();
     }
 }
