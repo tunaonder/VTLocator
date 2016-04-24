@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONException;
 import org.primefaces.json.JSONObject;
@@ -64,6 +65,8 @@ public class BuildingManager implements Serializable {
     private List<String> buildingCategoriesJSON;
     
     String jsonCategory;
+    
+    private boolean directionAvailable;
 
     @PostConstruct
     public void init() {
@@ -71,8 +74,10 @@ public class BuildingManager implements Serializable {
         //Virginia Tech Logo is the Default Image
         imageUrl = "https://lh5.googleusercontent.com/-A6mD3SlNkSM/AAAAAAAAAAI/AAAAAAAAAXE/yyIqI5mrcOk/s0-c-k-no-ns/photo.jpg";
 
+        directionAvailable = false;
         selectedBuildingName = "";
         selectedStartPoint = "";
+        buildingCategory = "";
 
         lat = 0;
         lng = 0;
@@ -260,6 +265,14 @@ public class BuildingManager implements Serializable {
         this.jsonCategory = jsonCategory;
     }
 
+    public boolean isDirectionAvailable() {
+        return directionAvailable;
+    }
+
+    public void setDirectionAvailable(boolean directionAvailable) {
+        this.directionAvailable = directionAvailable;
+    }
+
     
     
     
@@ -269,6 +282,9 @@ public class BuildingManager implements Serializable {
     //Gets All Data From Selected Json Object and Parse it. Therefore, view can be updated with the information of selected building
     public void displayBuildingInformation() throws IOException {
 
+        //If category is choosen before set it to empty, so dont display building category name in its own dropdown
+        buildingCategory = "";        
+        
         JSONObject json;
         try {
             //Replace Space with %20
@@ -366,6 +382,7 @@ public class BuildingManager implements Serializable {
             String restfulUrl = baseUrl + modifiedCategoryName;
             jsonCategory = readJSON(restfulUrl);
 
+            
         } catch (JSONException ex) {
         } catch (Exception ex) {
             Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -373,6 +390,71 @@ public class BuildingManager implements Serializable {
     
         
 
+    }
+    
+    public void changeDirectionAvailableStatus(){
+        if (selectedBuildingName.equals(""))
+            directionAvailable = false;
+        else{
+            directionAvailable = true;
+        }
+        
+    }
+    
+    public String reInit(){
+
+        //Virginia Tech Logo is the Default Image
+        imageUrl = "https://lh5.googleusercontent.com/-A6mD3SlNkSM/AAAAAAAAAAI/AAAAAAAAAXE/yyIqI5mrcOk/s0-c-k-no-ns/photo.jpg";
+
+        directionAvailable = false;
+        selectedBuildingName = "";
+        selectedStartPoint = "";
+        buildingCategory = "";
+
+        lat = 0;
+        lng = 0;
+        lat2 = 0;
+        lng2 = 0;
+        description = "";
+        directionPressed = false;
+
+        JSONArray json;
+        buildingNamesJSON = new ArrayList<>();
+        try {
+            //Get Names Of all Buildings from Restful Service
+            String url = baseUrl + "names";
+            json = new JSONArray(readJSON(url));
+
+            int counter = 0;
+            //Get Names of Buildings From JSON Data and make a building names List
+            while (json != null && json.length() > counter) {
+                buildingNamesJSON.add(json.getJSONObject(counter).get("name").toString());
+                counter++;
+            }
+        } catch (JSONException ex) {
+        } catch (Exception ex) {
+            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+                //Read all building categories from  ../VTBuildingsData/webresources/buildings/categories
+        buildingCategoriesJSON = new ArrayList<>();
+        try {
+            //Get Names Of all Buildings from Restful Service
+            String url = baseUrl+"categories";
+            json = new JSONArray(readJSON(url));
+            
+            int counter = 0;
+            //Get Categories of Buildings From JSON Data and make a building names List
+            while (json != null && json.length() > counter) {
+                buildingCategoriesJSON.add(json.getJSONObject(counter).get("category").toString());
+                counter++;
+            }
+        } catch (JSONException ex) {
+        } catch (Exception ex) {
+            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return "buildings.xhtml";
     }
 
 }

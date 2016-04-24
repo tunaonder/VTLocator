@@ -14,40 +14,52 @@
         <ui:composition template="template/siteTemplate.xhtml">
 
             <ui:define name="sidebar">
-                <ul class="nav nav-tabs nav-justified">
-                    <li role="presentation" class="active"><h:link outcome="buildings">Buildings</h:link></li>
-                    <li role="presentation"><h:link outcome="parking">Parking</h:link></li>
-                </ul>
+                
+           
 
-
-                <h:form id="dropDownForm">
+                <h:form id="dropDownForm" >
+                    
+                    
+                    
                     <!--                    Initial DropDown Menu, Thats why it is rendered if direction button is not pressed yet-->
                     <div class="dropdown" >
+                        
+                        <ul class="nav nav-tabs nav-justified">
+                    <li role="presentation" class="active">
+                        <h:commandLink action="#{buildingManager.reInit()}" onclick="refreshMap()" >Buildings
+                            <p:ajax listener="#{buildingManager.init()}" update="dropDownForm"/>
+                        </h:commandLink>
+                    </li>
+                    <li role="presentation"><h:link outcome="parking">Parking</h:link></li>
+                </ul>
                         <p:selectOneMenu value="#{buildingManager.selectedBuildingName}" styleClass="dropMenu" rendered="#{buildingManager.directionPressed == false}" >
                             <!--                            Display Building Location and Update the value of selected building-->
-                            <p:ajax  oncomplete="displayBuilding()" update="address buildingLat buildingLong buildingImage buildingDescription" />
+                            <p:ajax  oncomplete="displayBuilding()" update="address buildingLat buildingLong buildingImage buildingDescription getDirection buildingCategoryDropDown" />
                             <p:ajax listener="#{buildingManager.displayBuildingInformation}" />
+                            <p:ajax listener="#{buildingManager.changeDirectionAvailableStatus()}" />
                             <f:selectItem itemLabel="Select Building" itemValue="" noSelectionOption="true" />
                             <!--                            Building Names is returned from Restful Service-->
                             <f:selectItems value="#{buildingManager.buildingNamesJSON}"  />
 
                         </p:selectOneMenu>
-                        <p:commandButton id="getDirection"  value="Get Directions" 
+                        <p:commandButton id="getDirection"  value="Get Directions" disabled="#{buildingManager.directionAvailable == false}"
                                          styleClass="btn btn-default btn-direction" rendered="#{buildingManager.directionPressed == false}">
                             <p:ajax listener="#{buildingManager.directionButtonPressed()}" update="dropDownForm dropDownForm:destinationDropdown dropDownForm:buildingDescription dropDownForm:buildingImage" />
 
                         </p:commandButton>
 
 
-                        <p:selectOneMenu value="#{buildingManager.buildingCategory}" styleClass="dropMenu"  rendered="#{buildingManager.directionPressed == false}">
+                        <p:selectOneMenu id="buildingCategoryDropDown" value="#{buildingManager.buildingCategory}" styleClass="dropMenu"  rendered="#{buildingManager.directionPressed == false}">
                             <f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true" />
                             <!--                            Building Categories are returned from Restful Service-->
                             <f:selectItems value="#{buildingManager.buildingCategoriesJSON}"  />
+                            <p:ajax listener="#{buildingManager.searchByCategory}" />
+                            <p:ajax update="dropDownForm:jsonResult"/>
 
                         </p:selectOneMenu>
-                        <p:commandButton value = "Display Buildings" action="#{buildingManager.searchByCategory}" styleClass="btn btn-default btn-direction" 
-                                         rendered="#{buildingManager.directionPressed == false}" update="jsonResult">
-                            <p:ajax oncomplete="displayBuildingLocations()"></p:ajax>
+                        <p:commandButton value = "Display Buildings"  styleClass="btn btn-default btn-direction" 
+                                         rendered="#{buildingManager.directionPressed == false}" >
+                            <p:ajax oncomplete="displayBuildingLocations()"/>
                         </p:commandButton> 
 
                     </div>
@@ -57,7 +69,7 @@
                     <h:inputHidden id="buildingLat" value="#{buildingManager.lat}" />
                     <h:inputHidden id="buildingLong" value="#{buildingManager.lng}" />
                     <h:inputHidden id="jsonResult" value="#{buildingManager.jsonCategory}" />
-                    
+
 
 
                     <div align="center">
@@ -101,7 +113,7 @@
 
                         <!--                        Resets the Page to its initial state-->
                         <p:commandButton  value="Refresh" onclick="refreshMap()"
-                                          styleClass="btn btn-default btn-direction" rendered="#{buildingManager.directionPressed == true}">
+                                          styleClass="btn btn-default btn-direction">
                             <p:ajax listener="#{buildingManager.init()}" update="dropDownForm"/>
 
                         </p:commandButton>
@@ -130,139 +142,8 @@
 
 
                 <script type="text/javascript" >
-                    var map;
-                    var directionsService = new google.maps.DirectionsService;
-                    var directionsDisplay;
-                    var routeRefreshed = false;
-                    var currentMarker = null;
-
-                    initilaizeMap();
-
-
-                    //Initiliaze Map
-                    function initilaizeMap() {
-
-                        map = new google.maps.Map(document.getElementById('map'), {
-                            zoom: 16,
-                            center: {lat: #{buildingManager.vtLat}, lng: #{buildingManager.vtLong}},
-                            mapTypeControl: true,
-                            mapTypeControlOptions: {
-                                style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-                                position: google.maps.ControlPosition.BOTTOM_LEFT
-                            },
-                            mapTypeId: google.maps.MapTypeId.HYBRID
-                        });
-                    }
-
-
-
-                    //Displays location of selected building
-                    function displayBuilding() {
-
-
-                        //Only one marker will be displayed at a time
-                        if (currentMarker !== null) {
-                            currentMarker.setMap(null);
-                            currentMarker = null;
-                        }
-
-                        //Set the center of the map to the coordinates of selected building
-                        map.setCenter(new google.maps.LatLng(document.getElementById("dropDownForm:buildingLat").value, document.getElementById("dropDownForm:buildingLong").value));
-
-                        //Create Marker
-                        currentMarker = new google.maps.Marker({
-                            position: new google.maps.LatLng(document.getElementById("dropDownForm:buildingLat").value,
-                                    document.getElementById("dropDownForm:buildingLong").value),
-                            map: map
-
-                        });
-
-                        currentMarker.setMap(map);
-
-
-                    }
-                    
-                    function displayBuildingLocations(){
-                        var jsonData = JSON.parse(document.getElementById("dropDownForm:jsonResult").value);
-                        for (var i = 0; i &lt; < jsonData.counters.length; i++) {
-                            var counter = jsonData.counters[i];
-                            console.log(counter.name);
-                        }
-                        
-                        
-                       
-                        
-                        
-                        alert(document.getElementById("dropDownForm:jsonResult").value);
-                    }
-
-                    //Add starting point and draw route to destination
-                    function drawRoute() {
-
-
-                        //Check If Starting Building Selected
-                        if (document.getElementById("dropDownForm:startBuildingLat").value === '0.0') {
-                            alert('Please Select Starting Building');
-
-                        } else {
-                            //If there is route drawed before, delete that data by setting the information null
-                            if (routeRefreshed === true) {
-                                directionsDisplay.setMap(null);
-                                directionsDisplay.setDirections(null);
-
-                            } else {
-                                //Set Destination Marker Null.It will be automatically created with route!
-                                currentMarker.setMap(null);
-
-                            }
-
-                            currentMarker = null;
-                            directionsDisplay = new google.maps.DirectionsRenderer;
-                            directionsDisplay.setMap(map);
-                            //Coordinates of starting building and destination building
-                            var start = new google.maps.LatLng(document.getElementById("dropDownForm:startBuildingLat").value.toString(), document.getElementById("dropDownForm:startBuildingLong").value.toString());
-                            var end = new google.maps.LatLng(document.getElementById("dropDownForm:buildingLat").value.toString(), document.getElementById("dropDownForm:buildingLong").value.toString());
-                            var request = {
-                                origin: start,
-                                destination: end,
-                                travelMode: google.maps.TravelMode.WALKING
-                            };
-
-                            directionsService.route(request, function (response, status) {
-
-                                if (status === google.maps.DirectionsStatus.OK) {
-
-                                    directionsDisplay.setDirections(response);
-
-
-                                }
-                            });
-
-                            routeRefreshed = true;
-                        }
-
-
-                    }
-
-                    //Clear All Data On The Map
-                    function refreshMap() {
-
-                        currentMarker = null;
-
-                        //This checks if Starting point is chosen ever. This means that route is drawed before. If route is not drawed before
-                        //There is no need to refresh this data
-                        if (document.getElementById("dropDownForm:startBuildingLat").value !== '0.0') {
-                            directionsDisplay.setMap(null);
-                            directionsDisplay.setDirections(null);
-                            routeRefreshed = false;
-
-                        }
-
-                        //Reset The Map
-                        initilaizeMap();
-                    }
-
-
+                   initilaizeMap();
+                   
                 </script>
 
 
