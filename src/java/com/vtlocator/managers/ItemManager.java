@@ -234,7 +234,7 @@ public class ItemManager implements Serializable {
             return "";
         }
          // 
-        return "index"; // TODO
+        return "manageItems?faces-redirect=true"; // after creating an item, navigate to manageItems
     }
     
    
