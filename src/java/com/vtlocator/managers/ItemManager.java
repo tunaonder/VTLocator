@@ -113,6 +113,9 @@ public class ItemManager implements Serializable {
     private Collection<ItemPhoto> itemPhotoCollection;
     private List<Item> recent = null;
     private Item detailItem;
+    
+    private boolean itemOwner = false;
+    
 
     public Item getDetailItem() {
         return detailItem;
@@ -261,5 +264,35 @@ public class ItemManager implements Serializable {
                 MessageClient.sendMessage(subscribed.get(i).getSubscriber().getPhoneNumber(), message);
             }
         }
+    }
+
+    public boolean getItemOwner() {
+        return itemOwner = isOwner();
+    }
+
+    public void setitemOwner(boolean passedBool) {
+        this.itemOwner = isOwner();
+    }
+    
+    private boolean isOwner() {
+        // Check if item is in view.
+        if (detailItem != null) {
+            User createdBy = detailItem.getCreatedBy();
+
+            User currentUser = userFacade.getUser((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+            
+            boolean userCheck = currentUser != null & createdBy != null;
+            
+            
+            if (userCheck) {
+//                System.out.println("email of currentUser: " + currentUser.getEmail());
+//                System.out.println("email of createdBy: " + createdBy.getEmail());
+                if (createdBy.equals(currentUser)) {
+//                if (currentUser.getEmail().equals(createdBy.getEmail())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

@@ -21,16 +21,38 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                     <div class="text-center">
                         <img class="item-photo" src="resources/images/phone.jpg" />
                     </div>
-                    <h3 class="item-view-title">#{itemManager.detailItem.name}</h3>
-                    <p class="item-decription">#{itemManager.detailItem.description}</p>
-                    <h4>Let your friend know you found their belonging...</h4>
-                    <div class="input-group" style="max-width: 400px;">
-                        <input type="text" class="form-control" placeholder="Search by name or phone number..." />
-                        <span class="input-group-btn">
-                          <button class="btn btn-custom" style="height: 34px;" type="button">Notify</button>
-                        </span>
+                    
+                    <div class="belonging-wrapper center clearfix" >
+                        <h3 class="item-view-title text-center">#{itemManager.detailItem.name}</h3>
+                        <p class="item-decription text-center">#{itemManager.detailItem.description}</p>
+
+                        
+                        
+                        <div class="belonging-action-wrapper">
+                            <div class="belonging-notify col-sm-10 col-md-6">
+                                <h4>Let your friend know you found their belonging...</h4>
+                                <div class="input-group" style="max-width: 400px;">
+                                    <input type="text" class="form-control" placeholder="Search by name or phone number..." />
+                                    <span class="input-group-btn">
+                                      <button class="btn btn-custom" style="height: 34px;" type="button">Notify</button>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="belonging-action col-sm-10 col-md-6">
+                                
+                                <p:commandButton styleClass="btn btn-custom btn-lg btn-block belonging-btn" value="Resolve" 
+                                                 rendered="#{itemManager.itemOwner == true}"></p:commandButton>  
+                                
+                                <p:commandButton styleClass="btn btn-custom btn-lg btn-block belonging-btn" value="Claim" 
+                                                 rendered="#{itemManager.itemOwner == false}"></p:commandButton>                               
+                                                 
+                            </div>
+                        </div>
                     </div>
-                    <h4>This item was located at...</h4>
+                    <br />
+                    <h4 class="text-center">This item was located at...</h4>
+                    
                     <div class="item-view-map-wrapper">
                         <div id="map" style="width:100%; height:100%;"></div>
                         <script type="text/javascript" >
