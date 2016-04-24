@@ -36,8 +36,8 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fa fa-angle-down pull-right"></i>
-                                            <img class="user-profile-img" src="FileStorageLocation/#{accountManager.userPhoto()}"/>
-                                            <span>Hi, #{profileViewManager.loggedInUser.firstName}!</span>
+                                            <div class="user-profile-img pull-left" style="background-image: url(FileStorageLocation/#{accountManager.userPhoto()});"></div>
+                                            <p class="user-name">Hi, #{profileViewManager.loggedInUser.firstName}!</p>
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li><h:link outcome="profile"><i class="fa fa-user fa-fw"></i> Your Profile</h:link></li>

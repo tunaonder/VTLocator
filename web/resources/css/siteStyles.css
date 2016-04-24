@@ -63,6 +63,10 @@ nav.navbar-default {
     width: 170px;
 }
 
+.user-dropdown p.user-name {
+    margin-top: 8px;
+}
+
 .user-dropdown button i {
     font-size: 1.5em;
     margin-right: 10px;
@@ -72,10 +76,14 @@ nav.navbar-default {
 .user-dropdown .user-profile-img {
     border-radius: 50%;
     height: 30px;
+    width: 30px;
     margin-left: 10px;
     margin-top: 4px;
     margin-bottom: 4px;
     margin-right: 5px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .btn-nav {
@@ -502,8 +510,12 @@ div.footer .footer-text {
 .finder-wrapper .finder-photo {
     border-radius: 50%;
     height: 100px;
+    width: 100px;
     margin-right: 20px;
     margin-bottom: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 /**

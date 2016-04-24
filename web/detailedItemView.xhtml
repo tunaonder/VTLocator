@@ -39,7 +39,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                     </div>
                     <h4>Found by...</h4>
                     <div class="well finder-wrapper">
-                        <img class="finder-photo pull-left" src="FileStorageLocation/#{itemManager.finderPhoto(itemManager.detailItem.createdBy)}" />
+                        <div class="finder-photo pull-left" style="background-image: url(FileStorageLocation/#{itemManager.finderPhoto(itemManager.detailItem.createdBy)});"></div>
                         <span>
                             <h4 class="finder-name">#{itemManager.detailItem.createdBy.firstName} #{itemManager.detailItem.createdBy.lastName}</h4>
                             <p class="finder-attribute">#{itemManager.detailItem.createdBy.phoneNumber}</p>
