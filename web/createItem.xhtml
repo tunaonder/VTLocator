@@ -69,35 +69,11 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                             </div>
                             <h:outputLabel value="#{itemManager.statusMessage}" />
                         </div>
+                        <br/>
                         <p:fileUpload fileUploadListener="#{itemManager.handleFileUpload}" mode="advanced" dragDropSupport="true"
-                                              auto="true" multiple="true" update="messages" sizeLimit="1000000" fileLimit="10" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                                              multiple="true" update="messages" sizeLimit="1000000" fileLimit="10" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 
                         <p:growl id="messages" showDetail="true" />
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <div class="item-uploaded-img-wrapper">
-                            <h4 class="text-left">Uploaded Images:</h4>
-                            <div class="row">
-                                <div class="col-md-4 item-uploaded-img">
-                                    <img src="resources/images/phone.jpg" />
-                                    <h:commandLink><i class="fa fa-times"></i></h:commandLink>
-                                </div>
-                                <div class="col-md-4 item-uploaded-img">
-                                    <img src="resources/images/phone.jpg" />
-                                    <h:commandLink><i class="fa fa-times"></i></h:commandLink>
-                                </div>
-                                <div class="col-md-4 item-uploaded-img">
-                                    <img src="resources/images/phone.jpg" />
-                                    <h:commandLink><i class="fa fa-times"></i></h:commandLink>
-                                </div>
-                                <div class="col-md-4 item-uploaded-img">
-                                    <img src="resources/images/phone.jpg" />
-                                    <h:commandLink><i class="fa fa-times"></i></h:commandLink>
-                                </div>
-                            </div>
-                        </div>
                         <br/>
                         <h:commandButton class="btn btn-default" id="submit" value="Post" action="#{itemManager.createItem()}" />   
                         <h:commandButton class="btn btn-default" id="cancel" value="Cancel" /> 
