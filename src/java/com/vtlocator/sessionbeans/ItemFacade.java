@@ -46,8 +46,8 @@ public class ItemFacade extends AbstractFacade<Item> {
      * @return List of items
      */
     public List<Item> findItemsByUserID(Integer userID) {
-        return (List<Item>) em.createQuery("SELECT i FROM Item i WHERE i.createdBy = :createdBy")
-                .setParameter("createdBy", userID)
+        return (List<Item>) em.createQuery("SELECT i FROM Item i WHERE i.createdBy.id = :createdByID")
+                .setParameter("createdByID", userID)
                 .getResultList();
     }
     
