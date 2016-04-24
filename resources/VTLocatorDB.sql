@@ -1,9 +1,5 @@
-﻿/*
- * Created by Sait Tuna Onder on 2016.04.03  *
- * Copyright © 2016 Sait Tuna Onder. All rights reserved. *
- */
 /**
- * Author:  Onder
+ * Author:  VTLocator Group
  * Created: Apr 3, 2016
  */
 
@@ -239,15 +235,6 @@ INSERT INTO Building (name, abbreviation, latitude, longitude, category, descrip
 ('Wright House', 'WRGHT', '37.2268104329', '-80.4261888832', 'Academic', 'http://manta.cs.vt.edu/vt/buildings/wrght/wrght.txt', 'http://manta.cs.vt.edu/vt/buildings/wrght/wrght.jpg'),
 ('Alphin-Stuart Livestock Teaching Arena', 'LARNA', '37.21929', '-80.43991', 'Support', 'http://manta.cs.vt.edu/vt/buildings/larna/larna.txt', 'http://manta.cs.vt.edu/vt/buildings/larna/larna.jpg');
 
-INSERT INTO Item (name, description, latitude_found, longitude_found, category) VALUES
-('Mike''s iPhone', 'iPhone 5. Lost in the cloud computing lab', '37.2305915726', '-80.4217767404','PHONE'),
-('Seb''s Watch', 'Lost my fancy watch while waiting for the bus in front of Burruss', '37.229031934', '-80.4237145305','OTHER'),
-('Tuna''s Keys', 'I lost my keys in the parking garage.  Keys to a sweet Mustang', '37.23086', '-80.42565','KEYS');
-
-INSERT INTO ItemPhoto (extension, photo_for) VALUES
-('jpeg', (SELECT id from Item WHERE name='Mike''s iPhone') ),
-('png', (SELECT id from Item WHERE name='Seb''s Watch') );
-
 INSERT INTO ParkingLot (name, latitude, longitude, permission) VALUES
 ('Inn at VT North', '-80.432845,-80.432888,-80.432904,-80.432914,-80.432825,-80.432617,-80.432255,-80.432386,-80.432507,-80.432147,-80.431616,-80.431243,-80.430742,-80.430299,-80.429814,-80.429374,-80.429149,-80.429095,-80.429106,-80.429873,-80.429905,-80.429991,-80.429994,-80.430082,-80.430222,-80.430613,-80.430946,-80.431638,-80.432807,-80.433024,-80.433113,-80.433059,-80.433070,-80.432936', '37.231520,37.231315,37.231123,37.230798,37.230651,37.230563,37.230474,37.230687,37.230909,37.231020,37.230956,37.230935,37.230931,37.231031,37.231054,37.230918,37.230662,37.230563,37.230448,37.230064,37.230136,37.230089,37.229982,37.229910,37.229854,37.229884,37.230089,37.230209,37.230486,37.230659,37.230922,37.231482,37.231529,37.231516', 'ANY'),
 ('Chicken Hill Lot', '-80.418742,-80.418828,-80.418795,-80.418838,-80.418747,-80.418704,-80.417942,-80.417921,-80.417148,-80.417025,-80.416639,-80.415797,-80.415158,-80.414649,-80.414686,-80.414590,-80.414670,-80.416542,-80.416816,-80.417052,-80.418012,-80.418731,-80.418736,-80.418742', '37.216591,37.216886,37.217027,37.217193,37.217283,37.217347,37.217433,37.217390,37.217112,37.217108,37.216993,37.216809,37.217010,37.216253,37.216224,37.216074,37.215989,37.216339,37.216343,37.216313,37.216672,37.216578,37.216595,37.216591', 'ANY'),
@@ -307,3 +294,12 @@ INSERT INTO ParkingLot (name, latitude, longitude, permission) VALUES
 ('Basketball Ext Lot', '-80.418296,-80.418103,-80.417980,-80.417604,-80.417454,-80.417910,-80.417776,-80.417921,-80.418296', '37.223853,37.223712,37.223802,37.223349,37.223456,37.223883,37.223998,37.224126,37.223853', 'FACULTY/STAFF/VISITOR'),
 ('Cranwell Center Lot', '-80.416167,-80.415979,-80.415904,-80.415829,-80.415791,-80.415781,-80.415904,-80.415963,-80.416049,-80.416167', '37.223554,37.223584,37.223289,37.223298,37.223131,37.223114,37.223076,37.223199,37.223187,37.223554', 'FACULTY/STAFF/VISITOR');
 
+INSERT INTO User (first_name, last_name, email, password, phone_number, security_question, security_answer) VALUES
+('Osman', 'Balci', 'test@test.com', 'csd@VT(S16)', '111-111-1111', 1, 'Turkey');
+
+
+INSERT INTO Item (name, description, latitude_found, longitude_found, category, created_by) VALUES
+('Purple iPhone', 'I found an iPhone 5 in a purple case. It was located in the cloud computing lab.  There is a passcode so I cannot access the inside to see who the owner is.', '37.2305915726', '-80.4217767404','PHONE', 1),
+('Rolex Watch', 'On my way to class, I found a fancy watch out front of Burruss Hall.', '37.229031934', '-80.4237145305','OTHER', 1),
+('Form Mustang Car Keys', 'Upon leaving Owens Dining Hall, these keys were found on the stairs.  They appear to be from a Ford Mustang.', '37.23086', '-80.42565','KEYS', 1),
+('Tuna Onders Hokie Passport', 'Tuna Onder, I have your Hokie Passport but I cannot location your contact information. Hopefully VTLocator will help my get a hold of you.', '37.23086', '-80.42565','HOKIE_PASSPORT', 1);
