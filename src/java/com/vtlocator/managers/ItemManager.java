@@ -15,6 +15,7 @@ import com.vtlocator.sessionbeans.ItemPhotoFacade;
 import com.vtlocator.sessionbeans.SubscriptionFacade;
 import com.vtlocator.sessionbeans.UserFacade;
 import com.vtlocator.sessionbeans.UserPhotoFacade;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -24,8 +25,10 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 /*
 Used to fetch and edit the user's information
@@ -113,6 +116,7 @@ public class ItemManager implements Serializable {
     private String statusMessage;
     private Collection<ItemPhoto> itemPhotoCollection;
     private List<Item> recent = null;
+    private List<Item> userItems = null;
     private Item detailItem;
     
     private boolean itemOwner = false;
@@ -134,6 +138,17 @@ public class ItemManager implements Serializable {
     public void setRecent(List<Item> recent) {
         this.recent = recent;
     }
+
+    public List<Item> getUserItems() {
+        int currentUserID = ((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+        userItems = itemFacade.findItemsByUserID(currentUserID);
+        return userItems;
+    }
+
+    public void setUserItems(List<Item> userItems) {
+        this.userItems = userItems;
+    }
+    
     
     public String getStatusMessage() {
         return statusMessage;
@@ -355,4 +370,19 @@ public class ItemManager implements Serializable {
         
         return "index";
     }
+    
+    public void delete(String itemID) throws IOException {
+        User currentUser = userFacade.getUser((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+//        int item_id = Integer.parseInt(itemID);
+        System.out.println("--------------\n item id is " + itemID);
+        int item_id = Integer.parseInt(itemID);
+        System.out.println("item int number is : "  + item_id);
+        itemFacade.deleteByItemID(item_id);
+        
+        // Force page refresh
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+    }
+    
+    
 }
