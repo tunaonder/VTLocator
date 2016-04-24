@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Sebastian Welsh on 2016.04.21 
+Copyright © 2016 Sebastian Welsh. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:body>
+        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+        <ui:composition template="template/siteTemplate.xhtml">
+            <ui:define name="sidebar">
+                <h3>Manage Items</h3>
+                <p>Here you can manage the items that you have posted to VTLocator.</p>
+                <h4 style="color: orange;">ADD MORE DESCRIPTION HERE</h4>
+            </ui:define>
+            <ui:define name="mainPanel">
+                <div class="lost-and-found-home-wrapper">
+                    <h:button outcome="createItem" class="btn btn-lg btn-default pull-right" value="Post Item" />
+                    <h1>Your Current Items:</h1>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="manage-item-view well">
+                                <img class="pull-left" src="resources/images/phone.jpg" />
+                                <span>
+                                    <h4 class="item-date pull-right">DATE HERE</h4>
+                                    <h3 class="item-title">Test Title of Item</h3>
+                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
+                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="manage-item-view well">
+                                <img class="pull-left" src="resources/images/phone.jpg" />
+                                <span>
+                                    <h4 class="item-date pull-right">DATE HERE</h4>
+                                    <h3 class="item-title">Test Title of Item</h3>
+                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
+                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="manage-item-view well">
+                                <img class="pull-left" src="resources/images/phone.jpg" />
+                                <span>
+                                    <h4 class="item-date pull-right">DATE HERE</h4>
+                                    <h3 class="item-title">Test Title of Item</h3>
+                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
+                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="manage-item-view well">
+                                <img class="pull-left" src="resources/images/phone.jpg" />
+                                <span>
+                                    <h4 class="item-date pull-right">DATE HERE</h4>
+                                    <h3 class="item-title">Test Title of Item</h3>
+                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
+                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="manage-item-view well">
+                                <img class="pull-left" src="resources/images/phone.jpg" />
+                                <span>
+                                    <h4 class="item-date pull-right">DATE HERE</h4>
+                                    <h3 class="item-title">Test Title of Item</h3>
+                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
+                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="manage-item-view well">
+                                <img class="pull-left" src="resources/images/phone.jpg" />
+                                <span>
+                                    <h4 class="item-date pull-right">DATE HERE</h4>
+                                    <h3 class="item-title">Test Title of Item</h3>
+                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
+                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+        <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+    </h:body>
+
+</html>
+
+

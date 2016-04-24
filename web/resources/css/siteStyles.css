@@ -145,8 +145,12 @@ nav.navbar-default {
     height: 200px;
 }
 
-.search-header {
-    margin-top: 80px;
+h4.search-header {
+    margin-top: 20px;
+}
+
+.categories-nav {
+    margin-bottom: 30px;
 }
 
 /**
@@ -276,7 +280,6 @@ div.footer .footer-text {
 
 .dropdown .dropMenu {
     width: 100%;
-    margin-top: 20px;
 }
 
 .building-label {
@@ -298,9 +301,13 @@ div.footer .footer-text {
 /**
  * Lost and Found CSS Rules
  */
-.checkbox {
-    font-size: 1.2em;
+.form-subscribe table {
     margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.form-subscribe table label {
+    margin-left: 10px;
 }
 
 .btn-subscription {
@@ -406,6 +413,33 @@ div.footer .footer-text {
 .item-list-view:hover {
     border: 2px dashed #e95051;
     border-radius: 10px;
+}
+
+.manage-item-view {
+    padding: 10px;
+    cursor: pointer;
+    height: 120px;
+}
+
+.manage-item-view .item-title {
+    margin-top: 17px;
+}
+
+.manage-item-view .item-date {
+    margin-top: 39px;
+    color: #e95051;
+    margin-right: 20px;
+}
+
+.manage-item-view img {
+    height: 100px;
+    width: auto;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+
+.manage-item-view .btn {
+    margin-right: 10px;
 }
 
 .item-list-view img {

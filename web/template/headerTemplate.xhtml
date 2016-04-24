@@ -20,7 +20,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <h:link class="navbar-brand" outcome="#{profileViewManager.loggedInUser != null ? 'buildings' : 'index'}">
+                    <h:link class="navbar-brand" outcome="index">
                         <img class="logo logo-header logo-center" src="resources/images/logo_primary.png"/>
                     </h:link>
                 </div>
@@ -29,6 +29,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                     <h:form>
                         <h:panelGroup layout="block" rendered="#{profileViewManager.loggedInUser != null}">
                             <ul class="nav navbar-nav navbar-right">
+                                <li><h:link outcome="index">Home</h:link></li>
                                 <li><h:link outcome="buildings">Buildings &amp; Parking</h:link></li>
                                 <li><h:link outcome="lostAndFound">Lost &amp; Found</h:link></li>
                                 <li class="user-dropdown">

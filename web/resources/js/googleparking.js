@@ -141,7 +141,10 @@ function initItem(longitude, latitude) {
             style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
             position: google.maps.ControlPosition.BOTTOM_LEFT
         },
-        mapTypeId: google.maps.MapTypeId.TERRAIN
+        mapTypeId: google.maps.MapTypeId.TERRAIN,
+        scrollwheel: false,
+        scaleControl: false,
+        draggable: false
     });
     var latLng = new google.maps.LatLng(latitude, longitude);
      marker = new google.maps.Marker({

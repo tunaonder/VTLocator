@@ -44,5 +44,19 @@ $(function() {
         $('#sidebar').show();
         localStorage.setItem('vt_locator_sidebar_state', 'shown');
     }
+    
+    $('#searchByTextTab').click(function () {
+        $('#searchByLocationTab').removeClass('active');
+        $('#searchByTextTab').addClass('active');
+        $('#locationSearch').hide();
+        $('#textSearch').show();
+    });
+    
+    $('#searchByLocationTab').click(function () {
+        $('#searchByTextTab').removeClass('active');
+        $('#searchByLocationTab').addClass('active');
+        $('#textSearch').hide();
+        $('#locationSearch').show();
+    });
 
 });

@@ -11,29 +11,35 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     
     <ui:composition>
-        <div class="text-center lost-and-found-sidebar-wrapper">
-            <h3>Text Search</h3>
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>
-                <input type="text" class="form-control" placeholder="Search..." aria-describedby="basic-addon1" />
-            </div>
-            <h:button class="btn btn-custom pull-right" value="Search" />
-            <h3 class="search-header">Location Search</h3>
-            <div class="location-searh-wrapper">Geocoding Map Here</div>
-            <h:button class="btn btn-custom pull-right" value="Search" />
-            <h3 class="search-header">View by type</h3>
-            <h:form id="dropDownForm">
-                <div class="dropdown" >
-                    <p:selectOneMenu styleClass="dropMenu">
-                        <f:selectItem itemLabel="Select Item Type" itemValue="" noSelectionOption="true" />
-                        <f:selectItem itemLabel="Cell Phone" itemValue="" />
-                        <f:selectItem itemLabel="Hokie Passport" itemValue="" />
-                        <f:selectItem itemLabel="Keys" itemValue="" />
-                        <f:selectItem itemLabel="ADD MORE HERE" itemValue="" />
-                    </p:selectOneMenu>
+        <div class="lost-and-found-sidebar-wrapper">
+            <h3 style="margin-top: 5px;">Search by...</h3>
+            <ul class="nav nav-tabs nav-justified categories-nav">
+                <li id="searchByTextTab" role="presentation" class="active"><a href="#">Text</a></li>
+                <li id="searchByLocationTab" role="presentation"><a href="#">Location</a></li>
+            </ul>
+            <div id="textSearch">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Search..." aria-describedby="basic-addon1" />
                 </div>
-            </h:form>
-            <h:button class="btn btn-custom pull-right" value="Go" />
+                <h4 class="search-header">Filter (optional):</h4>
+                <h:form id="dropDownForm">
+                    <div class="dropdown" >
+                        <p:selectOneMenu styleClass="dropMenu">
+                            <f:selectItem itemLabel="Select Item Type" itemValue="" noSelectionOption="true" />
+                            <f:selectItem itemLabel="Cell Phone" itemValue="" />
+                            <f:selectItem itemLabel="Hokie Passport" itemValue="" />
+                            <f:selectItem itemLabel="Keys" itemValue="" />
+                            <f:selectItem itemLabel="ADD MORE HERE" itemValue="" />
+                        </p:selectOneMenu>
+                    </div>
+                </h:form>
+                <h:button class="btn btn-custom pull-right" value="Search" />
+            </div>
+            <div id="locationSearch" class="text-center" style="display: none;">
+                <div class="location-searh-wrapper">Geocoding Map Here</div>
+                <h:button class="btn btn-custom pull-right" value="Search" />
+            </div>
         </div>
     </ui:composition>
 </html>

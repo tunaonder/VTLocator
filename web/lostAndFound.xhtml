@@ -15,7 +15,7 @@
             </ui:define>
             <ui:define name="mainPanel">
                 <div class="lost-and-found-home-wrapper">
-                    <h:button outcome="createItem" class="btn btn-lg btn-default pull-right" value="Create" /> 
+                    <h:button outcome="createItem" class="btn btn-lg btn-default pull-right" value="Post Item" /> 
                     <h1>VT Lost and Found</h1>
                     <div class="row">
                         <div class="col-md-6"><p><b>Lose an item on campus or around Blacksburg?</b><br />  We have got you covered with VTLocator's Lost and Found service.  Search through found items, filter items by type, subscribe to lost item threads, and be updated whenever new items that are potentially yours are posted to the system!</p></div>
@@ -45,7 +45,7 @@
                     <h4>Subscribe to a lost item thread:</h4>
                     <p>Be notified whenever a new item is posted to one or more of the following categories.  Simply let us know which categories you wish to subscribe to below...</p>
                     <h:form class="form-subscribe">
-                    <p:selectManyCheckbox id="basic" value="#{accountManager.selectedSubscriptions}">
+                    <p:selectManyCheckbox id="basic" layout="pageDirection" value="#{accountManager.selectedSubscriptions}">
                         <f:selectItem itemLabel="Cell Phones" itemValue="PHONE" />
                         <f:selectItem itemLabel="Hokie Passport" itemValue="HOKIE_PASSPORT" />
                         <f:selectItem itemLabel="Keys" itemValue="KEYS" />
