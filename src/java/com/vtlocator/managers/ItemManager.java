@@ -371,6 +371,12 @@ public class ItemManager implements Serializable {
         return "index";
     }
     
+    /**
+     * delete method called from manageItems.xhtml 
+     * Deletes an item
+     * @param itemID item id to delete
+     * @throws IOException 
+     */
     public void delete(String itemID) throws IOException {
         User currentUser = userFacade.getUser((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
 //        int item_id = Integer.parseInt(itemID);
