@@ -83,7 +83,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                         </h:panelGrid>
                         <br/>
                         <h:commandButton class="btn btn-custom" id="submit" value="Create Account" action="#{accountManager.createAccount()}" />   
-                        <h:commandButton class="btn btn-default" id="cancel" value="Cancel" /> 
+                        <h:button class="btn btn-default" id="cancel" value="Cancel" outcome="index" /> 
                         </div>
                         <br/>
                         <h:outputLabel value ="#{accountManager.statusMessage}" />

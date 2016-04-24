@@ -215,7 +215,7 @@ public class ItemManager implements Serializable {
             return "";
         }
          // 
-        return "index"; // TODO
+        return "manageItems";
     }
     
    

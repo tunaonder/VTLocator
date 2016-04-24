@@ -96,6 +96,11 @@ nav.navbar-default {
     padding-left: 300px;
     height: 100%;
 }
+
+.nav i {
+    margin-right: 5px;
+}
+
 /**
  * Sidebar CSS Rules
  */

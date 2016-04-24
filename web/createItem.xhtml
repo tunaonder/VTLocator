@@ -79,8 +79,10 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                     </script>
                                 </div>
                             </div>
-                            <h:outputLabel value="#{itemManager.statusMessage}" />
                         </div>
+                        <h:panelGroup layout="block" class="alert alert-danger" rendered="#{itemManager.statusMessage != null}">
+                            <h:outputLabel value="#{itemManager.statusMessage}" />
+                        </h:panelGroup>
                         <div class="item-img-upload-wrapper">
                             <h4>Upload Image(s)</h4>
                             <i class="fa fa-plus"></i>
@@ -108,7 +110,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                         </div>
                         <br/>
                         <h:commandButton class="btn btn-default" id="submit" value="Post" action="#{itemManager.createItem()}" />   
-                        <h:commandButton class="btn btn-default" id="cancel" value="Cancel" /> 
+                        <h:button class="btn btn-default" id="cancel" value="Cancel" outcome="lostAndFound" /> 
                         <br/>
                     </h:form>
                 </div>
