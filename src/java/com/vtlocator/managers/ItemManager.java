@@ -194,7 +194,7 @@ public class ItemManager implements Serializable {
         try {
 
             Item item = new Item();
-            item.setCategory("PHONE");
+            item.setCategory(category);
             item.setDateFound(dateFound);
             item.setLatitudeFound(this.latitudeFound);
             item.setLongitudeFound(this.longitudeFound);
