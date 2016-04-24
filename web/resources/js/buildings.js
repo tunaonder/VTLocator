@@ -138,6 +138,18 @@ function drawRoute() {
             if (status === google.maps.DirectionsStatus.OK) {
 
                 directionsDisplay.setDirections(response);
+                
+                var minutes = response.routes[0].legs[0].duration.value/60;
+                minutes = minutes.toFixed(2);
+                var seconds = response.routes[0].legs[0].duration.value%60;
+                seconds = seconds.toFixed(2);
+                var durationValue = minutes + ' min ' + seconds + ' sec';
+          
+                
+                document.getElementById("dropDownForm:distanceValue").innerHTML = response.routes[0].legs[0].distance.value  + ' meters';
+                document.getElementById("dropDownForm:durationValue").innerHTML = durationValue;
+                
+              
 
 
             }
@@ -167,8 +179,11 @@ function refreshMap() {
     initilaizeMap();
 }
 
-function resetValues(){
-    document.getElementById("dropDownForm").reset();
+function resetMarker(){
+     if (currentMarker !== null) {
+        currentMarker.setMap(null);
+        currentMarker = null;
+    }
 }
 
 

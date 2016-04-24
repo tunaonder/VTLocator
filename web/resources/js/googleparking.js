@@ -13,7 +13,7 @@ function initLostAndFound() {
   // Define the LatLng coordinates for the polygon's path.
   map = new google.maps.Map(document.getElementById('map'), {
          zoom: 16,
-         center: {lat: 37.227612, lng: -80.422135},
+         center: {lat: 37.227264, lng: -80.420745},
          mapTypeId: google.maps.MapTypeId.TERRAIN
   })
   x = 0;
@@ -113,8 +113,8 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
         center: {
-            lat: 37.2217518,
-            lng: -80.419138315
+            lat: 37.227264,
+            lng: -80.420745
         },
         mapTypeControl: true,
         mapTypeControlOptions: {

@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
-import org.primefaces.context.RequestContext;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONException;
 import org.primefaces.json.JSONObject;
@@ -64,27 +62,15 @@ public class BuildingManager implements Serializable {
     //List of All categories from Restul service
     private List<String> buildingCategoriesJSON;
     
-    String jsonCategory;
+    private String jsonCategory;
     
     private boolean directionAvailable;
+    private boolean categoryAvailable;
 
     @PostConstruct
     public void init() {
 
-        //Virginia Tech Logo is the Default Image
-        imageUrl = "https://lh5.googleusercontent.com/-A6mD3SlNkSM/AAAAAAAAAAI/AAAAAAAAAXE/yyIqI5mrcOk/s0-c-k-no-ns/photo.jpg";
-
-        directionAvailable = false;
-        selectedBuildingName = "";
-        selectedStartPoint = "";
-        buildingCategory = "";
-
-        lat = 0;
-        lng = 0;
-        lat2 = 0;
-        lng2 = 0;
-        description = "";
-        directionPressed = false;
+        setInitialValues();
 
         JSONArray json;
         buildingNamesJSON = new ArrayList<>();
@@ -122,6 +108,24 @@ public class BuildingManager implements Serializable {
             Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    private void setInitialValues(){
+                //Virginia Tech Logo is the Default Image
+        imageUrl = "https://lh5.googleusercontent.com/-A6mD3SlNkSM/AAAAAAAAAAI/AAAAAAAAAXE/yyIqI5mrcOk/s0-c-k-no-ns/photo.jpg";
+
+        categoryAvailable = false;
+        directionAvailable = false;
+        selectedBuildingName = "";
+        selectedStartPoint = "";
+        buildingCategory = "";
+        jsonCategory = "";
+        lat = 0;
+        lng = 0;
+        lat2 = 0;
+        lng2 = 0;
+        description = "";
+        directionPressed = false;
     }
 
     //This method Returns JSON data as String from Given URL
@@ -273,6 +277,14 @@ public class BuildingManager implements Serializable {
         this.directionAvailable = directionAvailable;
     }
 
+    public boolean isCategoryAvailable() {
+        return categoryAvailable;
+    }
+
+    public void setCategoryAvailable(boolean categoryAvailable) {
+        this.categoryAvailable = categoryAvailable;
+    }
+
     
     
     
@@ -283,7 +295,8 @@ public class BuildingManager implements Serializable {
     public void displayBuildingInformation() throws IOException {
 
         //If category is choosen before set it to empty, so dont display building category name in its own dropdown
-        buildingCategory = "";        
+        buildingCategory = "";
+        categoryAvailable = false;
         
         JSONObject json;
         try {
@@ -372,7 +385,10 @@ public class BuildingManager implements Serializable {
     //So that users can only view buildings from specific category
     public void searchByCategory(){
 
-        
+        selectedBuildingName = "";
+        directionAvailable = false;
+        description = "";
+        imageUrl = "https://lh5.googleusercontent.com/-A6mD3SlNkSM/AAAAAAAAAAI/AAAAAAAAAXE/yyIqI5mrcOk/s0-c-k-no-ns/photo.jpg";
         
         try {
             //Add categories sub Path. And Replace Space with %20
@@ -401,58 +417,42 @@ public class BuildingManager implements Serializable {
         
     }
     
-    public String reInit(){
-
-        //Virginia Tech Logo is the Default Image
-        imageUrl = "https://lh5.googleusercontent.com/-A6mD3SlNkSM/AAAAAAAAAAI/AAAAAAAAAXE/yyIqI5mrcOk/s0-c-k-no-ns/photo.jpg";
-
-        directionAvailable = false;
-        selectedBuildingName = "";
-        selectedStartPoint = "";
-        buildingCategory = "";
-
-        lat = 0;
-        lng = 0;
-        lat2 = 0;
-        lng2 = 0;
-        description = "";
-        directionPressed = false;
-
-        JSONArray json;
-        buildingNamesJSON = new ArrayList<>();
-        try {
-            //Get Names Of all Buildings from Restful Service
-            String url = baseUrl + "names";
-            json = new JSONArray(readJSON(url));
-
-            int counter = 0;
-            //Get Names of Buildings From JSON Data and make a building names List
-            while (json != null && json.length() > counter) {
-                buildingNamesJSON.add(json.getJSONObject(counter).get("name").toString());
-                counter++;
-            }
-        } catch (JSONException ex) {
-        } catch (Exception ex) {
-            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
+    public void changeCategoryAvailableStatus(){
+        if (buildingCategory.equals(""))
+            categoryAvailable = false;
+        else{
+            categoryAvailable = true;
         }
         
-                //Read all building categories from  ../VTBuildingsData/webresources/buildings/categories
-        buildingCategoriesJSON = new ArrayList<>();
-        try {
-            //Get Names Of all Buildings from Restful Service
-            String url = baseUrl+"categories";
-            json = new JSONArray(readJSON(url));
-            
-            int counter = 0;
-            //Get Categories of Buildings From JSON Data and make a building names List
-            while (json != null && json.length() > counter) {
-                buildingCategoriesJSON.add(json.getJSONObject(counter).get("category").toString());
-                counter++;
-            }
-        } catch (JSONException ex) {
-        } catch (Exception ex) {
-            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    }
+    
+    //Clear Buildings Data and Navigate To Parking
+    public String reInit(){
+
+        init();
+
+        return "parking.xhtml";
+    }
+    //Clear Buildings Data and Navigate To Lost and Found
+    public String reInit2(){
+
+        init();
+
+        return "lostAndFound.xhtml";
+    }
+    
+    //Clear Buildings Data and Navigate To Profile
+    public String reInit3(){
+
+        init();
+
+        return "profile.xhtml";
+    }
+    
+    //Clear Buildings Data and Reload the pAGE
+    public String reInit4(){
+
+        init();
 
         return "buildings.xhtml";
     }
