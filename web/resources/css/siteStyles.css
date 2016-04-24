@@ -147,7 +147,7 @@ nav.navbar-default {
     margin-left: 10px;
 }
 
-.location-searh-wrapper {
+.location-search-wrapper {
     background-color: lightblue;
     width: 100%;
     height: 200px;
@@ -550,3 +550,4 @@ div.footer .footer-text {
 .fa-2x:hover {
     cursor: pointer;
 }
+
