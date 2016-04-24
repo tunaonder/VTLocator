@@ -577,3 +577,12 @@ div .center {
     box-sizing: border-box;
     width: 100%;
 }
+
+div > div .belonging-action {
+    margin-top: 35px;
+}
+
+/*messages*/
+ .ui-growl {
+   margin-top: 50px;
+}

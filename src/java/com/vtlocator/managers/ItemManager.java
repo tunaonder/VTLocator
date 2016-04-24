@@ -23,6 +23,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
@@ -294,5 +295,64 @@ public class ItemManager implements Serializable {
             }
         }
         return false;
+    }
+    
+    private void deletePost(Item detailItem) {
+        int itemID;
+        if (detailItem != null) {
+            itemID = detailItem.getId();
+            itemFacade.deleteByItemID(itemID);
+        }
+                
+    }
+    
+    /**
+     * Notifies a user about item
+     * @param item item to notify
+     * @param user user to notify
+     */
+    private void notifyUser(Item item, User userToNotify, User userThatNotifies) {
+        String message = "Hi " + userToNotify.getFirstName() + ", the item you have posted on VTLocator ("
+                + item.getName() + ") is being claimed by [" + userThatNotifies.getFirstName() + " " + userThatNotifies.getLastName()
+                + "]. \nPlease call " + userThatNotifies.getPhoneNumber() + " to arrange a pickup time/place for the item.";
+        
+//        MessageClient.sendMessage(userToNotify.getPhoneNumber(), message);
+        System.out.println(message);
+    }
+    
+    /**
+     * Uploader removes post
+     */
+    public String resolve() {
+        if (detailItem != null) {
+            User createdBy = detailItem.getCreatedBy();
+
+            if (createdBy != null) {
+                deletePost(detailItem);
+                FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Resolved. Your post has been marked resolved and will now be deleted."));
+                return "lostAndFound";
+            }
+        }
+        return "index";
+    }
+    
+    
+    /** 
+     * Currently logged in user notifies uploader
+     */
+    public String claim() {
+        if (detailItem != null) {
+            User createdBy = detailItem.getCreatedBy();
+            if (createdBy != null) {
+                User currentUser = userFacade.getUser((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+                if (currentUser != null) {
+                    notifyUser(detailItem, createdBy, currentUser);
+                    FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Claimed. Your notification has been sent to the uploader."));
+                    return "lostAndFound";
+                }
+            }
+        }
+        
+        return "index";
     }
 }
