@@ -16,3 +16,4 @@ web/WEB-INF/glassfish-web.xml
 *.jar
 *.war
 *.ear
+src/java/com/vtlocator/managers/Constants.java
