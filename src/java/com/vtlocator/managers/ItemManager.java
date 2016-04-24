@@ -224,7 +224,7 @@ public class ItemManager implements Serializable {
         try {
 
             Item item = new Item();
-            item.setCategory("PHONE");
+            item.setCategory(category);
             item.setDateFound(dateFound);
             item.setLatitudeFound(this.latitudeFound);
             item.setLongitudeFound(this.longitudeFound);
@@ -247,7 +247,7 @@ public class ItemManager implements Serializable {
             return "";
         }
          // 
-        return "index"; // TODO
+        return "manageItems";
     }
     
    
@@ -384,6 +384,9 @@ public class ItemManager implements Serializable {
     }
     
     public String finderPhoto(User finder) {
+        if (finder == null) {
+            return "user-placeholder.jpg";
+        }
         List<UserPhoto> photoList = photoFacade.findPhotosByUserID(finder.getId());
         if (photoList.isEmpty()) {
             return "user-placeholder.jpg";

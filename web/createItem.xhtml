@@ -39,6 +39,18 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                         <f:validateLength minimum="2" maximum="1024" />
                                     </h:inputTextarea>
                                     <p:message for="description" display="icon" />
+                                    
+                                    <p:outputLabel for="category" value="Category" />
+                                    <h:selectOneMenu id="category" value="#{itemManager.category}" required="true" class="form-control">
+                                        <f:selectItem itemValue="HOKIE_PASSPORT" itemLabel="Hokie Passport"/>
+                                        <f:selectItem itemValue="PHONE" itemLabel="Phone"/>
+                                        <f:selectItem itemValue="KEYS" itemLabel="Keys"/>
+                                        <f:selectItem itemValue="ELECTRONICS" itemLabel="Electronics"/>
+                                        <f:selectItem itemValue="CLOTHING" itemLabel="Clothing"/>
+                                        <f:selectItem itemValue="OTHER" itemLabel="Other"/>
+                                        
+                                    </h:selectOneMenu>
+                                    <p:message for="category" display="icon" />
 
                                     <p:outputLabel for="dateFound" value="Date Found" />
                                     <p:calendar id="dateFound" mode="inline" required="true" value="#{itemManager.dateFound}"/>
@@ -67,16 +79,18 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                     </script>
                                 </div>
                             </div>
-                            <h:outputLabel value="#{itemManager.statusMessage}" />
                         </div>
                         <br/>
                         <p:fileUpload fileUploadListener="#{itemManager.handleFileUpload}" mode="advanced" dragDropSupport="true"
                                               multiple="true" update="messages" sizeLimit="1000000" fileLimit="10" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 
                         <p:growl id="messages" showDetail="true" />
+                        <h:panelGroup layout="block" class="alert alert-danger" rendered="#{itemManager.statusMessage != null}">
+                            <h:outputLabel value="#{itemManager.statusMessage}" />
+                        </h:panelGroup>
                         <br/>
                         <h:commandButton class="btn btn-default" id="submit" value="Post" action="#{itemManager.createItem()}" />   
-                        <h:commandButton class="btn btn-default" id="cancel" value="Cancel" /> 
+                        <h:button class="btn btn-default" id="cancel" value="Cancel" outcome="lostAndFound" /> 
                         <br/>
                     </h:form>
                 </div>

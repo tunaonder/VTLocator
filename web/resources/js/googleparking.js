@@ -37,6 +37,13 @@ function setLostAndFoundFields(longitude, latitude) {
      document.getElementById(PF('longitude').id).value = longitude;
 
 }
+
+function setLocationSearchFields(longitude, latitude) {
+     document.getElementById(PF('latitudeSearch').id).value = latitude;
+     document.getElementById(PF('longitudeSearch').id).value = longitude;
+
+}
+
 function placeMarkerAndPanTo(latLng, map, marker) {
   marker = new google.maps.Marker({
     position: latLng,
@@ -141,7 +148,10 @@ function initItem(longitude, latitude) {
             style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
             position: google.maps.ControlPosition.BOTTOM_LEFT
         },
-        mapTypeId: google.maps.MapTypeId.TERRAIN
+        mapTypeId: google.maps.MapTypeId.TERRAIN,
+        scrollwheel: false,
+        scaleControl: false,
+        draggable: false
     });
     var latLng = new google.maps.LatLng(latitude, longitude);
      marker = new google.maps.Marker({
@@ -152,3 +162,49 @@ function initItem(longitude, latitude) {
 
 }
 
+
+
+function initLostAndFoundSearch() {
+
+  // Define the LatLng coordinates for the polygon's path.
+  lfmap = new google.maps.Map(document.getElementById('lfmap'), {
+         zoom: 15,
+         center: {lat: 37.227612, lng: -80.422135},
+         mapTypeId: google.maps.MapTypeId.TERRAIN
+  })
+  x = 0;
+  var marker;
+  var geocoder = new google.maps.Geocoder;
+  var infowindow = new google.maps.InfoWindow;
+  lfmap.addListener('click', function(e) {
+      if (x>0) {
+          marker.setMap(null);
+      }
+      marker = placeMarkerAndPanTo(e.latLng, lfmap, marker);
+      marker.setMap(lfmap);
+      geocodeLatLng(geocoder,lfmap, infowindow, e.latLng, marker);
+      setLocationSearchFields(e.latLng.lng(), e.latLng.lat());
+      
+      setGeocodedAddress(geocoder, e.latLng);
+      x++;
+  });
+}  
+
+function setGeocodedAddress(geocoder, latlng) {
+    
+    geocoder.geocode({'location': latlng}, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+          if (results[1]) {
+            address = results[1].formatted_address;
+            document.getElementById(PF('geocodedAddress').id).value = address;
+          } else {
+            address = 'No address found';
+            document.getElementById(PF('geocodedAddress').id).value = address;
+          }
+        } else {
+          address = "No address found.";
+          document.getElementById(PF('geocodedAddress').id).value = address;
+        }
+     });
+    
+}

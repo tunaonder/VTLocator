@@ -63,6 +63,10 @@ nav.navbar-default {
     width: 170px;
 }
 
+.user-dropdown p.user-name {
+    margin-top: 8px;
+}
+
 .user-dropdown button i {
     font-size: 1.5em;
     margin-right: 10px;
@@ -72,10 +76,14 @@ nav.navbar-default {
 .user-dropdown .user-profile-img {
     border-radius: 50%;
     height: 30px;
+    width: 30px;
     margin-left: 10px;
     margin-top: 4px;
     margin-bottom: 4px;
     margin-right: 5px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .btn-nav {
@@ -88,6 +96,11 @@ nav.navbar-default {
     padding-left: 300px;
     height: 100%;
 }
+
+.nav i {
+    margin-right: 5px;
+}
+
 /**
  * Sidebar CSS Rules
  */
@@ -139,14 +152,18 @@ nav.navbar-default {
     margin-left: 10px;
 }
 
-.location-searh-wrapper {
+.location-search-wrapper {
     background-color: lightblue;
     width: 100%;
     height: 200px;
 }
 
-.search-header {
-    margin-top: 80px;
+h4.search-header {
+    margin-top: 20px;
+}
+
+.categories-nav {
+    margin-bottom: 30px;
 }
 
 /**
@@ -276,7 +293,6 @@ div.footer .footer-text {
 
 .dropdown .dropMenu {
     width: 100%;
-    margin-top: 20px;
 }
 
 .building-label {
@@ -298,9 +314,13 @@ div.footer .footer-text {
 /**
  * Lost and Found CSS Rules
  */
-.checkbox {
-    font-size: 1.2em;
+.form-subscribe table {
     margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.form-subscribe table label {
+    margin-left: 10px;
 }
 
 .btn-subscription {
@@ -408,6 +428,33 @@ div.footer .footer-text {
     border-radius: 10px;
 }
 
+.manage-item-view {
+    padding: 10px;
+    cursor: pointer;
+    height: 120px;
+}
+
+.manage-item-view .item-title {
+    margin-top: 17px;
+}
+
+.manage-item-view .item-date {
+    margin-top: 39px;
+    color: #e95051;
+    margin-right: 20px;
+}
+
+.manage-item-view img {
+    height: 100px;
+    width: auto;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+
+.manage-item-view .btn {
+    margin-right: 10px;
+}
+
 .item-list-view img {
     width: 75%;
     height: auto;
@@ -468,8 +515,12 @@ div.footer .footer-text {
 .finder-wrapper .finder-photo {
     border-radius: 50%;
     height: 100px;
+    width: 100px;
     margin-right: 20px;
     margin-bottom: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 /**
@@ -504,3 +555,4 @@ div.footer .footer-text {
 .fa-2x:hover {
     cursor: pointer;
 }
+
