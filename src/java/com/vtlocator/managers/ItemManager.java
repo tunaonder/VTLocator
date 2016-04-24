@@ -379,6 +379,14 @@ public class ItemManager implements Serializable {
         }
         return photoList.get(0).getFilename();
     }
+    
+    public String getMainImageByItemId(int id) {
+        List<ItemPhoto> photoList = itemPhotoFacade.findItemPhotosByItemID(id);
+        if (photoList.isEmpty()) {
+            return "item-placeholder.jpg";
+        }
+        return photoList.get(0).getFilename();
+    }
   
     public void notifyForCategory(Item item) {
         System.out.println(item.getCategory());
