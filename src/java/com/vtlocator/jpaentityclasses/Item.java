@@ -45,7 +45,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Item.findByDateFound", query = "SELECT i FROM Item i WHERE i.dateFound = :dateFound"),
     @NamedQuery(name = "Item.findByCategory", query = "SELECT i FROM Item i WHERE i.category = :category"),
     @NamedQuery(name = "Item.findByCreatedAt", query = "SELECT i FROM Item i WHERE i.createdAt = :createdAt"),
-    @NamedQuery(name = "Item.findByUpdatedAt", query = "SELECT i FROM Item i WHERE i.updatedAt = :updatedAt")})
+    @NamedQuery(name = "Item.findByUpdatedAt", query = "SELECT i FROM Item i WHERE i.updatedAt = :updatedAt"),
+    @NamedQuery(name = "Item.findByUserCreatorOrdered", query = "SELECT i FROM Item i WHERE i.createdBy.id = :createdBy ORDER BY i.createdAt desc")})
 public class Item implements Serializable, Comparable<Item> {
 
     private static final long serialVersionUID = 1L;
@@ -92,7 +93,7 @@ public class Item implements Serializable, Comparable<Item> {
     @JoinColumn(name = "created_by", referencedColumnName = "id")
     @ManyToOne
     private User createdBy;
-    @OneToMany(mappedBy = "photoFor")
+    @OneToMany(mappedBy = "itemId")
     private Collection<ItemPhoto> itemPhotoCollection;
 
     @Transient

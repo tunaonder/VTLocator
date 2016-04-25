@@ -21,74 +21,28 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
             <ui:define name="mainPanel">
                 <div class="lost-and-found-home-wrapper">
                     <h:button outcome="createItem" class="btn btn-lg btn-default pull-right" value="Post Item" />
-                    <h1>Your Current Items:</h1>
+                    <h1>Your Current Items:</h1> 
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="manage-item-view well">
-                                <img class="pull-left" src="resources/images/phone.jpg" />
-                                <span>
-                                    <h4 class="item-date pull-right">DATE HERE</h4>
-                                    <h3 class="item-title">Test Title of Item</h3>
-                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
-                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="manage-item-view well">
-                                <img class="pull-left" src="resources/images/phone.jpg" />
-                                <span>
-                                    <h4 class="item-date pull-right">DATE HERE</h4>
-                                    <h3 class="item-title">Test Title of Item</h3>
-                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
-                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="manage-item-view well">
-                                <img class="pull-left" src="resources/images/phone.jpg" />
-                                <span>
-                                    <h4 class="item-date pull-right">DATE HERE</h4>
-                                    <h3 class="item-title">Test Title of Item</h3>
-                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
-                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="manage-item-view well">
-                                <img class="pull-left" src="resources/images/phone.jpg" />
-                                <span>
-                                    <h4 class="item-date pull-right">DATE HERE</h4>
-                                    <h3 class="item-title">Test Title of Item</h3>
-                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
-                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="manage-item-view well">
-                                <img class="pull-left" src="resources/images/phone.jpg" />
-                                <span>
-                                    <h4 class="item-date pull-right">DATE HERE</h4>
-                                    <h3 class="item-title">Test Title of Item</h3>
-                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
-                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="manage-item-view well">
-                                <img class="pull-left" src="resources/images/phone.jpg" />
-                                <span>
-                                    <h4 class="item-date pull-right">DATE HERE</h4>
-                                    <h3 class="item-title">Test Title of Item</h3>
-                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
-                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
-                                </span>
-                            </div>
-                        </div>
+                        <!--panelgroup to force ajax update-->
+                        <h:panelGroup id="item-list">
+                            <ui:repeat var="i" value="#{itemManager.userItems}" rendered="#{itemManager.userItems.size() > 0}" id="item-repeat">
+                                <div class="col-md-12">
+                                    <div class="manage-item-view well" id="">
+                                        <img class="pull-left" src="resources/images/phone.jpg" />
+                                        <span>
+                                            <h:outputLabel styleClass="item-date pull-right" value="#{i.dateFound}"/>
+                                            <h:outputLabel styleClass="item-title" value="#{i.name}" />
+                                            <h:inputHidden id="itemID" value="#{i.id}" binding="#{itemID}" />
+                                            <br />
+                                            <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
+                                            <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
+                                            <p:commandButton action="#{itemManager.delete(itemID.value)}" styleClass="btn btn-custom btn-sm btn-custom" value="Delete this item" /> 
+                                        </span>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                            </h:panelGroup>
+                        <h:outputLabel rendered="#{itemManager.userItems == null || itemManager.userItems.size() == 0}">No items found</h:outputLabel>
                     </div>
                 </div>
             </ui:define>
