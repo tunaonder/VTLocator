@@ -249,6 +249,7 @@ public class ItemManager implements Serializable {
             notifyForCategory(item);
             this.selected = item;
             uploadMultiple();
+            clearCreateItemForm();
 
         } catch (EJBException e) {
             //email = "";
@@ -270,6 +271,14 @@ public class ItemManager implements Serializable {
             return null;
         }
         return photoList;
+    }
+    
+    public void clearCreateItemForm() {
+        fileList.clear();
+        description = "";
+        name = "";
+        category = "HOKIE_PASSPORT";
+        dateFound = null; 
     }
 
     // Returns the uploaded file
