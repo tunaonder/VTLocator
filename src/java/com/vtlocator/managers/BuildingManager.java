@@ -66,6 +66,8 @@ public class BuildingManager implements Serializable {
     
     private boolean directionAvailable;
     private boolean categoryAvailable;
+    
+    private String selectedBuildingFromMarker;
 
     @PostConstruct
     public void init() {
@@ -111,10 +113,14 @@ public class BuildingManager implements Serializable {
     }
     
     private void setInitialValues(){
+        System.out.println("xxxx");
+        System.out.println(selectedBuildingFromMarker);
+        
         imageUrl = null;
         categoryAvailable = false;
         directionAvailable = false;
         selectedBuildingName = "";
+        selectedBuildingFromMarker = "10";
         selectedStartPoint = "";
         buildingCategory = "";
         jsonCategory = "";
@@ -283,11 +289,16 @@ public class BuildingManager implements Serializable {
         this.categoryAvailable = categoryAvailable;
     }
 
+    public String getSelectedBuildingFromMarker() {
+        return selectedBuildingFromMarker;
+    }
+
+    public void setSelectedBuildingFromMarker(String selectedBuildingFromMarker) {
+        this.selectedBuildingFromMarker = selectedBuildingFromMarker;
+    }
+
     
-    
-    
-    
-    
+  
 
     //Gets All Data From Selected Json Object and Parse it. Therefore, view can be updated with the information of selected building
     public void displayBuildingInformation() throws IOException {
@@ -452,6 +463,47 @@ public class BuildingManager implements Serializable {
         init();
 
         return "buildings.xhtml";
+    }
+    
+       //Gets All Data From Selected Json Object and Parse it. Therefore, view can be updated with the information of selected building
+    public void displayBuildingInformationFromMarker() throws IOException {
+       
+        
+        
+        //If category is choosen before set it to empty, so dont display building category name in its own dropdown
+        buildingCategory = "";
+        categoryAvailable = false;
+        
+        JSONObject json;
+        try {
+            //Replace Space with %20
+            String modifiedBuildingName = selectedBuildingFromMarker.replaceAll(" ", "%20");
+            //Replace Slah character with %2F
+            modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
+            //Create Restful Request Url
+            String restfulUrl = baseUrl + modifiedBuildingName;
+            //Return Result As JSON
+            json = new JSONObject(readJSON(restfulUrl));
+            //Get Specific Data from Returned Json
+            lat = json.getDouble("latitude");
+            lng = json.getDouble("longitude");
+            imageUrl = json.getString("image");
+            //Url Has a description as txt. Read all String from Url and add it to description Variable
+            URL url = new URL(json.getString("description"));
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
+                String str;
+                while ((str = in.readLine()) != null) {
+                    description = str;
+                }
+            }
+            
+            
+
+        } catch (JSONException ex) {
+        } catch (Exception ex) {
+            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }

@@ -96,6 +96,12 @@ function displayBuildingLocations() {
 }
 
 function buildingInfoFromTitle(title){
+    document.getElementById(PF('clickedBuildingMarker').id).value = title;
+    var value = document.getElementById(PF('clickedBuildingMarker').id).value;
+    alert(value);
+   
+
+
 
 }
 
