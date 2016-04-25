@@ -82,6 +82,7 @@ public class ItemManager implements Serializable {
     private List<UploadedFile> fileList;
     private String message = "";
     private String description;
+    private String notifyNumber;
     
     public String getDescription() {
         return description;
@@ -227,6 +228,20 @@ public class ItemManager implements Serializable {
     public void setSelected(Item selected) {
         this.selected = selected;
     }
+    
+    public String ellipsesDescription(String str) {
+        if (str != null && str.length() > 45) {
+            return str.substring(0, str.indexOf(' ', 40)) + "...";
+        }
+        return str;
+    }
+    
+    public String ellipsesTitle(String str) {
+        if (str != null && str.length() > 16) {
+            return str.substring(0, str.indexOf(' ', 13)) + "...";
+        }
+        return str;
+    }
 
     /**
      * Create an item object using form data.
@@ -281,6 +296,45 @@ public class ItemManager implements Serializable {
         latitudeFound = new BigDecimal(0);
         longitudeFound = new BigDecimal(0);
         statusMessage = null;
+    }
+    
+    public String cancelCreate() {
+        clearCreateItemForm();
+        
+        return "lostAndFound?faces-redirect=true";
+    }
+    
+    
+        // Will edit an item object
+    public String editItem() {
+        try {
+            if (detailItem != null) {
+                Item item = detailItem;
+                item.setCategory(this.category);
+                item.setDateFound(detailItem.getDateFound());
+                item.setLatitudeFound(this.latitudeFound);
+                item.setLongitudeFound(this.longitudeFound);
+                item.setName(detailItem.getName());
+                item.setDescription(detailItem.getDescription());
+                item.setId(detailItem.getId());
+//                item.setCreatedBy(user); // cannot change who created
+//                item.setItemPhotoCollection(itemPhotoCollection); // leave photo collection unchanged
+
+                detailItem = item;
+                itemFacade.edit(detailItem);
+                notifyForCategory(item);
+                this.selected = item;
+//                uploadMultiple();
+                clearCreateItemForm();
+            }
+            
+        } catch (EJBException e) {
+            //email = "";
+            statusMessage = "Something went wrong while creating your item!";
+            return "";
+        }
+
+        return "manageItems?faces-redirect=true"; // after editing an item, navigate to manageItems
     }
 
     /**
@@ -552,7 +606,7 @@ public class ItemManager implements Serializable {
                 + item.getName() + ") is being claimed by [" + userThatNotifies.getFirstName() + " " + userThatNotifies.getLastName()
                 + "]. \nPlease call " + userThatNotifies.getPhoneNumber() + " to arrange a pickup time/place for the item.";
         
-//        MessageClient.sendMessage(userToNotify.getPhoneNumber(), message);
+        MessageClient.sendMessage(userToNotify.getPhoneNumber(), message);
         System.out.println(message);
     }
     
@@ -593,6 +647,20 @@ public class ItemManager implements Serializable {
     }
     
     /**
+     * Uploader for item can edit.
+     * @return 
+     */
+    public String edit() {
+        if (detailItem != null) {
+            User createdBy = detailItem.getCreatedBy();
+            if (createdBy != null) {
+                return "editItemView?faces-redirect=true";
+            }
+        }
+        return "lostAndFound";
+    }
+        
+    /**
      * delete method called from manageItems.xhtml 
      * Deletes an item
      * @param itemID item id to delete
@@ -601,9 +669,7 @@ public class ItemManager implements Serializable {
     public void delete(String itemID) throws IOException {
         User currentUser = userFacade.getUser((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
 //        int item_id = Integer.parseInt(itemID);
-        System.out.println("--------------\n item id is " + itemID);
         int item_id = Integer.parseInt(itemID);
-        System.out.println("item int number is : "  + item_id);
         itemFacade.deleteByItemID(item_id);
         FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Your item has been deleted."));
         // Force page refresh
@@ -625,5 +691,31 @@ public class ItemManager implements Serializable {
         ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
     }
     
+    public String edit(int itemID) {
+        detailItem = itemFacade.getItem(itemID);
+        return "editItemView";
+    }
+
+    public String getNotifyNumber() {
+        return notifyNumber;
+    }
+
+    public void setNotifyNumber(String notifyNumber) {
+        this.notifyNumber = notifyNumber;
+    }
+    
+    public void notifyFriend() {
+        User currentUser = userFacade.getUser((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+        User createdBy = detailItem.getCreatedBy();
+        if (this.notifyNumber != null) {
+            String notifyMessage = "Hi " + ", " + currentUser.getFirstName() + " " + currentUser.getLastName() +
+                    " thinks that an item posted on VTLocator (" + detailItem.getName() + ") by " +
+                    createdBy.getFirstName() + " " + createdBy.getLastName() + " may be yours. " +
+                    " If you would like more information on this item, please go on VTLocator. ";        
+            if (MessageClient.sendMessage(notifyNumber, notifyMessage)) {
+                FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Your message has been sent."));
+            }
+        }
+    }
     
 }

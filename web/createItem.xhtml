@@ -47,12 +47,11 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                         <f:selectItem itemValue="ELECTRONICS" itemLabel="Electronics"/>
                                         <f:selectItem itemValue="CLOTHING" itemLabel="Clothing"/>
                                         <f:selectItem itemValue="OTHER" itemLabel="Other"/>
-                                        +
                                     </h:selectOneMenu>
                                     <p:message for="category" display="icon" />
 
                                     <p:outputLabel for="dateFound" value="Date Found" />
-                                    <p:calendar id="dateFound" mode="inline" required="true" value="#{itemManager.dateFound}"/>
+                                    <p:calendar id="dateFound" mode="inline" required="false" value="#{itemManager.dateFound}"/>
                                     <p:message for="dateFound" display="icon" />
 
                                     
@@ -92,7 +91,8 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                         </h:panelGroup>
                         <br/>
                         <h:commandButton class="btn btn-default" id="submit" value="Post" action="#{itemManager.createItem()}" />   
-                        <h:button class="btn btn-default" id="cancel" value="Cancel" outcome="lostAndFound" /> 
+                        <h:commandButton immediate="true" class="btn btn-default" id="cancel" value="Cancel" action="#{itemManager.cancelCreate}" />   
+
                         <br/>
                     </h:form>
                 </div>

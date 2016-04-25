@@ -36,6 +36,7 @@ $(function() {
         $('.content-wrapper').css('padding-left', '0');
         $('.sidebar-collapser-hidden').show();
         localStorage.setItem('vt_locator_sidebar_state', 'hidden');
+        google.maps.event.trigger(map, "resize");
     };
     
     function show() {
@@ -43,6 +44,7 @@ $(function() {
         $('.content-wrapper').css('padding-left', '300px');
         $('#sidebar').show();
         localStorage.setItem('vt_locator_sidebar_state', 'shown');
+        google.maps.event.trigger(map, "resize");
     }
     
     $('#searchByTextTab').click(function () {
