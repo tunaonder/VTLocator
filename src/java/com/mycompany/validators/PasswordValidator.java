@@ -13,8 +13,8 @@ import javax.faces.validator.ValidatorException;
 
 @FacesValidator("passwordValidator")
 /**
- *
- * @author Balci
+ * This validator validates a password using a regular expression
+ * @author Onder
  */
 public class PasswordValidator implements Validator {
 
