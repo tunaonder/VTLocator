@@ -120,7 +120,7 @@ public class ItemManager implements Serializable {
     private String name;
     private BigDecimal latitudeFound = new BigDecimal(0);
     private BigDecimal longitudeFound = new BigDecimal(0);
-    private Date dateFound;
+    private Date dateFound = new Date();
     private String category;
     private String statusMessage;
     private Collection<ItemPhoto> itemPhotoCollection;
