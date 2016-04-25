@@ -48,7 +48,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                         <f:selectItem itemValue="ELECTRONICS" itemLabel="Electronics"/>
                                         <f:selectItem itemValue="CLOTHING" itemLabel="Clothing"/>
                                         <f:selectItem itemValue="OTHER" itemLabel="Other"/>
-                                        
+                                        +
                                     </h:selectOneMenu>
                                     <p:message for="category" display="icon" />
 
@@ -81,12 +81,15 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                             </div>
                         </div>
                         <br/>
-                        <p:fileUpload fileUploadListener="#{itemManager.handleFileUpload}" mode="advanced" dragDropSupport="true"
-                                              multiple="true" update="messages" sizeLimit="1000000" fileLimit="10" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-
-                        <p:growl id="messages" showDetail="true" />
                         <h:panelGroup layout="block" class="alert alert-danger" rendered="#{itemManager.statusMessage != null}">
                             <h:outputLabel value="#{itemManager.statusMessage}" />
+                        </h:panelGroup>
+                        <p:fileUpload fileUploadListener="#{itemManager.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                                              auto="true" multiple="true" update="fileNames" sizeLimit="1000000" fileLimit="10" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                        <h:panelGroup id="fileNames">
+                            <ui:repeat value="#{itemManager.fileList}" var="file">
+                                <h:outputText value="#{file.fileName}"/><br/>
+                            </ui:repeat>
                         </h:panelGroup>
                         <br/>
                         <h:commandButton class="btn btn-default" id="submit" value="Post" action="#{itemManager.createItem()}" />   

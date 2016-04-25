@@ -273,14 +273,26 @@ public class ItemManager implements Serializable {
             notifyForCategory(item);
             this.selected = item;
             uploadMultiple();
+            clearCreateItemForm();
 
         } catch (EJBException e) {
             //email = "";
-            statusMessage = "Something went wrong while creating your account!";
+            statusMessage = "Something went wrong while creating your item!";
             return "";
         }
 
         return "manageItems?faces-redirect=true"; // after creating an item, navigate to manageItems
+    }
+    
+    public void clearCreateItemForm() {
+        fileList.clear();
+        description = "";
+        name = "";
+        category = "HOKIE_PASSPORT";
+        dateFound = null; 
+        latitudeFound = new BigDecimal(0);
+        longitudeFound = new BigDecimal(0);
+        statusMessage = null;
     }
 
     // Returns the uploaded file
