@@ -52,9 +52,37 @@ The xhtml files do not interact with the CustomerFacade, they interact with this
  */
 public class ItemManager implements Serializable {
  
-    // Instance Variables (Properties)
+    @EJB
+    private UserFacade userFacade;
+    @EJB
+    private SubscriptionFacade subscriptionFacade;
+    @EJB
+    private ItemFacade itemFacade;
+    @EJB
+    private ItemPhotoFacade itemPhotoFacade;
+    @EJB
+    private UserPhotoFacade photoFacade;
+    
+    private Item selected;
+    private String name;
+    private BigDecimal latitudeFound = new BigDecimal(0);
+    private BigDecimal longitudeFound = new BigDecimal(0);
+    private Date dateFound;
+    private String category;
+    private String statusMessage;
+    private Collection<ItemPhoto> itemPhotoCollection;
+    private List<Item> recent = null;
+    private List<Item> userItems = null;
+    private Item detailItem; 
+    private boolean itemOwner = false;
+    private List<Item> allRecent = null;
+    private List<Item> allItems = null;
+    private List<ItemPhoto> photosForItem;
+    private UploadedFile file;
+    private List<UploadedFile> fileList;
+    private String message = "";
     private String description;
-
+    
     public String getDescription() {
         return description;
     }
@@ -110,34 +138,10 @@ public class ItemManager implements Serializable {
     public void setItemPhotoCollection(Collection<ItemPhoto> itemPhotoCollection) {
         this.itemPhotoCollection = itemPhotoCollection;
     }
-    
-    @EJB
-    private UserFacade userFacade;
-    
-    @EJB
-    private SubscriptionFacade subscriptionFacade;
-    
-    private String name;
-    private BigDecimal latitudeFound = new BigDecimal(0);
-    private BigDecimal longitudeFound = new BigDecimal(0);
-    private Date dateFound;
-    private String category;
-    private String statusMessage;
-    private Collection<ItemPhoto> itemPhotoCollection;
-    private List<Item> recent = null;
-    private List<Item> userItems = null;
-    private Item detailItem; 
-    private boolean itemOwner = false;
-    private List<Item> allRecent = null;
-    private List<Item> allItems = null;
-    private List<ItemPhoto> photosForItem;
-    private UploadedFile file;
-    private List<UploadedFile> fileList;
 
     public List<UploadedFile> getFileList() {
         return fileList;
     }
-    private String message = "";
 
     public Item getDetailItem() {
         return detailItem;
@@ -201,32 +205,9 @@ public class ItemManager implements Serializable {
         this.statusMessage = statusMessage;
     }
    
-    private Item selected;
     
-    /**
-     * The instance variable 'itemFacade' is annotated with the @EJB annotation.
-     * This means that the GlassFish application server, at runtime, will inject in
-     * this instance variable a reference to the @Stateless session bean UserFacade.
-     */
-    @EJB
-    private ItemFacade itemFacade;
-
-    /**
-     * The instance variable 'itemPhotoFacade' is annotated with the @EJB annotation.
-     * This means that the GlassFish application server, at runtime, will inject in
-     * this instance variable a reference to the @Stateless session bean PhotoFacade.
-     */
-    @EJB
-    private ItemPhotoFacade itemPhotoFacade;
 
     
-     /**
-     * The instance variable 'photoFacade' is annotated with the @EJB annotation.
-     * This means that the GlassFish application server, at runtime, will inject in
-     * this instance variable a reference to the @Stateless session bean PhotoFacade.
-     */
-    @EJB
-    private UserPhotoFacade photoFacade;
     
     /**
      * Creates a new instance of ItemManager
