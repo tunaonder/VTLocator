@@ -29,6 +29,10 @@ public class SearchManager implements Serializable {
     }
     
     private String geocodedAddress;
+    private BigDecimal latitudeSearch = new BigDecimal(0);
+    private BigDecimal longitudeSearch = new BigDecimal(0);
+    private String query;
+    private String filterType;
 
     public String getGeocodedAddress() {
         return geocodedAddress;
@@ -37,10 +41,6 @@ public class SearchManager implements Serializable {
     public void setGeocodedAddress(String geocodedAddress) {
         this.geocodedAddress = geocodedAddress;
     }
-    
-    private BigDecimal latitudeSearch = new BigDecimal(0);
-    
-    private BigDecimal longitudeSearch = new BigDecimal(0);
 
     public BigDecimal getLatitudeSearch() {
         return latitudeSearch;
@@ -56,6 +56,22 @@ public class SearchManager implements Serializable {
 
     public void setLongitudeSearch(BigDecimal longitudeSearch) {
         this.longitudeSearch = longitudeSearch;
+    }
+    
+    public String getQuery () {
+        return this.query;
+    }
+    
+    public void setQuery(String query) {
+        this.query = query;
+    }
+    
+    public String getFilterType () {
+        return this.filterType;
+    }
+    
+    public void setFilterType(String filterType) {
+        this.filterType = filterType;
     }
     
      /**
@@ -76,12 +92,14 @@ public class SearchManager implements Serializable {
         this.resultsList = resultsList;
     }
     
-    
+    public String fullTextSearch() {
+        List<Item> allItems = itemFacade.fullTextQuery(this.query, this.filterType);
+        resultsList = allItems;
+           
+        return "lostAndFoundResults";
+    }
     
     public String locationSearch() {
-        System.out.println(latitudeSearch + "LATT");
-        System.out.println(longitudeSearch + "LONGG");
-        System.out.println(geocodedAddress + "GEOOOO");
         List<Item> allItems = itemFacade.findAll();
         for (int i = 0; i < allItems.size(); i++) {
             double latItem = allItems.get(i).getLatitudeFound().doubleValue();
