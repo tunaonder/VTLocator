@@ -279,6 +279,8 @@ public class ItemManager implements Serializable {
         name = "";
         category = "HOKIE_PASSPORT";
         dateFound = null; 
+        latitudeFound = new BigDecimal(0);
+        longitudeFound = new BigDecimal(0);
     }
 
     // Returns the uploaded file
