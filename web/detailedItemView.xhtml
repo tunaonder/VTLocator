@@ -19,7 +19,10 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
             <ui:define name="mainPanel">
                 <div class="item-view-wrapper">
                     <div class="text-center">
-                        <img class="item-photo" src="resources/images/phone.jpg" />
+                        <p:galleria value="#{itemManager.getPhotosForItem(itemManager.detailItem.id)}" var="image" panelWidth="500" panelHeight="313" showCaption="true">
+                            <p:graphicImage value="FileStorageLocation/#{image.filename}" title="#{image.filename}"/>
+                        </p:galleria>
+                        <img class="item-photo" src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}"/>
                     </div>
                     <h3 class="item-view-title">#{itemManager.detailItem.name}</h3>
                     <p class="item-decription">#{itemManager.detailItem.description}</p>
@@ -39,7 +42,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                     </div>
                     <h4>Found by...</h4>
                     <div class="well finder-wrapper">
-                        <img class="finder-photo pull-left" src="FileStorageLocation/#{itemManager.finderPhoto(itemManager.detailItem.createdBy)}" />
+                        <div class="finder-photo pull-left" style="background-image: url(FileStorageLocation/#{itemManager.finderPhoto(itemManager.detailItem.createdBy)});"></div>
                         <span>
                             <h4 class="finder-name">#{itemManager.detailItem.createdBy.firstName} #{itemManager.detailItem.createdBy.lastName}</h4>
                             <p class="finder-attribute">#{itemManager.detailItem.createdBy.phoneNumber}</p>

@@ -18,16 +18,22 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
             </ui:define>
             <ui:define name="mainPanel">
                 <div class="lost-and-found-home-wrapper">
-                    <h1>Search results for: <i class="text-custom">"Cell Phone"</i></h1>
-                    <div class="row">
+                    <h1>Search results near: <i class="text-custom">"#{searchManager.geocodedAddress}"</i></h1>
+                     <h:form class="detailPage">
+                        <ui:repeat var="item" value="#{searchManager.resultsList}" varStatus="status">
+                        <h:commandLink action="#{itemManager.detailPage(item.id)}" >
                         <div class="col-md-4 item-list-view-wrapper">
                             <div class="item-list-view text-center">
                                 <img src="resources/images/phone.jpg" />
-                                <h3 class="item-title">Test Title of Item</h3>
-                                <p class="item-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis viverra odio...</p>
+                                <h3 class="item-title">#{item.name}</h3>
+                                <p class="item-description">#{item.description}</p>
+                                <h4><i>Distance: #{item.formattedDistance} miles away</i></h4>
                             </div>
                         </div>
-                    </div>
+                        </h:commandLink>
+
+                        </ui:repeat>
+                         </h:form>
                 </div>
             </ui:define>
         </ui:composition>

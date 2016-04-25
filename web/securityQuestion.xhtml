@@ -28,12 +28,12 @@ Calls passwordResetManager.securityquestionSubmit() to confirm security question
                         <div class="form-group" style="margin-bottom:20px">
                             <h:outputLabel for="question" value="#{passwordResetManager.securityQuestion}" />
                         </div>
-                        <div class="form-group" style="margin-bottom: 10px">
-                            <h:inputText id="answer" value="#{passwordResetManager.answer}"/>
+                        <div class="form-group" style="margin-bottom: 10px; max-width: 200px;">
+                            <h:inputText id="answer" class="form-control" value="#{passwordResetManager.answer}"/>
                         </div>
                         <br/>
-                        <h:commandButton styleClass="btn btn-default" id="submit" action="#{passwordResetManager.securityquestionSubmit()}" value="Submit" />
-                        <h:button styleClass="btn btn-default" id="cancel" outcome="index" value="Cancel" />
+                        <h:commandButton styleClass="btn btn-custom" id="submit" action="#{passwordResetManager.securityquestionSubmit()}" value="Submit" />
+                        <h:button styleClass="btn btn-default" id="cancel" outcome="login" value="Cancel" />
                         </fieldset>
                         <br/>
                         <h:outputLabel value ="#{passwordResetManager.message}" />                  
