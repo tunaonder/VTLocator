@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -44,8 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Item.findByDateFound", query = "SELECT i FROM Item i WHERE i.dateFound = :dateFound"),
     @NamedQuery(name = "Item.findByCategory", query = "SELECT i FROM Item i WHERE i.category = :category"),
     @NamedQuery(name = "Item.findByCreatedAt", query = "SELECT i FROM Item i WHERE i.createdAt = :createdAt"),
-    @NamedQuery(name = "Item.findByUpdatedAt", query = "SELECT i FROM Item i WHERE i.updatedAt = :updatedAt")})
-public class Item implements Serializable {
+    @NamedQuery(name = "Item.findByUpdatedAt", query = "SELECT i FROM Item i WHERE i.updatedAt = :updatedAt"),
+    @NamedQuery(name = "Item.findByUserCreatorOrdered", query = "SELECT i FROM Item i WHERE i.createdBy.id = :createdBy ORDER BY i.createdAt desc")})
+public class Item implements Serializable, Comparable<Item> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -91,9 +93,33 @@ public class Item implements Serializable {
     @JoinColumn(name = "created_by", referencedColumnName = "id")
     @ManyToOne
     private User createdBy;
-    @OneToMany(mappedBy = "photoFor")
+    @OneToMany(mappedBy = "itemId")
     private Collection<ItemPhoto> itemPhotoCollection;
 
+    @Transient
+    private double distanceFromLocation; 
+    
+    @Transient
+    private String formattedDistance;
+
+    public String getFormattedDistance() {
+        return formattedDistance;
+    }
+
+    public void setFormattedDistance(String formattedDistance) {
+        this.formattedDistance = formattedDistance;
+    }
+    
+    public double getDistanceFromLocation() {
+        return distanceFromLocation;
+    }
+
+    public void setDistanceFromLocation(double distanceFromLocation) {
+        this.distanceFromLocation = distanceFromLocation;
+    }
+    
+    
+    
     public Item() {
     }
 
@@ -224,6 +250,17 @@ public class Item implements Serializable {
     @Override
     public String toString() {
         return "jpaentityclasses.Item[ id=" + id + " ]";
+    }
+
+    @Override
+    public int compareTo(Item o) {
+        if (o.getDistanceFromLocation() < this.getDistanceFromLocation()) {
+            return 1;
+        } else if (o.getDistanceFromLocation() == this.getDistanceFromLocation()) {
+            return 0;
+        } else {
+            return -1;
+        }
     }
     
 }

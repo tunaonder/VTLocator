@@ -13,7 +13,7 @@ function initLostAndFound() {
   // Define the LatLng coordinates for the polygon's path.
   map = new google.maps.Map(document.getElementById('map'), {
          zoom: 16,
-         center: {lat: 37.227612, lng: -80.422135},
+         center: {lat: 37.227264, lng: -80.420745},
          mapTypeId: google.maps.MapTypeId.TERRAIN
   })
   x = 0;
@@ -37,6 +37,13 @@ function setLostAndFoundFields(longitude, latitude) {
      document.getElementById(PF('longitude').id).value = longitude;
 
 }
+
+function setLocationSearchFields(longitude, latitude) {
+     document.getElementById(PF('latitudeSearch').id).value = latitude;
+     document.getElementById(PF('longitudeSearch').id).value = longitude;
+
+}
+
 function placeMarkerAndPanTo(latLng, map, marker) {
   marker = new google.maps.Marker({
     position: latLng,
@@ -113,8 +120,8 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
         center: {
-            lat: 37.2217518,
-            lng: -80.419138315
+            lat: 37.227264,
+            lng: -80.420745
         },
         mapTypeControl: true,
         mapTypeControlOptions: {
@@ -155,3 +162,49 @@ function initItem(longitude, latitude) {
 
 }
 
+
+
+function initLostAndFoundSearch() {
+
+  // Define the LatLng coordinates for the polygon's path.
+  lfmap = new google.maps.Map(document.getElementById('lfmap'), {
+         zoom: 15,
+         center: {lat: 37.227612, lng: -80.422135},
+         mapTypeId: google.maps.MapTypeId.TERRAIN
+  })
+  x = 0;
+  var marker;
+  var geocoder = new google.maps.Geocoder;
+  var infowindow = new google.maps.InfoWindow;
+  lfmap.addListener('click', function(e) {
+      if (x>0) {
+          marker.setMap(null);
+      }
+      marker = placeMarkerAndPanTo(e.latLng, lfmap, marker);
+      marker.setMap(lfmap);
+      geocodeLatLng(geocoder,lfmap, infowindow, e.latLng, marker);
+      setLocationSearchFields(e.latLng.lng(), e.latLng.lat());
+      
+      setGeocodedAddress(geocoder, e.latLng);
+      x++;
+  });
+}  
+
+function setGeocodedAddress(geocoder, latlng) {
+    
+    geocoder.geocode({'location': latlng}, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+          if (results[1]) {
+            address = results[1].formatted_address;
+            document.getElementById(PF('geocodedAddress').id).value = address;
+          } else {
+            address = 'No address found';
+            document.getElementById(PF('geocodedAddress').id).value = address;
+          }
+        } else {
+          address = "No address found.";
+          document.getElementById(PF('geocodedAddress').id).value = address;
+        }
+     });
+    
+}

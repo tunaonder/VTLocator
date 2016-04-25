@@ -22,7 +22,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
             <ui:define name="mainPanel">
                 <div align="center" class="lost-and-found-home-wrapper">
                     <h2>Create a New Lost Item...</h2>
-                    <h:form class="form-create-item">
+                    <h:form class="form-create-item" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-lg-5">
                                 <h:panelGrid columns="3" cellpadding="5" columnClasses="create-item-label, create-item-input, create-item-message">
@@ -79,36 +79,18 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                     </script>
                                 </div>
                             </div>
-                            <h:outputLabel value="#{itemManager.statusMessage}" />
-                        </div>
-                        <div class="item-img-upload-wrapper">
-                            <h4>Upload Image(s)</h4>
-                            <i class="fa fa-plus"></i>
-                        </div>
-                        <div class="item-uploaded-img-wrapper">
-                            <h4 class="text-left">Uploaded Images:</h4>
-                            <div class="row">
-                                <div class="col-md-4 item-uploaded-img">
-                                    <img src="resources/images/phone.jpg" />
-                                    <h:commandLink><i class="fa fa-times"></i></h:commandLink>
-                                </div>
-                                <div class="col-md-4 item-uploaded-img">
-                                    <img src="resources/images/phone.jpg" />
-                                    <h:commandLink><i class="fa fa-times"></i></h:commandLink>
-                                </div>
-                                <div class="col-md-4 item-uploaded-img">
-                                    <img src="resources/images/phone.jpg" />
-                                    <h:commandLink><i class="fa fa-times"></i></h:commandLink>
-                                </div>
-                                <div class="col-md-4 item-uploaded-img">
-                                    <img src="resources/images/phone.jpg" />
-                                    <h:commandLink><i class="fa fa-times"></i></h:commandLink>
-                                </div>
-                            </div>
                         </div>
                         <br/>
+                        <p:fileUpload fileUploadListener="#{itemManager.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                                              multiple="true" update="messages" sizeLimit="1000000" fileLimit="10" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+
+                        <p:growl id="messages" showDetail="true" />
+                        <h:panelGroup layout="block" class="alert alert-danger" rendered="#{itemManager.statusMessage != null}">
+                            <h:outputLabel value="#{itemManager.statusMessage}" />
+                        </h:panelGroup>
+                        <br/>
                         <h:commandButton class="btn btn-default" id="submit" value="Post" action="#{itemManager.createItem()}" />   
-                        <h:commandButton class="btn btn-default" id="cancel" value="Cancel" /> 
+                        <h:button class="btn btn-default" id="cancel" value="Cancel" outcome="lostAndFound" /> 
                         <br/>
                     </h:form>
                 </div>

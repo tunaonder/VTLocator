@@ -99,7 +99,7 @@ public class FileManager {
     // redirect to profile
     public String cancel() {
         message = "";
-        return "Profile?faces-redirect=true";
+        return "profile?faces-redirect=true";
     }
 
     // Takes an uploaded file

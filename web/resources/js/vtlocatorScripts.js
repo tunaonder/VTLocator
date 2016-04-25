@@ -57,6 +57,7 @@ $(function() {
         $('#searchByLocationTab').addClass('active');
         $('#textSearch').hide();
         $('#locationSearch').show();
+        initLostAndFoundSearch();
     });
 
 });

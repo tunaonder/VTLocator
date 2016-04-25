@@ -22,7 +22,7 @@
                         <div class="col-md-6"><p><b>Find an item and not sure who the owner is?</b><br />  Create a new lost item post such that the community can see what you found.  It is just a matter of time before the true owner is located and reunited with their belonging.</p></div>
                     </div>
                     <hr/>
-                    <a href="#" class="pull-right view-all-link">View All</a>
+                    <a href="viewAllItems.xhtml" class="pull-right view-all-link">View All</a>
                     <h4 style="margin-bottom: 40px;">Recently Found Items:</h4>
                     
                     <div class="row">
@@ -31,7 +31,7 @@
                         <h:commandLink action="#{itemManager.detailPage(item.id)}" >
                         <div class="col-md-4 item-list-view-wrapper">
                             <div class="item-list-view text-center">
-                                <img src="resources/images/phone.jpg" />
+                                <img src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}"/>
                                 <h3 class="item-title">#{item.name}</h3>
                                 <p class="item-description">#{item.description}</p>
                             </div>

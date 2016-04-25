@@ -29,9 +29,9 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                     <h:form>
                         <h:panelGroup layout="block" rendered="#{profileViewManager.loggedInUser != null}">
                             <ul class="nav navbar-nav navbar-right">
-                                <li><h:link outcome="index">Home</h:link></li>
-                                <li><h:link outcome="buildings">Buildings &amp; Parking</h:link></li>
-                                <li><h:link outcome="lostAndFound">Lost &amp; Found</h:link></li>
+                                <li><h:link outcome="index"><i class="fa fa-home"></i>Home</h:link></li>
+                                <li><h:link outcome="buildings"><i class="fa fa-map"></i>Buildings &amp; Parking</h:link></li>
+                                <li><h:link outcome="lostAndFound"><i class="fa fa-tags"></i>Lost &amp; Found</h:link></li>
                                 <li class="user-dropdown">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -41,6 +41,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li><h:link outcome="profile"><i class="fa fa-user fa-fw"></i> Your Profile</h:link></li>
+                                            <li><h:link outcome="manageItems"><i class="fa fa-th-list fa-fw"></i> Your Items</h:link></li>
                                             <li role="separator" class="divider"></li>
                                             <li><h:commandLink action="#{accountManager.logout()}" > <i class="fa fa-sign-out fa-fw"></i> Logout</h:commandLink></li>
                                         </ul>
@@ -50,7 +51,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                         </h:panelGroup>
                         <h:panelGroup layout="block" rendered="#{profileViewManager.loggedInUser == null}">
                             <ul class="nav navbar-nav navbar-right">
-                                <li><h:button id="login"  value="Login" outcome="login" styleClass="btn btn-default btn-nav"/></li>
+                                <li><h:button id="login"  value="Login" outcome="login" styleClass="btn btn-custom btn-nav"/></li>
                                 <li><h:button id="signup"  value="Sign Up" outcome="signup" styleClass="btn btn-default btn-nav"/></li>
                             </ul>
                         </h:panelGroup>

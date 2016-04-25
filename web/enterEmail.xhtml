@@ -10,6 +10,7 @@ passwordResetManager.emailSubmit() checks & accepts the email.
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Enter Email</title>
@@ -25,12 +26,12 @@ passwordResetManager.emailSubmit() checks & accepts the email.
                     <h:form class="form-signin">
                         <h2 class="form-signin-heading">Please Enter Your Email</h2>
                         <fieldset>
-                            <div class="form-group" style="margin-bottom: 5px">
-                                <h:inputText id="username" value="#{passwordResetManager.email}" required="true"/>
+                            <div class="form-group" style="margin-bottom: 5px; max-width: 200px;">
+                                <p:inputText id="username" class="form-control" placeholder="Email Address" value="#{passwordResetManager.email}" required="true"/>
                             </div>
                             <br/>
-                            <h:commandButton styleClass="btn btn-default" id="submit" action="#{passwordResetManager.emailSubmit()}" value="Submit" /> 
-                            <h:button styleClass="btn btn-default" id="cancel" outcome="index" value="Cancel" />
+                            <h:commandButton styleClass="btn btn-custom" id="submit" action="#{passwordResetManager.emailSubmit()}" value="Submit" /> 
+                            <h:button styleClass="btn btn-default" id="cancel" outcome="login" value="Cancel" />
                         </fieldset>  
                         <br/>
                         <h:outputLabel value ="#{passwordResetManager.message}" />                

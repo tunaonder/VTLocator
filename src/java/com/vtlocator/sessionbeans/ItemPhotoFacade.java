@@ -33,7 +33,7 @@ public class ItemPhotoFacade extends AbstractFacade<ItemPhoto> {
     
     public List<ItemPhoto> findItemPhotosByItemID(Integer itemID) {
         return (List<ItemPhoto>) em.createNamedQuery("ItemPhoto.findItemPhotosByItemId")
-                .setParameter("photoFor", itemID)
+                .setParameter("itemId", itemID)
                 .getResultList();
     }
     
