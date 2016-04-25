@@ -52,9 +52,38 @@ The xhtml files do not interact with the CustomerFacade, they interact with this
  */
 public class ItemManager implements Serializable {
  
-    // Instance Variables (Properties)
+    @EJB
+    private UserFacade userFacade;
+    @EJB
+    private SubscriptionFacade subscriptionFacade;
+    @EJB
+    private ItemFacade itemFacade;
+    @EJB
+    private ItemPhotoFacade itemPhotoFacade;
+    @EJB
+    private UserPhotoFacade photoFacade;
+    
+    private Item selected;
+    private String name;
+    private BigDecimal latitudeFound = new BigDecimal(0);
+    private BigDecimal longitudeFound = new BigDecimal(0);
+    private Date dateFound;
+    private String category;
+    private String statusMessage;
+    private Collection<ItemPhoto> itemPhotoCollection;
+    private List<Item> recent = null;
+    private List<Item> userItems = null;
+    private Item detailItem; 
+    private boolean itemOwner = false;
+    private List<Item> allRecent = null;
+    private List<Item> allItems = null;
+    private List<ItemPhoto> photosForItem;
+    private UploadedFile file;
+    private List<UploadedFile> fileList;
+    private String message = "";
     private String description;
-
+    private String notifyNumber;
+    
     public String getDescription() {
         return description;
     }
@@ -110,35 +139,10 @@ public class ItemManager implements Serializable {
     public void setItemPhotoCollection(Collection<ItemPhoto> itemPhotoCollection) {
         this.itemPhotoCollection = itemPhotoCollection;
     }
-    
-    @EJB
-    private UserFacade userFacade;
-    
-    @EJB
-    private SubscriptionFacade subscriptionFacade;
-    
-    private String name;
-    private BigDecimal latitudeFound = new BigDecimal(0);
-    private BigDecimal longitudeFound = new BigDecimal(0);
-    private Date dateFound = new Date();
-    private String category;
-    private String statusMessage;
-    private Collection<ItemPhoto> itemPhotoCollection;
-    private List<Item> recent = null;
-    private List<Item> userItems = null;
-    private Item detailItem; 
-    private boolean itemOwner = false;
-    private List<Item> allRecent = null;
-    private List<Item> allItems = null;
-    private List<ItemPhoto> photosForItem;
-    private UploadedFile file;
-    private List<UploadedFile> fileList;
-    private String notifyNumber;
 
     public List<UploadedFile> getFileList() {
         return fileList;
     }
-    private String message = "";
 
     public Item getDetailItem() {
         return detailItem;
@@ -202,32 +206,9 @@ public class ItemManager implements Serializable {
         this.statusMessage = statusMessage;
     }
    
-    private Item selected;
     
-    /**
-     * The instance variable 'itemFacade' is annotated with the @EJB annotation.
-     * This means that the GlassFish application server, at runtime, will inject in
-     * this instance variable a reference to the @Stateless session bean UserFacade.
-     */
-    @EJB
-    private ItemFacade itemFacade;
-
-    /**
-     * The instance variable 'itemPhotoFacade' is annotated with the @EJB annotation.
-     * This means that the GlassFish application server, at runtime, will inject in
-     * this instance variable a reference to the @Stateless session bean PhotoFacade.
-     */
-    @EJB
-    private ItemPhotoFacade itemPhotoFacade;
 
     
-     /**
-     * The instance variable 'photoFacade' is annotated with the @EJB annotation.
-     * This means that the GlassFish application server, at runtime, will inject in
-     * this instance variable a reference to the @Stateless session bean PhotoFacade.
-     */
-    @EJB
-    private UserPhotoFacade photoFacade;
     
     /**
      * Creates a new instance of ItemManager
@@ -262,7 +243,11 @@ public class ItemManager implements Serializable {
         return str;
     }
 
-    // Will create an item object
+    /**
+     * Create an item object using form data.
+     * Moves all uploaded photos to database
+     * @return 
+     */
     public String createItem() {
         
         if (this.longitudeFound.equals(new BigDecimal(0)) || this.latitudeFound.equals(new BigDecimal(0))) {
@@ -299,6 +284,9 @@ public class ItemManager implements Serializable {
         return "manageItems?faces-redirect=true"; // after creating an item, navigate to manageItems
     }
     
+    /**
+     * Clears all data on the createItem page.
+     */
     public void clearCreateItemForm() {
         fileList.clear();
         description = "";
@@ -349,32 +337,42 @@ public class ItemManager implements Serializable {
         return "manageItems?faces-redirect=true"; // after editing an item, navigate to manageItems
     }
 
-    // Returns the uploaded file
+    /**
+     * Returns the uploaded file
+     * @return 
+     */
     public UploadedFile getFile() {
         return file;
     }
 
-    // Obtains the uploaded file
+    /**
+     * Obtains the uploaded file
+     * @param file 
+     */
     public void setFile(UploadedFile file) {
         this.file = file;
     }
 
-    // Returns the message
+    /**
+     * Obtains the message
+     * @param message A string
+     */
     public String getMessage() {
         return message;
     }
 
-    // Obtains the message
+    /**
+     * Obtains the message
+     * @param message A string
+     */
     public void setMessage(String message) {
         this.message = message;
     }
 
     /**
-     * "Profile?faces-redirect=true" asks the web browser to display the
-     * Profile.xhtml page and update the URL corresponding to that page.
-     * @return Profile.xhtml or nothing
+     * Moves uploaded files on the bean to the database.
+     * @return Uploaded files
      */
-    // If the uploaded file is not empty, it copies the file to DB and goes to profile.
     public String upload() {
         if (file.getSize() != 0) {
             copyFile(file);
@@ -386,6 +384,10 @@ public class ItemManager implements Serializable {
         }
     }
     
+    /**
+     * Moves uploaded files on the bean to the database.
+     * @return Uploaded files
+     */
     public String uploadMultiple() {
         for (UploadedFile aFile : fileList) {
             if (aFile.getSize() != 0) {
@@ -402,21 +404,34 @@ public class ItemManager implements Serializable {
         }
     }
     
-    // redirect to profile
+    /**
+     * Redirect to profile
+     * @return profile view
+     */
     public String cancel() {
         message = "";
         return "profile?faces-redirect=true";
     }
     
+    /**
+     * Method that is fired when Primefaces p:fileUpload uploads a file.
+     * Called once for each file if multiple files are uploaded.
+     * Adds each file to the list.
+     * @param event Uploaded file
+     */
     public void handleFileUpload(FileUploadEvent event) {
         FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
         FacesContext.getCurrentInstance().addMessage(null, message);
         fileList.add(event.getFile());
     }
 
-    // Takes an uploaded file
-    // Copies the file, creates a thumbnail version of the file
-    // Stores in the database, attached to the customer
+    /**
+     * Takes an uploaded file
+     * Copies the file, creates a thumbnail version of the file
+     * Stores in the database, attached to the customer
+     * @param file File to upload
+     * @return Faces message
+     */
     public FacesMessage copyFile(UploadedFile file) {
         try {
             // Do not delete because an item can have multiple photos
@@ -445,7 +460,13 @@ public class ItemManager implements Serializable {
             "There was a problem reading the image file. Please try again with a new photo file.");
     }
 
-    // Streams in bytes, converts the streamed bytes into a file
+    /**
+     * Streams in bytes, converts the streamed bytes into a file
+     * @param inputStream Data of an uploaded image
+     * @param childName File name of an uploaded file
+     * @return The created file
+     * @throws IOException 
+     */
     private File inputStreamToFile(InputStream inputStream, String childName)
             throws IOException {
         // Read in the series of bytes from the input stream
@@ -464,11 +485,21 @@ public class ItemManager implements Serializable {
         return targetFile;
     }
     
+    /**
+     * Sets the item to view and loads the view item page.
+     * @param id Id of an item.
+     * @return Page to direct to.
+     */
     public String detailPage(int id) {
         detailItem = itemFacade.getItem(id);
         return "detailedItemView";
     }
     
+    /**
+     * Gets the profile photo of the user who posted the item.
+     * @param finder User who posted item
+     * @return File name of users photo
+     */
     public String finderPhoto(User finder) {
         if (finder == null) {
             return "user-placeholder.jpg";
@@ -480,6 +511,12 @@ public class ItemManager implements Serializable {
         return photoList.get(0).getFilename();
     }
     
+    /**
+     * Get the first image associated with an item, we use that image as
+     * the item profile image.
+     * @param id Id of an item
+     * @return An image file name.
+     */
     public String getMainImageByItemId(int id) {
         List<ItemPhoto> photoList = itemPhotoFacade.findItemPhotosByItemID(id);
         if (photoList.isEmpty()) {
@@ -488,6 +525,11 @@ public class ItemManager implements Serializable {
         return photoList.get(0).getFilename();
     }
   
+    /**
+     * Sends a text to subscribed users when an item in their category is posted.
+     * Uses the Java Messaging Service.
+     * @param item A recently posted item to notify users about.
+     */
     public void notifyForCategory(Item item) {
         System.out.println(item.getCategory());
         List<Subscription> subscribed = subscriptionFacade.getFromCategory(item.getCategory());
@@ -503,14 +545,26 @@ public class ItemManager implements Serializable {
         }
     }
 
+    /**
+     * Get if owner of item
+     * @return True if owner
+     */
     public boolean getItemOwner() {
         return itemOwner = isOwner();
     }
 
+    /**
+     * Sets owner user of item.
+     * @param passedBool 
+     */
     public void setitemOwner(boolean passedBool) {
         this.itemOwner = isOwner();
     }
     
+    /**
+     * Checks if the user created the current lost item post.
+     * @return True if the item was lost by the current user.
+     */
     private boolean isOwner() {
         // Check if item is in view.
         if (detailItem != null) {
@@ -623,6 +677,11 @@ public class ItemManager implements Serializable {
         ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
     }
     
+    /**
+     * User marks item as found. Removes the item from database.
+     * @param itemID item id to resolve
+     * @throws IOException 
+     */
     public void resolve(String itemID) throws IOException {
         int item_id = Integer.parseInt(itemID);
         itemFacade.deleteByItemID(item_id);
