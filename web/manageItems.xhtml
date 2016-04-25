@@ -34,6 +34,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                             <span>
                                                 <h3>#{i.name}</h3>
                                                 <h:commandButton action="#{itemManager.detailPage(i.id)}" styleClass="btn btn-sm btn-custom" value="View" />
+                                                <h:commandButton action="#{itemManager.edit(i.id)}" styleClass="btn btn-sm btn-default" value="Edit" />
                                                 <h:commandButton action="#{itemManager.resolve(i.id)}" styleClass="btn btn-sm btn-default" value="Resolve" />
                                                 <h:commandButton action="#{itemManager.delete(i.id)}" styleClass="btn btn-sm btn-default" value="Delete" /> 
                                             </span>

@@ -92,7 +92,8 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                         </h:panelGroup>
                         <br/>
                         <h:commandButton class="btn btn-default" id="submit" value="Post" action="#{itemManager.createItem()}" />   
-                        <h:button class="btn btn-default" id="cancel" value="Cancel" outcome="lostAndFound" /> 
+                        <h:commandButton immediate="true" class="btn btn-default" id="cancel" value="Cancel" action="#{itemManager.cancelCreate}" />   
+
                         <br/>
                     </h:form>
                 </div>
