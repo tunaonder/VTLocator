@@ -277,7 +277,7 @@ public class ItemManager implements Serializable {
 
         } catch (EJBException e) {
             //email = "";
-            statusMessage = "Something went wrong while creating your account!";
+            statusMessage = "Something went wrong while creating your item!";
             return "";
         }
 
@@ -292,6 +292,7 @@ public class ItemManager implements Serializable {
         dateFound = null; 
         latitudeFound = new BigDecimal(0);
         longitudeFound = new BigDecimal(0);
+        statusMessage = null;
     }
 
     // Returns the uploaded file
