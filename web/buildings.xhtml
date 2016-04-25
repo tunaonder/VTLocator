@@ -13,63 +13,6 @@
         <!-- This page is constructed based on the siteTemplate -->
         <ui:composition template="template/siteTemplate.xhtml">
 
-            <ui:define name="header" >
-                <p:growl></p:growl>
-                <nav class=" navbar-default navbar-fixed-top">
-                    <div class="container-fluid navbar-bottom">
-                        <h:form>
-                            <div class="navbar-header">
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <h:commandLink class="navbar-brand" action="#{buildingManager.reInit4()}">
-                                <img class="logo logo-header logo-center" src="resources/images/logo_primary.png"/>
-                            </h:commandLink>
-                        </div>
-                            
-                        </h:form>
-                        
-
-                        <div class="navbar-collapse collapse">
-                            <h:form>
-                                <h:panelGroup layout="block" rendered="#{profileViewManager.loggedInUser != null}">
-                                    <ul class="nav navbar-nav navbar-right">
-                                        <li><h:link outcome="buildings">Buildings &amp; Parking</h:link></li>
-                                        <li><h:commandLink action="#{buildingManager.reInit2()}">Lost &amp; Found</h:commandLink></li>
-                                        <li class="user-dropdown">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-angle-down pull-right"></i>
-                                                    <img class="user-profile-img" src="FileStorageLocation/#{accountManager.userPhoto()}"/>
-                                                    <span>Hi, #{profileViewManager.loggedInUser.firstName}!</span>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li><h:commandLink action="#{buildingManager.reInit3()}"><i class="fa fa-user fa-fw"></i> Your Profile</h:commandLink></li>
-                                                    <li role="separator" class="divider"></li>
-                                                    <li><h:commandLink action="#{accountManager.logout()}" > <i class="fa fa-sign-out fa-fw"></i> Logout</h:commandLink></li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </h:panelGroup>
-                                <h:panelGroup layout="block" rendered="#{profileViewManager.loggedInUser == null}">
-                                    <ul class="nav navbar-nav navbar-right">
-                                        <li><h:button id="login"  value="Login" outcome="login" styleClass="btn btn-default btn-nav"/></li>
-                                        <li><h:button id="signup"  value="Sign Up" outcome="signup" styleClass="btn btn-default btn-nav"/></li>
-                                    </ul>
-                                </h:panelGroup>
-
-
-                            </h:form>
-
-                        </div>
-                    </div>
-                </nav>
-
-            </ui:define>
 
             <ui:define name="sidebar">
 
@@ -173,7 +116,7 @@
                         <h:inputHidden id="startBuildingLong" value="#{buildingManager.lng2}" />
 
                         <!--                        Resets the Page to its initial state-->
-                        <p:commandButton  value="Refresh" onclick="refreshMap()"
+                        <p:commandButton id="refreshButton" value="Refresh" onclick="refreshMap()"
                                           styleClass="btn btn-default btn-direction">
                             <p:ajax listener="#{buildingManager.init()}" update="dropDownForm"/>
 
@@ -203,7 +146,11 @@
 
                 <script type="text/javascript" >
                     initilaizeMap();
-
+                    
+                    $( document ).ready(function() {
+                        $("#refreshButton").click();
+                    });
+                    
                 </script>
 
 
