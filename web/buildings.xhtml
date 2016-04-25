@@ -182,13 +182,12 @@
                     </div>
 
                     <!--                    Building Description and Image Is Displayed-->
-                    <ul class="buildingInfo" >
-                        <p:inputTextarea id="buildingDescription" rows="8" cols="31" styleClass="buildingDescription" 
+                    <div class="buildingInfo" >
+                        <p:outputLabel id="buildingDescription" styleClass="buildingDescription" 
                                          value="#{buildingManager.description}" rendered="#{buildingManager.directionPressed == false}"/>
 
                         <h:graphicImage id="buildingImage" url="#{buildingManager.imageUrl}" styleClass="buildingImage" rendered="#{buildingManager.directionPressed == false}"/>
-
-                    </ul>
+                    </div>
 
                 </h:form>
 

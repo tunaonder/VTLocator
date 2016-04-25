@@ -111,9 +111,7 @@ public class BuildingManager implements Serializable {
     }
     
     private void setInitialValues(){
-                //Virginia Tech Logo is the Default Image
-        imageUrl = "https://lh5.googleusercontent.com/-A6mD3SlNkSM/AAAAAAAAAAI/AAAAAAAAAXE/yyIqI5mrcOk/s0-c-k-no-ns/photo.jpg";
-
+        imageUrl = null;
         categoryAvailable = false;
         directionAvailable = false;
         selectedBuildingName = "";
@@ -388,8 +386,7 @@ public class BuildingManager implements Serializable {
         selectedBuildingName = "";
         directionAvailable = false;
         description = "";
-        imageUrl = "https://lh5.googleusercontent.com/-A6mD3SlNkSM/AAAAAAAAAAI/AAAAAAAAAXE/yyIqI5mrcOk/s0-c-k-no-ns/photo.jpg";
-        
+        imageUrl = null;        
         try {
             //Add categories sub Path. And Replace Space with %20
             String modifiedCategoryName = "categories/" + buildingCategory.replaceAll(" ", "%20");

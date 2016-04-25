@@ -272,19 +272,13 @@ div.footer .footer-text {
  * Building CSS Rules
  */
 .buildingInfo .buildingImage {
-    width: 280px;
-    height: 250px;
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    
+    margin-top: 20px;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 .buildingInfo .buildingDescription {
-    width: 260px;
-    position: absolute;
-    bottom: 270px;
-    left: 20px;
+    margin-top: 30px;
 }
 
 #dropDownForm {
@@ -422,6 +416,8 @@ div.footer .footer-text {
     margin-bottom: 30px;
     padding: 10px;
     border: 2px dashed white;
+    height: 275px;
+    overflow: hidden;
 }
 
 .item-list-view:hover {
@@ -431,12 +427,12 @@ div.footer .footer-text {
 
 .manage-item-view {
     padding: 10px;
-    cursor: pointer;
     height: 120px;
 }
 
 .manage-item-view .item-title {
     margin-top: 17px;
+    white-space: nowrap;
 }
 
 .manage-item-view .item-date {
@@ -457,12 +453,13 @@ div.footer .footer-text {
 }
 
 .item-list-view img {
-    width: 75%;
-    height: auto;
+    width: auto;
+    height: 150px;
 }
 
 .item-list-view .item-title {
     color: #e95051;
+    white-space: nowrap;
 }
 
 .view-all-link {
@@ -563,6 +560,16 @@ div.footer .footer-text {
     overflow: hidden;
 }
 
+.item-view-gallery-wrapper {
+    margin-top: 20px;
+    border-left: 30px solid #ccc;
+    border-right: 30px solid #ccc;
+    width: 75%;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 div .center {
     float: none;
     margin-left: auto;
@@ -582,10 +589,6 @@ div .center {
 .belonging-action-wrapper {
     box-sizing: border-box;
     width: 100%;
-}
-
-div > div .belonging-action {
-    margin-top: 35px;
 }
 
 /*messages*/

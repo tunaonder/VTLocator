@@ -25,24 +25,24 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                     <div class="row">
                         <!--panelgroup to force ajax update-->
                         <h:panelGroup id="item-list">
-                            <ui:repeat var="i" value="#{itemManager.userItems}" rendered="#{itemManager.userItems.size() > 0}" id="item-repeat">
-                                <div class="col-md-12">
-                                    <div class="manage-item-view well" id="">
-                                        <img class="pull-left" src="resources/images/phone.jpg" />
-                                        <span>
+                            <h:form>
+                                <ui:repeat var="i" value="#{itemManager.userItems}" rendered="#{itemManager.userItems.size() > 0}" id="item-repeat">
+                                    <div class="col-md-12">
+                                        <div class="manage-item-view well">
+                                            <img class="pull-left" src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}" />
                                             <h:outputLabel styleClass="item-date pull-right" value="#{i.dateFound}"/>
-                                            <h:outputLabel styleClass="item-title" value="#{i.name}" />
-                                            <h:inputHidden id="itemID" value="#{i.id}" binding="#{itemID}" />
-                                            <br />
-                                            <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
-                                            <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
-                                            <p:commandButton action="#{itemManager.delete(itemID.value)}" styleClass="btn btn-custom btn-sm btn-custom" value="Delete this item" /> 
-                                        </span>
+                                            <span>
+                                                <h3>#{i.name}</h3>
+                                                <h:commandButton action="#{itemManager.detailPage(i.id)}" styleClass="btn btn-sm btn-custom" value="View" />
+                                                <h:commandButton action="#{itemManager.resolve(i.id)}" styleClass="btn btn-sm btn-default" value="Resolve" />
+                                                <h:commandButton action="#{itemManager.delete(i.id)}" styleClass="btn btn-sm btn-default" value="Delete" /> 
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                            </ui:repeat>
+                                </ui:repeat>
+                            </h:form>
                             </h:panelGroup>
-                        <h:outputLabel rendered="#{itemManager.userItems == null || itemManager.userItems.size() == 0}">No items found</h:outputLabel>
+                        <h3><h:outputLabel rendered="#{itemManager.userItems == null || itemManager.userItems.size() == 0}">No items found</h:outputLabel></h3>
                     </div>
                 </div>
             </ui:define>

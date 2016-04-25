@@ -22,14 +22,14 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                      <h:form class="detailPage">
                         <ui:repeat var="item" value="#{searchManager.resultsList}" varStatus="status">
                             <h:commandLink action="#{itemManager.detailPage(item.id)}" >
-                            <div class="col-md-4 item-list-view-wrapper">
-                                <div class="item-list-view text-center">
-                                    <img src="resources/images/phone.jpg" />
-                                    <h3 class="item-title">#{item.name}</h3>
-                                    <p class="item-description">#{item.description}</p>
-                                    <h4><i>Distance: #{item.formattedDistance} miles away</i></h4>
+                                <div class="col-md-4 item-list-view-wrapper">
+                                    <div class="item-list-view text-center" style="height: 310px;">
+                                        <img src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}" />
+                                        <h3 class="item-title">#{item.name}</h3>
+                                        <p class="item-description">#{item.description}</p>
+                                        <h4><i>Distance: #{item.formattedDistance} miles away</i></h4>
+                                    </div>
                                 </div>
-                            </div>
                             </h:commandLink>
                         </ui:repeat>
                     </h:form>

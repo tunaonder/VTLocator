@@ -503,7 +503,7 @@ public class ItemManager implements Serializable {
                 return "lostAndFound";
             }
         }
-        return "index";
+        return "lostAndFound";
     }
     
     
@@ -523,7 +523,7 @@ public class ItemManager implements Serializable {
             }
         }
         
-        return "index";
+        return "lostAndFound";
     }
     
     /**
@@ -539,7 +539,16 @@ public class ItemManager implements Serializable {
         int item_id = Integer.parseInt(itemID);
         System.out.println("item int number is : "  + item_id);
         itemFacade.deleteByItemID(item_id);
-        
+        FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Your item has been deleted."));
+        // Force page refresh
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+    }
+    
+    public void resolve(String itemID) throws IOException {
+        int item_id = Integer.parseInt(itemID);
+        itemFacade.deleteByItemID(item_id);
+        FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Resolved. Your post has been marked resolved and will now be deleted."));
         // Force page refresh
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
