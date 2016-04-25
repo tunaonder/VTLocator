@@ -6,6 +6,7 @@ package com.vtlocator.jpaentityclasses;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -119,6 +120,11 @@ public class Item implements Serializable, Comparable<Item> {
     }
     
     
+    public String getFancyDate() {
+         Date date = this.getDateFound(); // your date
+         SimpleDateFormat format = new SimpleDateFormat("EEE, MMM dd yyyy");
+         return format.format(date);
+     }
     
     public Item() {
     }
