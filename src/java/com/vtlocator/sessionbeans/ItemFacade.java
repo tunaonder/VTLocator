@@ -51,7 +51,7 @@ public class ItemFacade extends AbstractFacade<Item> {
     
     public List<Item> getItemsForUser(int userId) {
         return em.createNamedQuery("Item.findByUserCreatorOrdered")
-                .setParameter("userId", userId)
+                .setParameter("createdBy", userId)
                 .getResultList();
     }
 }

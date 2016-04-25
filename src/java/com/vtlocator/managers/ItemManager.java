@@ -175,6 +175,10 @@ public class ItemManager implements Serializable {
         return photosForItem;
     }
     
+    public List<Item> getItemsForUser(int userId) {
+        return itemFacade.getItemsForUser(userId);
+    }
+    
     public String getStatusMessage() {
         return statusMessage;
     }

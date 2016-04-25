@@ -22,74 +22,21 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                 <div class="lost-and-found-home-wrapper">
                     <h:button outcome="createItem" class="btn btn-lg btn-default pull-right" value="Post Item" />
                     <h1>Your Current Items:</h1>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="manage-item-view well">
-                                <img class="pull-left" src="resources/images/phone.jpg" />
-                                <span>
-                                    <h4 class="item-date pull-right">DATE HERE</h4>
-                                    <h3 class="item-title">Test Title of Item</h3>
-                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
-                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
-                                </span>
-                            </div>
+                    <h:form>
+                        <div class="row">
+                            <ui:repeat var="item" value="#{itemManager.getItemsForUser(accountManager.selected.id)}" varStatus="status">
+                                <h:commandLink action="#{itemManager.detailPage(item.id)}" >
+                                    <div class="col-md-4 item-list-view-wrapper">
+                                        <div class="item-list-view text-center">
+                                            <img src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}"/>
+                                            <h3 class="item-title">#{item.name}</h3>
+                                            <p class="item-description">#{item.description}</p>
+                                        </div>
+                                    </div>
+                                </h:commandLink>
+                            </ui:repeat>
                         </div>
-                        <div class="col-md-12">
-                            <div class="manage-item-view well">
-                                <img class="pull-left" src="resources/images/phone.jpg" />
-                                <span>
-                                    <h4 class="item-date pull-right">DATE HERE</h4>
-                                    <h3 class="item-title">Test Title of Item</h3>
-                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
-                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="manage-item-view well">
-                                <img class="pull-left" src="resources/images/phone.jpg" />
-                                <span>
-                                    <h4 class="item-date pull-right">DATE HERE</h4>
-                                    <h3 class="item-title">Test Title of Item</h3>
-                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
-                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="manage-item-view well">
-                                <img class="pull-left" src="resources/images/phone.jpg" />
-                                <span>
-                                    <h4 class="item-date pull-right">DATE HERE</h4>
-                                    <h3 class="item-title">Test Title of Item</h3>
-                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
-                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="manage-item-view well">
-                                <img class="pull-left" src="resources/images/phone.jpg" />
-                                <span>
-                                    <h4 class="item-date pull-right">DATE HERE</h4>
-                                    <h3 class="item-title">Test Title of Item</h3>
-                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
-                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="manage-item-view well">
-                                <img class="pull-left" src="resources/images/phone.jpg" />
-                                <span>
-                                    <h4 class="item-date pull-right">DATE HERE</h4>
-                                    <h3 class="item-title">Test Title of Item</h3>
-                                    <h:button outcome="index" class="btn btn-sm btn-custom" value="Option 1" />
-                                    <h:button outcome="index" class="btn btn-sm btn-default" value="Option 2" />
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                    </h:form>
                 </div>
             </ui:define>
         </ui:composition>
