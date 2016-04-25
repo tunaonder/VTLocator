@@ -246,6 +246,20 @@ public class ItemManager implements Serializable {
     public void setSelected(Item selected) {
         this.selected = selected;
     }
+    
+    public String ellipsesDescription(String str) {
+        if (str != null && str.length() > 45) {
+            return str.substring(0, str.indexOf(' ', 40)) + "...";
+        }
+        return str;
+    }
+    
+    public String ellipsesTitle(String str) {
+        if (str != null && str.length() > 16) {
+            return str.substring(0, str.indexOf(' ', 13)) + "...";
+        }
+        return str;
+    }
 
     // Will create an item object
     public String createItem() {
