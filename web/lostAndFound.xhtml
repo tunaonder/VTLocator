@@ -32,8 +32,8 @@
                         <div class="col-md-4 item-list-view-wrapper">
                             <div class="item-list-view text-center">
                                 <img src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}"/>
-                                <h3 class="item-title">#{item.name}</h3>
-                                <p class="item-description">#{item.description}</p>
+                                <h3 class="item-title">#{itemManager.ellipsesTitle(item.name)}</h3>
+                                <p class="item-description">#{itemManager.ellipsesDescription(item.description)}</p>
                             </div>
                         </div>
                         </h:commandLink>
@@ -45,15 +45,15 @@
                     <h4>Subscribe to a lost item thread:</h4>
                     <p>Be notified whenever a new item is posted to one or more of the following categories.  Simply let us know which categories you wish to subscribe to below...</p>
                     <h:form class="form-subscribe">
-                    <p:selectManyCheckbox id="basic" layout="pageDirection" value="#{accountManager.selectedSubscriptions}">
-                        <f:selectItem itemLabel="Cell Phones" itemValue="PHONE" />
-                        <f:selectItem itemLabel="Hokie Passport" itemValue="HOKIE_PASSPORT" />
-                        <f:selectItem itemLabel="Keys" itemValue="KEYS" />
-                        <f:selectItem itemLabel="Electronics" itemValue="ELECTRONICS" />
-                        <f:selectItem itemLabel="Clothing" itemValue="CLOTHING" />
-                        <f:selectItem itemLabel="Other" itemValue="OTHER" />
-                    </p:selectManyCheckbox>
-                    <h:commandButton class="btn btn-custom btn-subscription" id="submit" value="Save These Settings" />   
+                        <p:selectManyCheckbox id="basic" layout="pageDirection" value="#{accountManager.selectedSubscriptions}">
+                            <f:selectItem itemLabel="Cell Phones" itemValue="PHONE" />
+                            <f:selectItem itemLabel="Hokie Passport" itemValue="HOKIE_PASSPORT" />
+                            <f:selectItem itemLabel="Keys" itemValue="KEYS" />
+                            <f:selectItem itemLabel="Electronics" itemValue="ELECTRONICS" />
+                            <f:selectItem itemLabel="Clothing" itemValue="CLOTHING" />
+                            <f:selectItem itemLabel="Other" itemValue="OTHER" />
+                        </p:selectManyCheckbox>
+                        <h:commandButton class="btn btn-custom btn-subscription" id="submit" value="Save These Settings" />   
                     </h:form>
                 </div>
             </ui:define>

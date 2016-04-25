@@ -76,21 +76,6 @@ CREATE TABLE Subscription
     PRIMARY KEY (id)
 );
 
-/* The Notification table contains attributes of interest of a notification. */
-CREATE TABLE Notification
-(
-    id INT NOT NULL AUTO_INCREMENT,
-    created_at timestamp default now(),
-    updated_at timestamp default now() on update now(),
-    sender INT,
-    FOREIGN KEY (sender) REFERENCES User(id) ON DELETE CASCADE,
-    recipient INT,
-    FOREIGN KEY (recipient) REFERENCES User(id) ON DELETE CASCADE,
-    item INT,
-    FOREIGN KEY (item) REFERENCES User(id) ON DELETE CASCADE,
-    PRIMARY KEY (id)
-);
-
 /* The ParkingLot table contains attributes of interest of a parking lot. */
 CREATE TABLE ParkingLot
 (
@@ -302,5 +287,5 @@ INSERT INTO User (first_name, last_name, email, password, phone_number, security
 INSERT INTO Item (name, description, latitude_found, longitude_found, category, created_by) VALUES
 ('Purple iPhone', 'I found an iPhone 5 in a purple case. It was located in the cloud computing lab.  There is a passcode so I cannot access the inside to see who the owner is.', '37.2305915726', '-80.4217767404','PHONE', 1),
 ('Rolex Watch', 'On my way to class, I found a fancy watch out front of Burruss Hall.', '37.229031934', '-80.4237145305','OTHER', 1),
-('Form Mustang Car Keys', 'Upon leaving Owens Dining Hall, these keys were found on the stairs.  They appear to be from a Ford Mustang.', '37.23086', '-80.42565','KEYS', 1),
+('Ford Mustang Car Keys', 'Upon leaving Owens Dining Hall, these keys were found on the stairs.  They appear to be from a Ford Mustang.', '37.23086', '-80.42565','KEYS', 1),
 ('Tuna Onders Hokie Passport', 'Tuna Onder, I have your Hokie Passport but I cannot location your contact information. Hopefully VTLocator will help my get a hold of you.', '37.23086', '-80.42565','HOKIE_PASSPORT', 1);
