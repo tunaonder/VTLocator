@@ -17,6 +17,9 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                 <ui:include src="template/itemSearch.xhtml"></ui:include>
             </ui:define>
             <ui:define name="mainPanel">
+                <p:growl id="belonging-growl" />
+                
+                
                 <div class="item-view-wrapper">
                     <div class="text-center">
                         <p:galleria value="#{itemManager.getPhotosForItem(itemManager.detailItem.id)}" var="image" panelWidth="500" panelHeight="313" showCaption="true">
@@ -24,16 +27,41 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                         </p:galleria>
                         <img class="item-photo" src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}"/>
                     </div>
-                    <h3 class="item-view-title">#{itemManager.detailItem.name}</h3>
-                    <p class="item-decription">#{itemManager.detailItem.description}</p>
-                    <h4>Let your friend know you found their belonging...</h4>
-                    <div class="input-group" style="max-width: 400px;">
-                        <input type="text" class="form-control" placeholder="Search by name or phone number..." />
-                        <span class="input-group-btn">
-                          <button class="btn btn-custom" style="height: 34px;" type="button">Notify</button>
-                        </span>
+                    
+                    <div class="belonging-wrapper center clearfix" >
+                        <h3 class="item-view-title text-center">#{itemManager.detailItem.name}</h3>
+                        <p class="item-decription text-center">#{itemManager.detailItem.description}</p>
+
+                        
+                        
+                        <div class="belonging-action-wrapper">
+                            <div class="belonging-notify col-sm-10 col-md-6">
+                                <h4>Let your friend know you found their belonging...</h4>
+                                <div class="input-group" style="max-width: 400px;">
+                                    <input type="text" class="form-control" placeholder="Search by name or phone number..." />
+                                    <span class="input-group-btn">
+                                      <button class="btn btn-custom" style="height: 34px;" type="button">Notify</button>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="belonging-action col-sm-10 col-md-6">
+                                
+                                <p:commandButton id="belong-resolve-btn" action="#{itemManager.resolve}" styleClass="btn btn-custom btn-lg btn-block belonging-btn" value="Resolve this item" 
+                                                 update="belonging-growl" rendered="#{itemManager.itemOwner == true}"></p:commandButton>  
+                                <p:tooltip id="resolveTooltip" for="belong-resolve-btn" value="Press this after returning the item back to the owner." trackMouse="true" />                 
+
+                                
+                                <p:commandButton id="belong-claim-btn" action="#{itemManager.claim}"  styleClass="btn btn-custom btn-lg btn-block belonging-btn" value="Claim this item" 
+                                                 update="belonging-growl" rendered="#{itemManager.itemOwner == false}"></p:commandButton>                               
+                                <p:tooltip id="claimTooltip" for="belong-claim-btn" value="Press this to notify the uploader about the item." trackMouse="true" />                 
+               
+                            </div>
+                        </div>
                     </div>
-                    <h4>This item was located at...</h4>
+                    <br />
+                    <h4 class="text-center">This item was located at...</h4>
+                    
                     <div class="item-view-map-wrapper">
                         <div id="map" style="width:100%; height:100%;"></div>
                         <script type="text/javascript" >

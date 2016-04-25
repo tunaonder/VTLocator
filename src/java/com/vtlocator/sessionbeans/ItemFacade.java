@@ -54,4 +54,28 @@ public class ItemFacade extends AbstractFacade<Item> {
                 .setParameter("createdBy", userId)
                 .getResultList();
     }
+    
+    /**
+     * Returns a list of items posted by userID
+     * @param userID userID of uploader
+     * @return List of items
+     */
+    public List<Item> findItemsByUserID(Integer userID) {
+        return (List<Item>) em.createQuery("SELECT i FROM Item i WHERE i.createdBy.id = :createdByID")
+                .setParameter("createdByID", userID)
+                .getResultList();
+    }
+    
+    /**
+     * Deletes an item with given itemID
+     * @param id itemID to delete
+     */
+    public void deleteByItemID(int id) {
+        Item item = (Item) em.createQuery("SELECT i FROM Item i WHERE i.id = :id")
+                .setParameter("id", id)
+                .getResultList().get(0);
+        System.out.println("item name is : " + item.getName());
+        em.refresh(item);
+        em.remove(item);
+    }
 }
