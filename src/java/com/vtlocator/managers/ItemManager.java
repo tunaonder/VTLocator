@@ -133,6 +133,7 @@ public class ItemManager implements Serializable {
     private List<ItemPhoto> photosForItem;
     private UploadedFile file;
     private List<UploadedFile> fileList;
+    private String notifyNumber;
 
     public List<UploadedFile> getFileList() {
         return fileList;
@@ -307,6 +308,45 @@ public class ItemManager implements Serializable {
         latitudeFound = new BigDecimal(0);
         longitudeFound = new BigDecimal(0);
         statusMessage = null;
+    }
+    
+    public String cancelCreate() {
+        clearCreateItemForm();
+        
+        return "lostAndFound?faces-redirect=true";
+    }
+    
+    
+        // Will edit an item object
+    public String editItem() {
+        try {
+            if (detailItem != null) {
+                Item item = detailItem;
+                item.setCategory(this.category);
+                item.setDateFound(detailItem.getDateFound());
+                item.setLatitudeFound(this.latitudeFound);
+                item.setLongitudeFound(this.longitudeFound);
+                item.setName(detailItem.getName());
+                item.setDescription(detailItem.getDescription());
+                item.setId(detailItem.getId());
+//                item.setCreatedBy(user); // cannot change who created
+//                item.setItemPhotoCollection(itemPhotoCollection); // leave photo collection unchanged
+
+                detailItem = item;
+                itemFacade.edit(detailItem);
+                notifyForCategory(item);
+                this.selected = item;
+//                uploadMultiple();
+                clearCreateItemForm();
+            }
+            
+        } catch (EJBException e) {
+            //email = "";
+            statusMessage = "Something went wrong while creating your item!";
+            return "";
+        }
+
+        return "manageItems?faces-redirect=true"; // after editing an item, navigate to manageItems
     }
 
     // Returns the uploaded file
@@ -553,6 +593,20 @@ public class ItemManager implements Serializable {
     }
     
     /**
+     * Uploader for item can edit.
+     * @return 
+     */
+    public String edit() {
+        if (detailItem != null) {
+            User createdBy = detailItem.getCreatedBy();
+            if (createdBy != null) {
+                return "editItemView?faces-redirect=true";
+            }
+        }
+        return "lostAndFound";
+    }
+        
+    /**
      * delete method called from manageItems.xhtml 
      * Deletes an item
      * @param itemID item id to delete
@@ -578,7 +632,10 @@ public class ItemManager implements Serializable {
         ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
     }
     
-    private String notifyNumber;
+    public String edit(int itemID) {
+        detailItem = itemFacade.getItem(itemID);
+        return "editItemView";
+    }
 
     public String getNotifyNumber() {
         return notifyNumber;
