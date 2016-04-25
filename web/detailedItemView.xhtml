@@ -8,7 +8,8 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:body>
         <!-- Do not enter tags before the composition line since they are ignored by JSF -->
@@ -50,10 +51,16 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                 <div class="belonging-notify col-lg-8">
                                     <h4>Let your friend know you found their belonging...</h4>
                                     <div class="input-group" style="max-width: 400px;">
-                                        <input type="text" class="form-control" placeholder="Search by name or phone number..." />
+                                        <h:form class="notifyNumber">
+                                        <h:inputText required="true" class="form-control" label="Enter phone number..." value="#{itemManager.notifyNumber}" >
+                                        <f:validateLength minimum="10" maximum="10" />
+                                        </h:inputText>
                                         <span class="input-group-btn">
-                                          <button class="btn btn-custom" style="height: 34px;" type="button">Notify</button>
+                                             
+                                            <h:commandButton class="btn btn-custom" value="Notify" style="height: 34px;" type="submit" action="#{itemManager.notifyFriend()}"/>
+                                            
                                         </span>
+                                         </h:form>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">

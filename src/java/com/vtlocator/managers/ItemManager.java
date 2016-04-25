@@ -498,7 +498,7 @@ public class ItemManager implements Serializable {
                 + item.getName() + ") is being claimed by [" + userThatNotifies.getFirstName() + " " + userThatNotifies.getLastName()
                 + "]. \nPlease call " + userThatNotifies.getPhoneNumber() + " to arrange a pickup time/place for the item.";
         
-//        MessageClient.sendMessage(userToNotify.getPhoneNumber(), message);
+        MessageClient.sendMessage(userToNotify.getPhoneNumber(), message);
         System.out.println(message);
     }
     
@@ -547,9 +547,7 @@ public class ItemManager implements Serializable {
     public void delete(String itemID) throws IOException {
         User currentUser = userFacade.getUser((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
 //        int item_id = Integer.parseInt(itemID);
-        System.out.println("--------------\n item id is " + itemID);
         int item_id = Integer.parseInt(itemID);
-        System.out.println("item int number is : "  + item_id);
         itemFacade.deleteByItemID(item_id);
         FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Your item has been deleted."));
         // Force page refresh
@@ -566,5 +564,28 @@ public class ItemManager implements Serializable {
         ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
     }
     
+    private String notifyNumber;
+
+    public String getNotifyNumber() {
+        return notifyNumber;
+    }
+
+    public void setNotifyNumber(String notifyNumber) {
+        this.notifyNumber = notifyNumber;
+    }
+    
+    public void notifyFriend() {
+        User currentUser = userFacade.getUser((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+        User createdBy = detailItem.getCreatedBy();
+        if (this.notifyNumber != null) {
+            String notifyMessage = "Hi " + ", " + currentUser.getFirstName() + " " + currentUser.getLastName() +
+                    " thinks that an item posted on VTLocator (" + detailItem.getName() + ") by " +
+                    createdBy.getFirstName() + " " + createdBy.getLastName() + " may be yours. " +
+                    " If you would like more information on this item, please go on VTLocator. ";        
+            if (MessageClient.sendMessage(notifyNumber, notifyMessage)) {
+                FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Your message has been sent."));
+            }
+        }
+    }
     
 }
