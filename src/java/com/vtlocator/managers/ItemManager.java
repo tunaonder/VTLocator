@@ -717,5 +717,17 @@ public class ItemManager implements Serializable {
             }
         }
     }
-    
+
+    /**
+     * Deletes the item photo with the given id.
+     * @param photoId
+     * @throws IOException 
+     */
+    public void deleteItemPhotoById(int photoId) throws IOException {
+        itemPhotoFacade.deleteByItemPhotoID(photoId);
+        FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Photo removed."));
+        // Force page refresh
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+    } 
 }

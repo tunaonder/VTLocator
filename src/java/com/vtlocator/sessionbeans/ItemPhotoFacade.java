@@ -37,5 +37,17 @@ public class ItemPhotoFacade extends AbstractFacade<ItemPhoto> {
                 .getResultList();
     }
     
+    /**
+     * Deletes an item with given itemID
+     * @param id itemID to delete
+     */
+    public void deleteByItemPhotoID(int id) {
+        ItemPhoto photo = (ItemPhoto) em.createNamedQuery("ItemPhoto.findItemPhotosByItemId")
+                .setParameter("id", id)
+                .getResultList().get(0);
+        em.refresh(photo);
+        em.remove(photo);
+    }
+    
 }
 
