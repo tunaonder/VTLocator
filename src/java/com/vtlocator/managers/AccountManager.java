@@ -429,21 +429,21 @@ public class AccountManager implements Serializable {
             }
         }
         if (subscriptions != null) {
-            System.out.println("hereYOYOYO");
+//            System.out.println("hereYOYOYO");
             Iterator<Subscription> iterator = subscriptions.iterator();
             while (iterator.hasNext()) {
                 
                 Subscription oldSub = iterator.next();
-                System.out.println(oldSub.getCategory() + "OLD");
+//                System.out.println(oldSub.getCategory() + "OLD");
                 boolean shouldExist = false;
                 for (int i = 0; i < selectedSubscriptions.size(); i++) {
-                    System.out.println(selectedSubscriptions.get(i) + "NEW");
+//                    System.out.println(selectedSubscriptions.get(i) + "NEW");
                     if (oldSub.getCategory().equals(selectedSubscriptions.get(i))) {
                         shouldExist = true;
                     }
                 }
                 if (!shouldExist) {
-                    System.out.println("REMOVE IN");
+//                    System.out.println("REMOVE IN");
                     subscriptionFacade.deleteBySub(oldSub.getId());
                 }
             }
@@ -454,18 +454,18 @@ public class AccountManager implements Serializable {
 
     public Collection<Subscription> getSubscriptions() {
         selected = getSelected();
-        System.out.println(selected.getFirstName() + "YOYOYO");
+//        System.out.println(selected.getFirstName() + "YOYOYO");
         List<Subscription> others = subscriptionFacade.getByUserId(selected);
         if (others.isEmpty()) {
-            System.out.println("OTHER IS EMPTY");
+//            System.out.println("OTHER IS EMPTY");
         } else {
             return others;
         }
         if (selected.getSubscriptionCollection().isEmpty()) {
-            System.out.println(selected.getFirstName() + "NADAHERE");
+//            System.out.println(selected.getFirstName() + "NADAHERE");
             return null;
         } else {
-            System.out.println("HERE!");
+//            System.out.println("HERE!");
             return selected.getSubscriptionCollection();
         }
     }

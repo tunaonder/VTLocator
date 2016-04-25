@@ -31,7 +31,7 @@
                         <h:commandLink action="#{itemManager.detailPage(item.id)}" >
                         <div class="col-md-4 item-list-view-wrapper">
                             <div class="item-list-view text-center">
-                                <img src="resources/images/phone.jpg" />
+                                <img src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}"/>
                                 <h3 class="item-title">#{item.name}</h3>
                                 <p class="item-description">#{item.description}</p>
                             </div>
@@ -54,7 +54,6 @@
                         <f:selectItem itemLabel="Other" itemValue="OTHER" />
                     </p:selectManyCheckbox>
                     <h:commandButton class="btn btn-custom btn-subscription" id="submit" value="Save These Settings" />   
-                    <h:commandButton class="btn btn-default btn-subscription" id="cancel" value="Revert to Previous Settings" /> 
                     </h:form>
                 </div>
             </ui:define>

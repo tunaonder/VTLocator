@@ -17,20 +17,57 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                 <ui:include src="template/itemSearch.xhtml"></ui:include>
             </ui:define>
             <ui:define name="mainPanel">
+                <p:growl id="belonging-growl" />
+                
+                
                 <div class="item-view-wrapper">
-                    <div class="text-center">
-                        <img class="item-photo" src="resources/images/phone.jpg" />
+                    <div class="item-view-gallery-wrapper">
+                        <ui:repeat var="image" value="#{itemManager.getPhotosForItem(itemManager.detailItem.id)}" varStatus="status">
+                            <img src="FileStorageLocation/#{image.filename}" />
+                        </ui:repeat>
+                        <h:panelGroup layout="block" rendered="#{itemManager.getPhotosForItem(itemManager.detailItem.id).size() == 0}">
+                            <img src="FileStorageLocation/item-placeholder.jpg" />
+                        </h:panelGroup>
                     </div>
-                    <h3 class="item-view-title">#{itemManager.detailItem.name}</h3>
-                    <p class="item-decription">#{itemManager.detailItem.description}</p>
-                    <h4>Let your friend know you found their belonging...</h4>
-                    <div class="input-group" style="max-width: 400px;">
-                        <input type="text" class="form-control" placeholder="Search by name or phone number..." />
-                        <span class="input-group-btn">
-                          <button class="btn btn-custom" style="height: 34px;" type="button">Notify</button>
-                        </span>
-                    </div>
-                    <h4>This item was located at...</h4>
+                    <script type="text/javascript">
+                        $(document).ready(function(){
+                          $('.item-view-gallery-wrapper').slick({
+                            dots: true,
+                            infinite: true,
+                            speed: 500,
+                            fade: true,
+                            cssEase: 'linear',
+                            adaptiveHeight: true
+                          });
+                        });
+                    </script>
+                    <h:form>
+                        <div class="belonging-wrapper center clearfix" >
+                            <h3 class="item-view-title">#{itemManager.detailItem.name}</h3>
+                            <p class="item-decription">#{itemManager.detailItem.description}</p>
+                            <div class="belonging-action-wrapper row">
+                                <div class="belonging-notify col-lg-8">
+                                    <h4>Let your friend know you found their belonging...</h4>
+                                    <div class="input-group" style="max-width: 400px;">
+                                        <input type="text" class="form-control" placeholder="Search by name or phone number..." />
+                                        <span class="input-group-btn">
+                                          <button class="btn btn-custom" style="height: 34px;" type="button">Notify</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <h4>Other Options:</h4>
+                                    <h:commandButton id="belong-resolve-btn" action="#{itemManager.resolve}" styleClass="btn btn-custom btn-md btn-block belonging-btn" value="Mark as found" 
+                                                     rendered="#{itemManager.itemOwner == true}"></h:commandButton>                 
+                                    <h:commandButton id="belong-claim-btn" action="#{itemManager.claim}"  styleClass="btn btn-custom btn-md btn-block belonging-btn" value="Claim this item" 
+                                                     rendered="#{itemManager.itemOwner == false}"></h:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>
+                    <br />
+                    <h4 class="text-left">This item was located at...</h4>
+                    
                     <div class="item-view-map-wrapper">
                         <div id="map" style="width:100%; height:100%;"></div>
                         <script type="text/javascript" >

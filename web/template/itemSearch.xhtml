@@ -18,14 +18,17 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                 <li id="searchByLocationTab" role="presentation"><a href="#">Location</a></li>
             </ul>
             <div id="textSearch">
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>
-                    <input type="text" class="form-control" placeholder="Search..." aria-describedby="basic-addon1" />
-                </div>
-                <h4 class="search-header">Filter:</h4>
                 <h:form id="dropDownForm">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>
+                        <p:inputText type="text" class="form-control" placeholder="Search..."
+                                    required="true" value="#{searchManager.query}" >
+                            <f:validateLength minimum="1" maximum="32" />
+                        </p:inputText>
+                    </div>
+                    <h4 class="search-header">Filter:</h4>
                     <div class="dropdown" >
-                        <p:selectOneMenu styleClass="dropMenu">
+                        <p:selectOneMenu styleClass="dropMenu" value="#{searchManager.filterType}">
                             <f:selectItem itemLabel="All" itemValue="ALL" noSelectionOption="true" />
                             <f:selectItem itemLabel="Cell Phone" itemValue="PHONE" />
                             <f:selectItem itemLabel="Hokie Passport" itemValue="HOKIE_PASSPORT" />
@@ -34,8 +37,8 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                             <f:selectItem itemLabel="Other" itemValue="OTHER" />
                         </p:selectOneMenu>
                     </div>
+                    <h:commandButton class="btn btn-custom pull-right" id="submit" value="Search" action="#{searchManager.fullTextSearch()}" />
                 </h:form>
-                <h:button class="btn btn-custom pull-right" value="Search" />
             </div>
             <div id="locationSearch" class="text-center" style="display: none;">
                 <div class="location-search-wrapper"> 
@@ -58,7 +61,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
 
                   </p:inputText>
                      
-                <h:commandButton class="btn btn-default" id="submit" value="Search" action="#{searchManager.locationSearch()}" />  
+                <h:commandButton class="btn btn-custom pull-right" id="submit" value="Search" action="#{searchManager.locationSearch()}" />  
                  </h:form>
             </div>
         </div>

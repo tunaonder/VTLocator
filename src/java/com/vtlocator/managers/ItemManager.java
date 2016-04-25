@@ -30,6 +30,8 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
@@ -123,9 +125,12 @@ public class ItemManager implements Serializable {
     private String statusMessage;
     private Collection<ItemPhoto> itemPhotoCollection;
     private List<Item> recent = null;
+    private List<Item> userItems = null;
+    private Item detailItem; 
+    private boolean itemOwner = false;
     private List<Item> allRecent = null;
     private List<Item> allItems = null;
-    private Item detailItem;
+    private List<ItemPhoto> photosForItem;
     private UploadedFile file;
     private List<UploadedFile> fileList;
 
@@ -151,6 +156,16 @@ public class ItemManager implements Serializable {
         this.recent = recent;
     }
 
+    public List<Item> getUserItems() {
+        int currentUserID = ((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+        userItems = itemFacade.findItemsByUserID(currentUserID);
+        return userItems;
+    }
+
+    public void setUserItems(List<Item> userItems) {
+        this.userItems = userItems;
+    }
+    
     public List<Item> getAllRecent() {
         recent = itemFacade.getAllRecentItems();
         return allRecent;
@@ -167,6 +182,15 @@ public class ItemManager implements Serializable {
 
     public void setAllItems(List<Item> allItems) {
         this.allItems = allItems;
+    }
+
+    public List<ItemPhoto> getPhotosForItem(int itemId) {
+        photosForItem = itemPhotoFacade.findItemPhotosByItemID(itemId);
+        return photosForItem;
+    }
+    
+    public List<Item> getItemsForUser(int userId) {
+        return itemFacade.getItemsForUser(userId);
     }
     
     public String getStatusMessage() {
@@ -256,21 +280,8 @@ public class ItemManager implements Serializable {
             statusMessage = "Something went wrong while creating your account!";
             return "";
         }
-         // 
-        return "manageItems";
-    }
-    
-   
-    // returns the item's photos file name
-    public List<ItemPhoto> itemPhotos() {
-        int id = (int) FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("id");
-        
-        List<ItemPhoto> photoList = itemPhotoFacade.findItemPhotosByItemID(id);
-        if (photoList.isEmpty()) {
-            return null;
-        }
-        return photoList;
+
+        return "manageItems?faces-redirect=true"; // after creating an item, navigate to manageItems
     }
     
     public void clearCreateItemForm() {
@@ -436,4 +447,123 @@ public class ItemManager implements Serializable {
             }
         }
     }
+
+    public boolean getItemOwner() {
+        return itemOwner = isOwner();
+    }
+
+    public void setitemOwner(boolean passedBool) {
+        this.itemOwner = isOwner();
+    }
+    
+    private boolean isOwner() {
+        // Check if item is in view.
+        if (detailItem != null) {
+            User createdBy = detailItem.getCreatedBy();
+
+            User currentUser = userFacade.getUser((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+            
+            boolean userCheck = currentUser != null & createdBy != null;
+            
+            
+            if (userCheck) {
+//                System.out.println("email of currentUser: " + currentUser.getEmail());
+//                System.out.println("email of createdBy: " + createdBy.getEmail());
+                if (createdBy.equals(currentUser)) {
+//                if (currentUser.getEmail().equals(createdBy.getEmail())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    private void deletePost(Item detailItem) {
+        int itemID;
+        if (detailItem != null) {
+            itemID = detailItem.getId();
+            itemFacade.deleteByItemID(itemID);
+        }
+                
+    }
+    
+    /**
+     * Notifies a user about item
+     * @param item item to notify
+     * @param user user to notify
+     */
+    private void notifyUser(Item item, User userToNotify, User userThatNotifies) {
+        String message = "Hi " + userToNotify.getFirstName() + ", the item you have posted on VTLocator ("
+                + item.getName() + ") is being claimed by [" + userThatNotifies.getFirstName() + " " + userThatNotifies.getLastName()
+                + "]. \nPlease call " + userThatNotifies.getPhoneNumber() + " to arrange a pickup time/place for the item.";
+        
+//        MessageClient.sendMessage(userToNotify.getPhoneNumber(), message);
+        System.out.println(message);
+    }
+    
+    /**
+     * Uploader removes post
+     */
+    public String resolve() {
+        if (detailItem != null) {
+            User createdBy = detailItem.getCreatedBy();
+
+            if (createdBy != null) {
+                deletePost(detailItem);
+                FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Resolved. Your post has been marked resolved and will now be deleted."));
+                return "lostAndFound";
+            }
+        }
+        return "lostAndFound";
+    }
+    
+    
+    /** 
+     * Currently logged in user notifies uploader
+     */
+    public String claim() {
+        if (detailItem != null) {
+            User createdBy = detailItem.getCreatedBy();
+            if (createdBy != null) {
+                User currentUser = userFacade.getUser((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+                if (currentUser != null) {
+                    notifyUser(detailItem, createdBy, currentUser);
+                    FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Claimed. Your notification has been sent to the uploader."));
+                    return "lostAndFound";
+                }
+            }
+        }
+        
+        return "lostAndFound";
+    }
+    
+    /**
+     * delete method called from manageItems.xhtml 
+     * Deletes an item
+     * @param itemID item id to delete
+     * @throws IOException 
+     */
+    public void delete(String itemID) throws IOException {
+        User currentUser = userFacade.getUser((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
+//        int item_id = Integer.parseInt(itemID);
+        System.out.println("--------------\n item id is " + itemID);
+        int item_id = Integer.parseInt(itemID);
+        System.out.println("item int number is : "  + item_id);
+        itemFacade.deleteByItemID(item_id);
+        FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Your item has been deleted."));
+        // Force page refresh
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+    }
+    
+    public void resolve(String itemID) throws IOException {
+        int item_id = Integer.parseInt(itemID);
+        itemFacade.deleteByItemID(item_id);
+        FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Resolved. Your post has been marked resolved and will now be deleted."));
+        // Force page refresh
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+    }
+    
+    
 }

@@ -56,22 +56,21 @@ public class BuildingManager implements Serializable {
     private double vtLong = -80.420745;
 
     private boolean directionPressed;
+    
+    //Selected building category from building category list
+    private String buildingCategory;
+    //List of All categories from Restul service
+    private List<String> buildingCategoriesJSON;
+    
+    private String jsonCategory;
+    
+    private boolean directionAvailable;
+    private boolean categoryAvailable;
 
     @PostConstruct
     public void init() {
 
-        //Virginia Tech Logo is the Default Image
-        imageUrl = "https://lh5.googleusercontent.com/-A6mD3SlNkSM/AAAAAAAAAAI/AAAAAAAAAXE/yyIqI5mrcOk/s0-c-k-no-ns/photo.jpg";
-
-        selectedBuildingName = "";
-        selectedStartPoint = "";
-
-        lat = 0;
-        lng = 0;
-        lat2 = 0;
-        lng2 = 0;
-        description = "";
-        directionPressed = false;
+        setInitialValues();
 
         JSONArray json;
         buildingNamesJSON = new ArrayList<>();
@@ -90,7 +89,41 @@ public class BuildingManager implements Serializable {
         } catch (Exception ex) {
             Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+                //Read all building categories from  ../VTBuildingsData/webresources/buildings/categories
+        buildingCategoriesJSON = new ArrayList<>();
+        try {
+            //Get Names Of all Buildings from Restful Service
+            String url = baseUrl+"categories";
+            json = new JSONArray(readJSON(url));
+            
+            int counter = 0;
+            //Get Categories of Buildings From JSON Data and make a building names List
+            while (json != null && json.length() > counter) {
+                buildingCategoriesJSON.add(json.getJSONObject(counter).get("category").toString());
+                counter++;
+            }
+        } catch (JSONException ex) {
+        } catch (Exception ex) {
+            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+    }
+    
+    private void setInitialValues(){
+        imageUrl = null;
+        categoryAvailable = false;
+        directionAvailable = false;
+        selectedBuildingName = "";
+        selectedStartPoint = "";
+        buildingCategory = "";
+        jsonCategory = "";
+        lat = 0;
+        lng = 0;
+        lat2 = 0;
+        lng2 = 0;
+        description = "";
+        directionPressed = false;
     }
 
     //This method Returns JSON data as String from Given URL
@@ -210,9 +243,59 @@ public class BuildingManager implements Serializable {
         this.lng2 = lng2;
     }
 
+    public String getBuildingCategory() {
+        return buildingCategory;
+    }
+
+    public void setBuildingCategory(String buildingCategory) {
+        this.buildingCategory = buildingCategory;
+    }
+
+    public List<String> getBuildingCategoriesJSON() {
+        return buildingCategoriesJSON;
+    }
+
+    public void setBuildingCategoriesJSON(List<String> buildingCategoriesJSON) {
+        this.buildingCategoriesJSON = buildingCategoriesJSON;
+    }
+
+    public String getJsonCategory() {
+        return jsonCategory;
+    }
+
+    public void setJsonCategory(String jsonCategory) {
+        this.jsonCategory = jsonCategory;
+    }
+
+    public boolean isDirectionAvailable() {
+        return directionAvailable;
+    }
+
+    public void setDirectionAvailable(boolean directionAvailable) {
+        this.directionAvailable = directionAvailable;
+    }
+
+    public boolean isCategoryAvailable() {
+        return categoryAvailable;
+    }
+
+    public void setCategoryAvailable(boolean categoryAvailable) {
+        this.categoryAvailable = categoryAvailable;
+    }
+
+    
+    
+    
+    
+    
+
     //Gets All Data From Selected Json Object and Parse it. Therefore, view can be updated with the information of selected building
     public void displayBuildingInformation() throws IOException {
 
+        //If category is choosen before set it to empty, so dont display building category name in its own dropdown
+        buildingCategory = "";
+        categoryAvailable = false;
+        
         JSONObject json;
         try {
             //Replace Space with %20
@@ -244,7 +327,6 @@ public class BuildingManager implements Serializable {
     }
 
     public void directionButtonPressed() {
-        System.out.print(directionPressed);
         directionPressed = true;
 
     }
@@ -294,6 +376,82 @@ public class BuildingManager implements Serializable {
     public void refreshForm() {
         directionPressed = false;
 
+    }
+    
+        //This method creates buildings array list with the provided category
+    //Works same as searchBuilding(). All buildings are added to buildings array list.
+    //So that users can only view buildings from specific category
+    public void searchByCategory(){
+
+        selectedBuildingName = "";
+        directionAvailable = false;
+        description = "";
+        imageUrl = null;        
+        try {
+            //Add categories sub Path. And Replace Space with %20
+            String modifiedCategoryName = "categories/" + buildingCategory.replaceAll(" ", "%20");
+            
+            //Create Restful Request Url
+            String restfulUrl = baseUrl + modifiedCategoryName;
+            jsonCategory = readJSON(restfulUrl);
+
+            
+        } catch (JSONException ex) {
+        } catch (Exception ex) {
+            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+        
+
+    }
+    
+    public void changeDirectionAvailableStatus(){
+        if (selectedBuildingName.equals(""))
+            directionAvailable = false;
+        else{
+            directionAvailable = true;
+        }
+        
+    }
+    
+    public void changeCategoryAvailableStatus(){
+        if (buildingCategory.equals(""))
+            categoryAvailable = false;
+        else{
+            categoryAvailable = true;
+        }
+        
+    }
+    
+    //Clear Buildings Data and Navigate To Parking
+    public String reInit(){
+
+        init();
+
+        return "parking.xhtml";
+    }
+    //Clear Buildings Data and Navigate To Lost and Found
+    public String reInit2(){
+
+        init();
+
+        return "lostAndFound.xhtml";
+    }
+    
+    //Clear Buildings Data and Navigate To Profile
+    public String reInit3(){
+
+        init();
+
+        return "profile.xhtml";
+    }
+    
+    //Clear Buildings Data and Reload the pAGE
+    public String reInit4(){
+
+        init();
+
+        return "buildings.xhtml";
     }
 
 }
