@@ -125,6 +125,7 @@ public class ItemManager implements Serializable {
     private List<Item> recent = null;
     private List<Item> allRecent = null;
     private List<Item> allItems = null;
+    private List<ItemPhoto> photosForItem;
     private Item detailItem;
     private UploadedFile file;
     private List<UploadedFile> fileList;
@@ -167,6 +168,11 @@ public class ItemManager implements Serializable {
 
     public void setAllItems(List<Item> allItems) {
         this.allItems = allItems;
+    }
+
+    public List<ItemPhoto> getPhotosForItem(int itemId) {
+        photosForItem = itemPhotoFacade.findItemPhotosByItemID(itemId);
+        return photosForItem;
     }
     
     public String getStatusMessage() {
@@ -257,19 +263,6 @@ public class ItemManager implements Serializable {
         }
          // 
         return "manageItems";
-    }
-    
-   
-    // returns the item's photos file name
-    public List<ItemPhoto> itemPhotos() {
-        int id = (int) FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get("id");
-        
-        List<ItemPhoto> photoList = itemPhotoFacade.findItemPhotosByItemID(id);
-        if (photoList.isEmpty()) {
-            return null;
-        }
-        return photoList;
     }
 
     // Returns the uploaded file

@@ -19,7 +19,10 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
             <ui:define name="mainPanel">
                 <div class="item-view-wrapper">
                     <div class="text-center">
-                        <img class="item-photo" src="resources/images/phone.jpg" />
+                        <p:galleria value="#{itemManager.getPhotosForItem(itemManager.detailItem.id)}" var="image" panelWidth="500" panelHeight="313" showCaption="true">
+                            <p:graphicImage value="FileStorageLocation/#{image.filename}" title="#{image.filename}"/>
+                        </p:galleria>
+                        <img class="item-photo" src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}"/>
                     </div>
                     <h3 class="item-view-title">#{itemManager.detailItem.name}</h3>
                     <p class="item-decription">#{itemManager.detailItem.description}</p>
