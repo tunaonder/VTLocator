@@ -430,6 +430,10 @@ div.footer .footer-text {
     height: 120px;
 }
 
+.manage-item-view span {
+    padding-left: -20px;
+}
+
 .manage-item-view .item-title {
     margin-top: 17px;
     white-space: nowrap;
