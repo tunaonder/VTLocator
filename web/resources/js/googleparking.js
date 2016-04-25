@@ -77,7 +77,8 @@ function processShapes(input) {
     var shapes = [];
     var i = 0;
     var inputLen = input.length;
-
+    var markerBounds = new google.maps.LatLngBounds();
+    
     for (shapeNum in input) {
         var shapeCoords = [];
         var coordArr = input[shapeNum]["coords"];
@@ -93,8 +94,9 @@ function processShapes(input) {
                 lng: Number(coordArr[index]["coord"]["lat"]),
                 lat: Number(coordArr[index]["coord"]["long"])
             };
-            // console.log(coord);
+            
             shapeCoords.push(coord);
+            markerBounds.extend(new google.maps.LatLng(Number(coordArr[index]["coord"]["long"]), Number(coordArr[index]["coord"]["lat"])));
         } // end for
 
         shapes.push(new google.maps.Polygon({
@@ -111,7 +113,8 @@ function processShapes(input) {
     for(var i=0; i<shapes.length; i++) {
       shapes[i].setMap(map);
     }
-
+    
+    map.fitBounds(markerBounds);
 } // end function
 
 function initMap() {
