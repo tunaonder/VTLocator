@@ -36,7 +36,22 @@ public class ItemFacade extends AbstractFacade<Item> {
     
     public List<Item> getRecentItems() {
         //select * from Item order by created_at desc limit 3;
-        return em.createQuery("SELECT i FROM Item i ORDER BY i.createdAt desc").setMaxResults(3).getResultList();
+        return em.createQuery("SELECT i FROM Item i ORDER BY i.createdAt desc").setMaxResults(3).getResultList();   
+    }
+    
+    public List<Item> fullTextQuery(String query, String filter) {
+        String sqlQuery = "SELECT i FROM Item i WHERE (";
+        for (String subQuery : query.split("\\s+")) {
+            sqlQuery += ("(i.name LIKE '%" + subQuery + "%' OR i.description LIKE '%" + subQuery + "%') OR ");
+        }
+        sqlQuery = sqlQuery.substring(0, sqlQuery.length() - 4);
+        sqlQuery += ")";
         
+        System.out.println(filter);
+        if (!filter.equals("ALL")) {
+            sqlQuery += " AND i.category = '" + filter + "'";
+        }
+        System.out.println(sqlQuery);
+        return getEntityManager().createQuery(sqlQuery).getResultList();
     }
 }
