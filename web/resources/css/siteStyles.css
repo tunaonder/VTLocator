@@ -285,14 +285,27 @@ div.footer .footer-text {
     width: 100%;
 }
 
+#dropDownForm .btn {
+    margin-top: 15px;
+}
+
 .dropdown .dropMenu {
     width: 100%;
     margin-top: 20px;
 }
 
 .building-label {
-    padding-top: 20px;
+    padding-top: 10px;
     padding-right: 10px;
+}
+
+.buildings-data {
+    text-align: left;
+    margin-top: 10px;
+}
+
+div.ui-selectonemenu-trigger {
+    width: 24px !important;
 }
 
 /**
