@@ -28,7 +28,7 @@
                 <h:form id="dropDownForm">
                     <!--                    Initial DropDown Menu, Thats why it is rendered if direction button is not pressed yet-->
                     <div class="dropdown" >
-                        <p:selectOneMenu id="buildingNamesDropDown" value="#{buildingManager.selectedBuildingName}" styleClass="dropMenu" rendered="#{buildingManager.directionPressed == false}" >
+                        <h:selectOneMenu id="buildingNamesDropDown" value="#{buildingManager.selectedBuildingName}" styleClass="dropMenu form-control" rendered="#{buildingManager.directionPressed == false}" >
                             <!--                            Display Building Location and Update the value of selected building-->
                             <p:ajax  oncomplete="displayBuilding()" update="address buildingLat buildingLong buildingImage buildingDescription getDirection buildingCategoryDropDown selectCategoryButton" />
                             <p:ajax listener="#{buildingManager.displayBuildingInformation}" />
@@ -37,15 +37,15 @@
                             <!--                            Building Names is returned from Restful Service-->
                             <f:selectItems value="#{buildingManager.buildingNamesJSON}"  />
 
-                        </p:selectOneMenu>
-                        <p:commandButton id="getDirection"  value="Get Directions" disabled="#{buildingManager.directionAvailable == false}"
+                        </h:selectOneMenu>
+                        <h:commandButton id="getDirection"  value="Get Directions" disabled="#{buildingManager.directionAvailable == false}"
                                          styleClass="btn btn-default btn-direction" rendered="#{buildingManager.directionPressed == false}">
                             <p:ajax listener="#{buildingManager.directionButtonPressed()}" update="dropDownForm dropDownForm:destinationDropdown dropDownForm:buildingDescription dropDownForm:buildingImage" />
 
-                        </p:commandButton>
+                        </h:commandButton>
 
 
-                        <p:selectOneMenu id="buildingCategoryDropDown" value="#{buildingManager.buildingCategory}" styleClass="dropMenu"  rendered="#{buildingManager.directionPressed == false}">
+                        <h:selectOneMenu id="buildingCategoryDropDown" value="#{buildingManager.buildingCategory}" styleClass="dropMenu form-control"  rendered="#{buildingManager.directionPressed == false}">
                             <f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true" />
                             <!--                            Building Categories are returned from Restful Service-->
                             <f:selectItems value="#{buildingManager.buildingCategoriesJSON}"  />
@@ -54,11 +54,11 @@
                             <p:ajax oncomplete="resetMarker()" />
                             <p:ajax update="dropDownForm:jsonResult"/>
 
-                        </p:selectOneMenu>
-                        <p:commandButton id="selectCategoryButton" value = "Display Buildings"  styleClass="btn btn-default btn-direction" 
+                        </h:selectOneMenu>
+                        <h:commandButton id="selectCategoryButton" value = "Display Buildings"  styleClass="btn btn-default btn-direction" 
                                          rendered="#{buildingManager.directionPressed == false}" disabled="#{buildingManager.categoryAvailable == false}" >
                             <p:ajax oncomplete="displayBuildingLocations()"/>
-                        </p:commandButton> 
+                        </h:commandButton> 
 
                     </div>
                     <!--                        Get The Value Of Building Name To An Hidden Input-->
@@ -81,13 +81,13 @@
                             <h:outputLabel styleClass="outputLabel"  value="From: " />
                             <!--                        This Dropdown Menu is displayed after Direction Button Pressed-->
                             <ul class="dropdown" >
-                                <p:selectOneMenu id="startDropdown" value="#{buildingManager.selectedStartPoint}" styleClass="dropMenu" rendered="#{buildingManager.directionPressed == true}">
+                                <h:selectOneMenu id="startDropdown" value="#{buildingManager.selectedStartPoint}" styleClass="dropMenu form-control" rendered="#{buildingManager.directionPressed == true}">
                                     <p:ajax listener="#{buildingManager.createStartPoint}" />
                                     <!--                                Calls Java Script Method which draws the Route-->
                                     <p:ajax oncomplete="drawRoute()" update="startBuildingLat startBuildingLong" />
                                     <f:selectItem itemLabel="Select Building" itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{buildingManager.buildingNamesJSON}"  />
-                                </p:selectOneMenu>                       
+                                </h:selectOneMenu>                       
 
 
                             </ul>
@@ -95,22 +95,23 @@
 
                             <h:outputLabel styleClass="outputLabel" value="To: " />
                             <ul class="dropdown" >
-                                <p:selectOneMenu id="destinationDropdown" value="#{buildingManager.selectedBuildingName}" styleClass="dropMenu"  rendered="#{buildingManager.directionPressed == true}">
+                                <h:selectOneMenu id="destinationDropdown" value="#{buildingManager.selectedBuildingName}" styleClass="dropMenu form-control"  rendered="#{buildingManager.directionPressed == true}">
                                     <p:ajax listener="#{buildingManager.createDestinationPoint}" />
                                     <!--                                Calls Java Script Method which draws the Route-->
                                     <p:ajax oncomplete="drawRoute()" update="buildingLat buildingLong distanceValue durationValue" />
                                     <f:selectItems value="#{buildingManager.buildingNamesJSON}"  />
-                                </p:selectOneMenu>
+                                </h:selectOneMenu>
                             </ul>
                             
 
 
                         </h:panelGrid>
-                        <h:panelGrid rendered="#{buildingManager.directionPressed == true}" width="280px" columns="2">
+                        <h:panelGroup layout="block" class="buildings-data text-left" rendered="#{buildingManager.directionPressed == true}">
                             <h:outputLabel styleClass="outputLabel" value="Distance: " /> <h:outputLabel id="distanceValue" styleClass="outputLabel" value="0" />
+                            <br />
                             <h:outputLabel styleClass="outputLabel" value="Duration: " /> <h:outputLabel id="durationValue" styleClass="outputLabel" value="0" />
                             
-                        </h:panelGrid>
+                        </h:panelGroup>
                         
                         <h:inputHidden id="startBuildingLat" value="#{buildingManager.lat2}" />
                         <h:inputHidden id="startBuildingLong" value="#{buildingManager.lng2}" />
