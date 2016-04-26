@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Sebastian Welsh on 2016.04.21 
+Created by Sebastian Welsh on 2016.04.21
 Copyright © 2016 Sebastian Welsh. All rights reserved.
 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
@@ -19,8 +19,8 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
             </ui:define>
             <ui:define name="mainPanel">
                 <p:growl id="belonging-growl" />
-                
-                
+
+
                 <div class="item-view-wrapper">
                     <div class="item-view-gallery-wrapper">
                         <ui:repeat var="image" value="#{itemManager.getPhotosForItem(itemManager.detailItem.id)}" varStatus="status">
@@ -65,9 +65,9 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                     <h4>Other Options:</h4>
                                     <h:commandButton id="belong-edit-btn" action="#{itemManager.edit}" styleClass="btn btn-custom btn-md btn-block belonging-btn" value="Edit this item"
                                                      rendered="#{itemManager.itemOwner == true}" immediate="true"></h:commandButton>
-                                    <h:commandButton id="belong-resolve-btn" action="#{itemManager.resolve}" styleClass="btn btn-custom btn-md btn-block belonging-btn" value="Mark as found" 
-                                                     rendered="#{itemManager.itemOwner == true}" immediate="true"></h:commandButton>                 
-                                    <h:commandButton id="belong-claim-btn" action="#{itemManager.claim}"  styleClass="btn btn-custom btn-md btn-block belonging-btn" value="Claim this item" 
+                                    <h:commandButton id="belong-resolve-btn" action="#{itemManager.resolve}" styleClass="btn btn-custom btn-md btn-block belonging-btn" value="Mark as found"
+                                                     rendered="#{itemManager.itemOwner == true}" immediate="true"></h:commandButton>
+                                    <h:commandButton id="belong-claim-btn" action="#{itemManager.claim}"  styleClass="btn btn-custom btn-md btn-block belonging-btn" value="Claim this item"
                                                      rendered="#{itemManager.itemOwner == false}" immediate="true"></h:commandButton>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                     </h:form>
                     <br />
                     <h4 class="text-left">This item was located at...</h4>
-                    
+
                     <div class="item-view-map-wrapper">
                         <div id="map" style="width:100%; height:100%;"></div>
                         <script type="text/javascript" >
