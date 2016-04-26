@@ -1,11 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"         
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      >
 
     <h:body>
         <!-- Do not enter tags before the composition line since they are ignored by JSF -->
@@ -118,7 +119,7 @@
 
                         <!--                        Resets the Page to its initial state-->
                         <h:commandButton id="refreshButton" value="Refresh" onclick="refreshMap()"
-                                         styleClass="btn btn-default btn-direction buildings-refresh-button" action="#{buildingManager.init()}">
+                                         styleClass="btn btn-default btn-direction buildings-refresh-button" action="#{buildingManager.setInitialValues()}">
                             <p:ajax update="dropDownForm"/>
 
                         </h:commandButton>
@@ -134,14 +135,10 @@
                     </div>
                     
                    
-                    <h:commandButton id="building-display" action="#{buildingManager.displayBuildingInformationFromMarker}" rendered="false" styleClass="building-display">
-                            
+                    <p:inputTextarea  value="#{buildingManager.selectedBuildingFromMarker}" widgetVar="clickedBuildingMarker" required="true" />
+                    
 
-                     </h:commandButton>
-                    
-                    <p:inputText  value="#{buildingManager.selectedBuildingFromMarker}" widgetVar="clickedBuildingMarker"/>
-                    
-            
+          
                 </h:form>
 
 
@@ -158,8 +155,8 @@
 
                 <script type="text/javascript" >
 
-                     initilaizeMap();
-                    
+                     
+                    initilaizeMap();
 
                     window.addEventListener("beforeunload", function(e){
                             $(".buildings-refresh-button").click();
