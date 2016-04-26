@@ -85,7 +85,6 @@ function displayBuildingLocations() {
         google.maps.event.addListener(marker, "click", function (evt) {
             infoWindow.setContent(this.get('title'));
             infoWindow.open(map, this);
-            buildingInfoFromTitle(this.get('title'));
         });  
 
         
@@ -94,13 +93,6 @@ function displayBuildingLocations() {
 
 
 }
-
-function buildingInfoFromTitle(title){
-    document.getElementById(PF('clickedBuildingMarker').id).value = title;
-
-
-}
-
 
 
 //Add starting point and draw route to destination

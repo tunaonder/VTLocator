@@ -126,7 +126,7 @@
 
                     </div>
 
-                    <!--                    Building Description and Image Is Displayed-->
+                                        <!--                    Building Description and Image Is Displayed-->
                     <div class="buildingInfo" >
                         <p:outputLabel id="buildingDescription" styleClass="buildingDescription" 
                                        value="#{buildingManager.description}" rendered="#{buildingManager.directionPressed == false}"/>
@@ -134,16 +134,9 @@
                         <h:graphicImage id="buildingImage" url="#{buildingManager.imageUrl}" styleClass="buildingImage" rendered="#{buildingManager.directionPressed == false}"/>
                     </div>
                     
-                   
-                    <p:inputTextarea  value="#{buildingManager.selectedBuildingFromMarker}" widgetVar="clickedBuildingMarker" required="true" />
-                    
 
           
                 </h:form>
-
-
-
-
 
             </ui:define>
 
