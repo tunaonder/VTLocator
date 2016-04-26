@@ -43,7 +43,7 @@ Copyright © 2016 VTLocator. All rights reserved.
                                         <f:validateLength minimum="2" maximum="1024" />
                                     </h:inputTextarea>
                                     <p:message for="description" display="icon" />
-                                    
+
                                     <p:outputLabel for="category" value="Category" />
                                     <h:selectOneMenu id="category" value="#{itemManager.category}" required="true" class="form-control">
                                         <f:selectItem itemValue="HOKIE_PASSPORT" itemLabel="Hokie Passport"/>
@@ -59,17 +59,17 @@ Copyright © 2016 VTLocator. All rights reserved.
                                     <p:calendar immediate="false" id="dateFound" mode="inline" required="true" value="#{itemManager.dateFound}"/>
                                     <p:message for="dateFound" display="icon" />
 
-                                    
-                                     <p:inputText id="longitude" class="form-control coordinates"
-                                                  required="true" label="longitutde" value="#{itemManager.longitudeFound}" widgetVar="longitude">
-                                        
+
+                                    <p:inputText id="longitude" class="form-control coordinates"
+                                                 required="true" label="longitutde" value="#{itemManager.longitudeFound}" widgetVar="longitude">
+
                                     </p:inputText>
-                                    
-                                     <p:inputText id="latitude" class="form-control coordinates"
-                                                  required="true" label="latitude" value="#{itemManager.latitudeFound}" widgetVar="latitude">
-                                        
+
+                                    <p:inputText id="latitude" class="form-control coordinates"
+                                                 required="true" label="latitude" value="#{itemManager.latitudeFound}" widgetVar="latitude">
+
                                     </p:inputText>
-                                    
+
                                 </h:panelGrid>
                             </div>
                             <!-- 
@@ -79,7 +79,7 @@ Copyright © 2016 VTLocator. All rights reserved.
                             <div class="col-lg-7">
                                 <h4>Location Found</h4>
                                 <div id="locationFound" class="location-found-map-wrapper">
-                                    
+
                                     <div id="map" style="width:100%; height:100%;"></div>
                                     <!-- Javascript to initialize the map described above -->
                                     <script type="text/javascript" >
@@ -96,7 +96,7 @@ Copyright © 2016 VTLocator. All rights reserved.
                         <!-- Primefaces fileUploader to add photos to an item.  Accepts jpegs, pngs, and gifs. -->
                         <h3 class="text-left">Add Photos:</h3>
                         <p:fileUpload fileUploadListener="#{itemManager.handleFileUpload}" mode="advanced" dragDropSupport="true"
-                                              auto="true" multiple="true" update="fileNames" sizeLimit="1000000" fileLimit="10" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                                      auto="true" multiple="true" update="fileNames" sizeLimit="1000000" fileLimit="10" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
                         <!-- Repeat view to show photos that are currently staged for upload -->
                         <h4 class="text-left">Staged Photos:</h4>
                         <h:panelGroup layout="block" styleClass="text-left" id="fileNames">
