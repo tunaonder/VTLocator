@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Sebastian Welsh on 2016.04.19 
-Copyright © 2016 Sebastian Welsh. All rights reserved.
+Created by VTLocator Group on 2016.04.04 
+Copyright © 2016 VTLocator. All rights reserved.
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -12,17 +12,22 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:body>
-        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+        <!-- This page is constructed based on the siteTemplate -->
         <ui:composition template="template/siteTemplate.xhtml">
+            <!-- Override sidebar template with custom page-specific sidebar content -->
             <ui:define name="sidebar">
                 <h3>Create An Item</h3>
                 <p>Create post detailing what item you lost and where you lost it.</p>
             </ui:define>
+            <!-- Override mainPanel template with custom page-specific main content -->
             <ui:define name="mainPanel">
                 <div align="center" class="lost-and-found-home-wrapper">
+                    <!-- Create a new item in the lost and found functionality form -->
                     <h2>Create a New Lost Item...</h2>
                     <h:form class="form-create-item" enctype="multipart/form-data">
+                        <!-- Bootstrap row to enable mobile adaptability and screen size independence -->
                         <div class="row">
+                            <!-- First column.  Contains item form with respective text fields and selectors. -->
                             <div class="col-lg-5">
                                 <h:panelGrid columns="3" cellpadding="5" columnClasses="create-item-label, create-item-input, create-item-message">
                                     <p:outputLabel for="name" value="Name" />
@@ -67,11 +72,16 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                     
                                 </h:panelGrid>
                             </div>
+                            <!-- 
+                            Second column.  Contains the Google geocoding api map 
+                            for selecting where the item was found 
+                            -->
                             <div class="col-lg-7">
                                 <h4>Location Found</h4>
                                 <div id="locationFound" class="location-found-map-wrapper">
                                     
                                     <div id="map" style="width:100%; height:100%;"></div>
+                                    <!-- Javascript to initialize the map described above -->
                                     <script type="text/javascript" >
                                         initLostAndFound();
                                     </script>
@@ -79,12 +89,15 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                             </div>
                         </div>
                         <br/>
+                        <!-- Bootstrap alert to inform a user that they must enter a found at location in the map inside Column two. -->
                         <h:panelGroup layout="block" class="alert alert-danger" rendered="#{itemManager.statusMessage != null}">
                             <h:outputLabel value="#{itemManager.statusMessage}" />
                         </h:panelGroup>
+                        <!-- Primefaces fileUploader to add photos to an item.  Accepts jpegs, pngs, and gifs. -->
                         <h3 class="text-left">Add Photos:</h3>
                         <p:fileUpload fileUploadListener="#{itemManager.handleFileUpload}" mode="advanced" dragDropSupport="true"
                                               auto="true" multiple="true" update="fileNames" sizeLimit="1000000" fileLimit="10" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                        <!-- Repeat view to show photos that are currently staged for upload -->
                         <h4 class="text-left">Staged Photos:</h4>
                         <h:panelGroup layout="block" styleClass="text-left" id="fileNames">
                             <ui:repeat value="#{itemManager.fileList}" var="file">
@@ -92,15 +105,14 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                             </ui:repeat>
                         </h:panelGroup>
                         <br/>
+                        <!-- Save and cancel buttons for item create functionality -->
                         <h:commandButton class="btn btn-custom" id="submit" value="Post" action="#{itemManager.createItem()}" />   
                         <h:commandButton immediate="true" class="btn btn-default" id="cancel" value="Cancel" action="#{itemManager.cancelCreate}" />   
-
                         <br/>
                     </h:form>
                 </div>
             </ui:define>
         </ui:composition>
-        <!-- Do not enter tags after the composition line since they are ignored by JSF -->
     </h:body>
 
 </html>
