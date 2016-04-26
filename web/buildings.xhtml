@@ -132,15 +132,15 @@
 
                         <h:graphicImage id="buildingImage" url="#{buildingManager.imageUrl}" styleClass="buildingImage" rendered="#{buildingManager.directionPressed == false}"/>
                     </div>
-                    
-                   
-                    <h:commandButton id="building-display" action="#{buildingManager.displayBuildingInformationFromMarker}" rendered="false" styleClass="building-display">
-                            
 
-                     </h:commandButton>
+                   
+                    <h:inputHidden id="clickedBuildingMarker" />
                     
-                    <p:inputText  value="#{buildingManager.selectedBuildingFromMarker}" widgetVar="clickedBuildingMarker"/>
-                    
+                    <h:commandButton value="test" 
+                                     styleClass="btn btn-default btn-direction hidden-marker-button hideComponent" action="#{buildingManager.displayBuildingInformationFromMarker()}">
+                        <p:ajax update="dropDownForm"/>
+
+                    </h:commandButton>
             
                 </h:form>
 

@@ -277,6 +277,10 @@ div.footer .footer-text {
     margin-bottom: 10px;
 }
 
+.hideComponent {
+   display: none;
+}
+
 .buildingInfo .buildingDescription {
     margin-top: 30px;
 }
