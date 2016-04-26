@@ -100,12 +100,6 @@ public class User implements Serializable {
     private Collection<Item> itemCollection;
     @OneToMany(mappedBy = "subscriber")
     private Collection<Subscription> subscriptionCollection;
-    @OneToMany(mappedBy = "sender")
-    private Collection<Notification> notificationCollection;
-    @OneToMany(mappedBy = "recipient")
-    private Collection<Notification> notificationCollection1;
-    @OneToMany(mappedBy = "item")
-    private Collection<Notification> notificationCollection2;
 
     public User() {
     }
@@ -223,33 +217,6 @@ public class User implements Serializable {
 
     public void setSubscriptionCollection(Collection<Subscription> subscriptionCollection) {
         this.subscriptionCollection = subscriptionCollection;
-    }
-
-    @XmlTransient
-    public Collection<Notification> getNotificationCollection() {
-        return notificationCollection;
-    }
-
-    public void setNotificationCollection(Collection<Notification> notificationCollection) {
-        this.notificationCollection = notificationCollection;
-    }
-
-    @XmlTransient
-    public Collection<Notification> getNotificationCollection1() {
-        return notificationCollection1;
-    }
-
-    public void setNotificationCollection1(Collection<Notification> notificationCollection1) {
-        this.notificationCollection1 = notificationCollection1;
-    }
-
-    @XmlTransient
-    public Collection<Notification> getNotificationCollection2() {
-        return notificationCollection2;
-    }
-
-    public void setNotificationCollection2(Collection<Notification> notificationCollection2) {
-        this.notificationCollection2 = notificationCollection2;
     }
 
     @Override

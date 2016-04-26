@@ -289,14 +289,31 @@ div.footer .footer-text {
     width: 100%;
 }
 
+#dropDownForm .btn {
+    margin-top: 15px;
+}
+
 .dropdown .dropMenu {
     width: 100%;
     margin-top: 20px;
 }
 
 .building-label {
-    padding-top: 20px;
+    padding-top: 10px;
     padding-right: 10px;
+}
+
+.buildings-data {
+    text-align: left;
+    margin-top: 10px;
+}
+
+div.ui-selectonemenu-trigger {
+    width: 24px !important;
+}
+
+label.spacer {
+    margin-right: 5px;
 }
 
 /**
@@ -434,6 +451,10 @@ div.footer .footer-text {
     height: 120px;
 }
 
+.manage-item-view span {
+    padding-left: -20px;
+}
+
 .manage-item-view .item-title {
     margin-top: 17px;
     white-space: nowrap;
@@ -455,6 +476,23 @@ div.footer .footer-text {
 .manage-item-view .btn {
     margin-right: 10px;
 }
+
+.edit-img img {
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
+.edit-img i {
+    position: absolute;
+    top: 4px;
+    right: 23px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,.25);
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
 
 .item-list-view img {
     width: auto;
@@ -484,7 +522,6 @@ div.footer .footer-text {
 
 .item-view-wrapper .item-view-title {
     color: #e95051;
-    /*text-align: left;*/
 }
 
 .item-view-wrapper img.item-photo {

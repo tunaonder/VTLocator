@@ -15,9 +15,8 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
         <!-- Do not enter tags before the composition line since they are ignored by JSF -->
         <ui:composition template="template/siteTemplate.xhtml">
             <ui:define name="sidebar">
-                <div class="text-center">
-                    <h1>Lost and Found</h1>
-                </div>
+                <h3>Create An Item</h3>
+                <p>Create post detailing what item you lost and where you lost it.</p>
             </ui:define>
             <ui:define name="mainPanel">
                 <div align="center" class="lost-and-found-home-wrapper">
@@ -48,12 +47,11 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                         <f:selectItem itemValue="ELECTRONICS" itemLabel="Electronics"/>
                                         <f:selectItem itemValue="CLOTHING" itemLabel="Clothing"/>
                                         <f:selectItem itemValue="OTHER" itemLabel="Other"/>
-                                        +
                                     </h:selectOneMenu>
                                     <p:message for="category" display="icon" />
 
-                                    <p:outputLabel for="dateFound" value="Date Found" />
-                                    <p:calendar id="dateFound" mode="inline" required="false" value="#{itemManager.dateFound}"/>
+                                    <p:outputLabel for="dateFound" value="Date Found:" />
+                                    <p:calendar immediate="false" id="dateFound" mode="inline" required="true" value="#{itemManager.dateFound}"/>
                                     <p:message for="dateFound" display="icon" />
 
                                     
@@ -84,16 +82,19 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                         <h:panelGroup layout="block" class="alert alert-danger" rendered="#{itemManager.statusMessage != null}">
                             <h:outputLabel value="#{itemManager.statusMessage}" />
                         </h:panelGroup>
+                        <h3 class="text-left">Add Photos:</h3>
                         <p:fileUpload fileUploadListener="#{itemManager.handleFileUpload}" mode="advanced" dragDropSupport="true"
                                               auto="true" multiple="true" update="fileNames" sizeLimit="1000000" fileLimit="10" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-                        <h:panelGroup id="fileNames">
+                        <h4 class="text-left">Staged Photos:</h4>
+                        <h:panelGroup layout="block" styleClass="text-left" id="fileNames">
                             <ui:repeat value="#{itemManager.fileList}" var="file">
                                 <h:outputText value="#{file.fileName}"/><br/>
                             </ui:repeat>
                         </h:panelGroup>
                         <br/>
-                        <h:commandButton class="btn btn-default" id="submit" value="Post" action="#{itemManager.createItem()}" />   
-                        <h:button class="btn btn-default" id="cancel" value="Cancel" outcome="lostAndFound" /> 
+                        <h:commandButton class="btn btn-custom" id="submit" value="Post" action="#{itemManager.createItem()}" />   
+                        <h:commandButton immediate="true" class="btn btn-default" id="cancel" value="Cancel" action="#{itemManager.cancelCreate}" />   
+
                         <br/>
                     </h:form>
                 </div>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created by Sebastian Welsh on 2016.04.19 
+Copyright © 2016 Sebastian Welsh. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+        <ui:composition template="template/siteTemplate.xhtml">
+            <ui:define name="sidebar">
+                <div class="text-center">
+                    <h1>Lost and Found</h1>
+                </div>
+            </ui:define>
+            <ui:define name="mainPanel">
+                <div align="center" class="lost-and-found-home-wrapper">
+                    <h2>Edit your item...</h2>
+                    <h:form class="form-create-item" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <h:panelGrid columns="3" cellpadding="5" columnClasses="create-item-label, create-item-input, create-item-message">
+                                    <p:outputLabel for="itemName" value="Name: " />
+                                    <p:inputText id="itemName" label="text" class="form-display" value="#{itemManager.detailItem.name}" />
+                                    <p:message for="itemName" display="icon" />
+                                    
+                                    
+                                    <p:outputLabel for="itemDescription" value="Description: " />
+                                    <p:inputTextarea id="itemDescription" label="text" class="form-display" value="#{itemManager.detailItem.description}" />
+                                    <p:message for="itemDescription" display="icon" />
+
+                                    <p:outputLabel for="dateFound" value="Date Found:" />
+                                    <p:calendar immediate="false" id="dateFound" mode="inline" required="true" value="#{itemManager.detailItem.dateFound}"/>
+                                    <p:message for="dateFound" display="icon" />
+
+                                    
+                                     <p:inputText class="form-control coordinates"
+                                                  required="true" label="longitutde" value="#{itemManager.longitudeFound}" widgetVar="longitude" />
+                                     <p:inputText class="form-control coordinates"
+                                                  required="true" label="latitude" value="#{itemManager.latitudeFound}" widgetVar="latitude" />
+                                    
+                                </h:panelGrid>
+                            </div>
+                            <div class="col-lg-7">
+                                <h4>Location Found</h4>
+                                <div id="locationFound" class="location-found-map-wrapper">
+                                    <div id="map" style="width:100%; height:100%;"></div>
+                                    <script type="text/javascript" >
+                                        initEditMap(#{itemManager.detailItem.longitudeFound}, #{itemManager.detailItem.latitudeFound});
+                                        setLostAndFoundFields(#{itemManager.detailItem.longitudeFound}, #{itemManager.detailItem.latitudeFound});
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <h:panelGroup layout="block" class="alert alert-danger" rendered="#{itemManager.statusMessage != null}">
+                            <h:outputLabel value="#{itemManager.statusMessage}" />
+                        </h:panelGroup>
+                        <h3 class="text-left">Update Photos:</h3>
+                        <p:fileUpload fileUploadListener="#{itemManager.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                                              auto="true" multiple="true" update="fileNames" sizeLimit="1000000" fileLimit="10" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                        <h:panelGroup layout="block" styleClass="text-left" id="fileNames">
+                            <ui:repeat value="#{itemManager.fileList}" var="file">
+                                <h:outputText value="#{file.fileName}"/><br/>
+                            </ui:repeat>
+                        </h:panelGroup>
+                        <h4 class="text-left">Current Photos:</h4>
+                        <h:panelGroup layout="block" styleClass="row">
+                            <ui:repeat value="#{itemManager.getPhotosForItem(itemManager.detailItem.id)}" var="photo">
+                                <div class="col-sm-4">
+                                    <div class="edit-img">
+                                        <img class="img-thumbnail" src="FileStorageLocation/#{photo.filename}" />
+                                        <h:commandLink action="#{itemManager.deleteItemPhotoById(photo.id)}"><i class="fa fa-times"></i></h:commandLink>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                        </h:panelGroup>
+                        <br/>
+                        <h:commandButton class="btn btn-custom" id="submit" value="Save" action="#{itemManager.editItem}" />   
+                        <h:button class="btn btn-default" id="cancel" value="Cancel" outcome="lostAndFound" /> 
+                        <br/>
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+        <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+    </h:body>
+
+</html>
+

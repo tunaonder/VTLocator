@@ -16,7 +16,6 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
             <ui:define name="sidebar">
                 <h3>Manage Items</h3>
                 <p>Here you can manage the items that you have posted to VTLocator.</p>
-                <h4 style="color: orange;">ADD MORE DESCRIPTION HERE</h4>
             </ui:define>
             <ui:define name="mainPanel">
                 <div class="lost-and-found-home-wrapper">
@@ -29,14 +28,23 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                 <ui:repeat var="i" value="#{itemManager.userItems}" rendered="#{itemManager.userItems.size() > 0}" id="item-repeat">
                                     <div class="col-md-12">
                                         <div class="manage-item-view well">
-                                            <img class="pull-left" src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}" />
-                                            <h:outputLabel styleClass="item-date pull-right" value="#{i.getFancyDate()}"/>
-                                            <span>
-                                                <h3>#{i.name}</h3>
-                                                <h:commandButton action="#{itemManager.detailPage(i.id)}" styleClass="btn btn-sm btn-custom" value="View" />
-                                                <h:commandButton action="#{itemManager.resolve(i.id)}" styleClass="btn btn-sm btn-default" value="Resolve" />
-                                                <h:commandButton action="#{itemManager.delete(i.id)}" styleClass="btn btn-sm btn-default" value="Delete" /> 
-                                            </span>
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <img class="pull-left" src="FileStorageLocation/#{itemManager.getMainImageByItemId(i.id)}" />
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <span>
+                                                        <h3>#{i.name}</h3>
+                                                        <h:commandButton action="#{itemManager.detailPage(i.id)}" styleClass="btn btn-sm btn-custom" value="View" />
+                                                        <h:commandButton action="#{itemManager.edit(i.id)}" styleClass="btn btn-sm btn-default" value="Edit" />
+                                                        <h:commandButton action="#{itemManager.resolve(i.id)}" styleClass="btn btn-sm btn-default" value="Resolve" />
+                                                        <h:commandButton action="#{itemManager.delete(i.id)}" styleClass="btn btn-sm btn-default" value="Delete" /> 
+                                                    </span>
+                                                </div>
+                                                <div class="col-xs-3 text-right">
+                                                    <h:outputLabel styleClass="item-date" value="#{i.getFancyDate()}"/>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </ui:repeat>

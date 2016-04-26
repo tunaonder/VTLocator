@@ -28,8 +28,8 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                             <div class="col-md-4 item-list-view-wrapper">
                                 <div class="item-list-view text-center">
                                     <img src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}" />
-                                    <h3 class="item-title">#{item.name}</h3>
-                                    <p class="item-description">#{item.description}</p>
+                                    <h3 class="item-title">#{itemManager.ellipsesTitle(item.name)}</h3>
+                                    <p class="item-description">#{itemManager.ellipsesDescription(item.description)}</p>
                                 </div>
                             </div>
                             </h:commandLink>
