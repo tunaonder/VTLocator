@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONException;
@@ -56,14 +57,14 @@ public class BuildingManager implements Serializable {
     private double vtLong = -80.420745;
 
     private boolean directionPressed;
-    
+
     //Selected building category from building category list
     private String buildingCategory;
     //List of All categories from Restul service
     private List<String> buildingCategoriesJSON;
-    
+
     private String jsonCategory;
-    
+
     private boolean directionAvailable;
     private boolean categoryAvailable;
 
@@ -89,14 +90,14 @@ public class BuildingManager implements Serializable {
         } catch (Exception ex) {
             Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-                //Read all building categories from  ../VTBuildingsData/webresources/buildings/categories
+
+        //Read all building categories from  ../VTBuildingsData/webresources/buildings/categories
         buildingCategoriesJSON = new ArrayList<>();
         try {
             //Get Names Of all Buildings from Restful Service
-            String url = baseUrl+"categories";
+            String url = baseUrl + "categories";
             json = new JSONArray(readJSON(url));
-            
+
             int counter = 0;
             //Get Categories of Buildings From JSON Data and make a building names List
             while (json != null && json.length() > counter) {
@@ -109,8 +110,9 @@ public class BuildingManager implements Serializable {
         }
 
     }
-    
-    private void setInitialValues(){
+
+    private void setInitialValues() {
+
         imageUrl = null;
         categoryAvailable = false;
         directionAvailable = false;
@@ -283,19 +285,13 @@ public class BuildingManager implements Serializable {
         this.categoryAvailable = categoryAvailable;
     }
 
-    
-    
-    
-    
-    
-
     //Gets All Data From Selected Json Object and Parse it. Therefore, view can be updated with the information of selected building
     public void displayBuildingInformation() throws IOException {
 
         //If category is choosen before set it to empty, so dont display building category name in its own dropdown
         buildingCategory = "";
         categoryAvailable = false;
-        
+
         JSONObject json;
         try {
             //Replace Space with %20
@@ -377,81 +373,87 @@ public class BuildingManager implements Serializable {
         directionPressed = false;
 
     }
-    
-        //This method creates buildings array list with the provided category
+
+    //This method creates buildings array list with the provided category
     //Works same as searchBuilding(). All buildings are added to buildings array list.
     //So that users can only view buildings from specific category
-    public void searchByCategory(){
+    public void searchByCategory() {
 
         selectedBuildingName = "";
         directionAvailable = false;
         description = "";
-        imageUrl = null;        
+        imageUrl = null;
         try {
             //Add categories sub Path. And Replace Space with %20
             String modifiedCategoryName = "categories/" + buildingCategory.replaceAll(" ", "%20");
-            
+
             //Create Restful Request Url
             String restfulUrl = baseUrl + modifiedCategoryName;
             jsonCategory = readJSON(restfulUrl);
 
-            
         } catch (JSONException ex) {
         } catch (Exception ex) {
             Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-        
 
     }
-    
-    public void changeDirectionAvailableStatus(){
-        if (selectedBuildingName.equals(""))
+
+    public void changeDirectionAvailableStatus() {
+        if (selectedBuildingName.equals("")) {
             directionAvailable = false;
-        else{
+        } else {
             directionAvailable = true;
         }
-        
+
     }
-    
-    public void changeCategoryAvailableStatus(){
-        if (buildingCategory.equals(""))
+
+    public void changeCategoryAvailableStatus() {
+        if (buildingCategory.equals("")) {
             categoryAvailable = false;
-        else{
+        } else {
             categoryAvailable = true;
         }
-        
+
     }
-    
-    //Clear Buildings Data and Navigate To Parking
-    public String reInit(){
 
-        init();
+    //Gets All Data From Selected Json Object and Parse it. Therefore, view can be updated with the information of selected building
+    public void displayBuildingInformationFromMarker() throws IOException {
 
-        return "parking.xhtml";
-    }
-    //Clear Buildings Data and Navigate To Lost and Found
-    public String reInit2(){
+        String value = FacesContext.getCurrentInstance().
+                getExternalContext().getRequestParameterMap().get("dropDownForm:clickedBuildingMarker");
 
-        init();
+        //If category is choosen before set it to empty, so dont display building category name in its own dropdown
+        buildingCategory = "";
+        categoryAvailable = false;
 
-        return "lostAndFound.xhtml";
-    }
-    
-    //Clear Buildings Data and Navigate To Profile
-    public String reInit3(){
+        JSONObject json;
+        try {
+            //Replace Space with %20
+            String modifiedBuildingName = value.replaceAll(" ", "%20");
+            //Replace Slah character with %2F
+            modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
+            //Create Restful Request Url
+            String restfulUrl = baseUrl + modifiedBuildingName;
+            //Return Result As JSON
+            json = new JSONObject(readJSON(restfulUrl));
+            //Get Specific Data from Returned Json
+            lat = json.getDouble("latitude");
+            lng = json.getDouble("longitude");
+            imageUrl = json.getString("image");
+            //Url Has a description as txt. Read all String from Url and add it to description Variable
+            URL url = new URL(json.getString("description"));
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
+                String str;
+                while ((str = in.readLine()) != null) {
+                    description = str;
+                }
+            }
 
-        init();
+        } catch (JSONException ex) {
+        } catch (Exception ex) {
+            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        return "profile.xhtml";
-    }
-    
-    //Clear Buildings Data and Reload the pAGE
-    public String reInit4(){
-
-        init();
-
-        return "buildings.xhtml";
     }
 
 }

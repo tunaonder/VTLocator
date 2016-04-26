@@ -277,6 +277,10 @@ div.footer .footer-text {
     margin-bottom: 10px;
 }
 
+.hideComponent {
+   display: none;
+}
+
 .buildingInfo .buildingDescription {
     margin-top: 30px;
 }
@@ -306,6 +310,10 @@ div.footer .footer-text {
 
 div.ui-selectonemenu-trigger {
     width: 24px !important;
+}
+
+label.spacer {
+    margin-right: 5px;
 }
 
 /**

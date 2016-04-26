@@ -96,6 +96,9 @@ function displayBuildingLocations() {
 }
 
 function buildingInfoFromTitle(title){
+    
+    document.getElementById("dropDownForm:clickedBuildingMarker").value = title;
+    $(".hidden-marker-button").click();
 
 }
 
@@ -141,15 +144,16 @@ function drawRoute() {
                 
                 var minutes = response.routes[0].legs[0].duration.value/60;
                 minutes = minutes.toFixed(2);
+                
                 var seconds = response.routes[0].legs[0].duration.value%60;
                 seconds = seconds.toFixed(2);
                 var durationValue = minutes + ' min ' + seconds + ' sec';
           
+                var miles = 0.000621371192 * response.routes[0].legs[0].distance.value;
+                miles = miles.toFixed(2);
                 
-                document.getElementById("dropDownForm:distanceValue").innerHTML = response.routes[0].legs[0].distance.value  + ' meters';
+                document.getElementById("dropDownForm:distanceValue").innerHTML = miles  + ' miles';
                 document.getElementById("dropDownForm:durationValue").innerHTML = durationValue;
-                
-              
 
 
             }
