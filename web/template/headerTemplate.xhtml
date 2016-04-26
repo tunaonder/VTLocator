@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Sait Tuna Onder on 2016.04.04 
-Copyright © 2016 Sait Tuna Onder. All rights reserved.
+Created by VTLocator Group on 2016.04.04 
+Copyright © 2016 VTLocator. All rights reserved.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"   
@@ -9,29 +9,49 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
 
+    <!-- 
+    Declaration of header template composition that is to be placed at the
+    top of each page and dynamically provide functionality depending on application
+    state.
+    -->
     <ui:composition>
+        <!-- 
+        Include to allow use of jQuery within all pages without version
+        and inclusion errors in the console
+        -->
         <p:growl></p:growl>
+        <!-- Generic Bootstrap assisted navbar -->
         <nav class=" navbar-default navbar-fixed-top">
             <div class="container-fluid navbar-bottom">
                 <div class="navbar-header">
+                    <!-- Mobile enabling hamburger button to display navbar options on mobile screen -->
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
+                    <!-- Logo/Brand for VTLocator located here and clickable -->
                     <h:link class="navbar-brand" outcome="index">
                         <img class="logo logo-header logo-center" src="resources/images/logo_primary.png"/>
                     </h:link>
                 </div>
-
+                <!-- General, non-mobile navbar functionality wrapper that is visible by default -->
                 <div class="navbar-collapse collapse">
                     <h:form>
+                        <!-- 
+                        Display only if the user is logged in.  This wrapper contains
+                        home, buildings&parking, and lost&found links as well as a 
+                        user specific dropdown with various user-related options, the user's
+                        name, and their profile photo.
+                        -->
                         <h:panelGroup layout="block" rendered="#{profileViewManager.loggedInUser != null}">
                             <ul class="nav navbar-nav navbar-right">
+                                <!-- General site-specific navigation links with icons -->
                                 <li><h:link outcome="index"><i class="fa fa-home"></i>Home</h:link></li>
                                 <li><h:link outcome="buildings"><i class="fa fa-map"></i>Buildings &amp; Parking</h:link></li>
                                 <li><h:link outcome="lostAndFound"><i class="fa fa-tags"></i>Lost &amp; Found</h:link></li>
+                                <!-- User specific dropdown with user's firstname and photo -->
                                 <li class="user-dropdown">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -39,6 +59,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                                             <div class="user-profile-img pull-left" style="background-image: url(FileStorageLocation/#{accountManager.userPhoto()});"></div>
                                             <p class="user-name">Hi, #{profileViewManager.loggedInUser.firstName}!</p>
                                         </button>
+                                        <!-- Dropdown options -->
                                         <ul class="dropdown-menu">
                                             <li><h:link outcome="profile"><i class="fa fa-user fa-fw"></i> Your Profile</h:link></li>
                                             <li><h:link outcome="manageItems"><i class="fa fa-th-list fa-fw"></i> Your Items</h:link></li>
@@ -49,19 +70,19 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                                 </li>
                             </ul>
                         </h:panelGroup>
+                        <!-- 
+                        Display only if the user is not logged in.  This wrapper contains 
+                        the sign up and login buttons
+                        -->
                         <h:panelGroup layout="block" rendered="#{profileViewManager.loggedInUser == null}">
                             <ul class="nav navbar-nav navbar-right">
                                 <li><h:button id="login"  value="Login" outcome="login" styleClass="btn btn-custom btn-nav"/></li>
                                 <li><h:button id="signup"  value="Sign Up" outcome="signup" styleClass="btn btn-default btn-nav"/></li>
                             </ul>
                         </h:panelGroup>
-
-
                     </h:form>
-
                 </div>
             </div>
         </nav>
     </ui:composition>
-
 </html>
