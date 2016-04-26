@@ -65,6 +65,8 @@ public class BuildingManager implements Serializable {
 
     private String jsonCategory;
 
+    
+    //DOCUMENTATION STARTED
     private boolean directionAvailable;
     private boolean categoryAvailable;
 
