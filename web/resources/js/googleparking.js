@@ -4,34 +4,41 @@
  */
 var map;
 
-
-
-
-
+/**
+ * Initialize lost and found map
+ */
 function initLostAndFound() {
 
-  // Define the LatLng coordinates for the polygon's path.
-  map = new google.maps.Map(document.getElementById('map'), {
-         zoom: 16,
-         center: {lat: 37.227264, lng: -80.420745},
-         mapTypeId: google.maps.MapTypeId.TERRAIN
-  })
-  x = 0;
-  var marker;
-  var geocoder = new google.maps.Geocoder;
-  var infowindow = new google.maps.InfoWindow;
-  map.addListener('click', function(e) {
-      if (x>0) {
-          marker.setMap(null);
-      }
-      marker = placeMarkerAndPanTo(e.latLng, map, marker);
-      marker.setMap(map);
-      geocodeLatLng(geocoder,map, infowindow, e.latLng, marker);
-      setLostAndFoundFields(e.latLng.lng(), e.latLng.lat());
-      x++;
-  });
+    // Define the LatLng coordinates for the polygon's path.
+    map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 16,
+        center: {
+            lat: 37.227264,
+            lng: -80.420745
+        },
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+    })
+    x = 0;
+    var marker;
+    var geocoder = new google.maps.Geocoder;
+    var infowindow = new google.maps.InfoWindow;
+    map.addListener('click', function(e) {
+        if (x > 0) {
+            marker.setMap(null);
+        }
+        marker = placeMarkerAndPanTo(e.latLng, map, marker);
+        marker.setMap(map);
+        geocodeLatLng(geocoder, map, infowindow, e.latLng, marker);
+        setLostAndFoundFields(e.latLng.lng(), e.latLng.lat());
+        x++;
+    });
 }
 
+/**
+ * Initializes the map on the edit item page
+ * @param  {Decimal} longitude longitude to center
+ * @param  {Decimal} latitude  latitude to center
+ */
 function initEditMap(longitude, latitude) {
 
     // Define the LatLng coordinates for the polygon's path.
@@ -49,6 +56,7 @@ function initEditMap(longitude, latitude) {
         mapTypeId: google.maps.MapTypeId.TERRAIN
     });
 
+    // Set latlng to a marker
     var latLng = new google.maps.LatLng(latitude, longitude);
     var originalMarker = new google.maps.Marker({
         position: latLng,
@@ -63,60 +71,93 @@ function initEditMap(longitude, latitude) {
     var geocoder = new google.maps.Geocoder;
     var infowindow = new google.maps.InfoWindow;
     map.addListener('click', function(e) {
+      // If first marker exists, erase from map onClick
         if (originalMarker) {
             originalMarker.setMap(null);
         }
-        if (x>0) {
+        // more than 1 clicks resolve previous markers
+        if (x > 0) {
             marker.setMap(null);
         }
         marker = placeMarkerAndPanTo(e.latLng, map, marker);
         marker.setMap(map);
-        geocodeLatLng(geocoder,map, infowindow, e.latLng, marker);
+        geocodeLatLng(geocoder, map, infowindow, e.latLng, marker);
         setLostAndFoundFields(e.latLng.lng(), e.latLng.lat());
         x++;
     });
 }
 
+/**
+ * Sets lost and found fields (hidden) for the front-end
+ * @param {Decimal} longitude longtitude to change
+ * @param {Decimal} latitude  latitude to change
+ */
 function setLostAndFoundFields(longitude, latitude) {
-     document.getElementById(PF('latitude').id).value = latitude;
-     document.getElementById(PF('longitude').id).value = longitude;
+    document.getElementById(PF('latitude').id).value = latitude;
+    document.getElementById(PF('longitude').id).value = longitude;
 
 }
 
+/**
+ * Sets lost and found fields (hidden) for the front-end search
+ * @param {Decimal} longitude longtitude to change
+ * @param {Decimal} latitude  latitude to change
+ */
 function setLocationSearchFields(longitude, latitude) {
-     document.getElementById(PF('latitudeSearch').id).value = latitude;
-     document.getElementById(PF('longitudeSearch').id).value = longitude;
+    document.getElementById(PF('latitudeSearch').id).value = latitude;
+    document.getElementById(PF('longitudeSearch').id).value = longitude;
 
 }
 
+/**
+ * helper method to refocus (re-center) map
+ * @param  {latLng point} latLng center point
+ * @param  {google.maps.Map} map    map to operate on
+ * @param  {google.maps.Marker} marker marker
+ * @return {google.maps.Marker}        marker
+ */
 function placeMarkerAndPanTo(latLng, map, marker) {
-  marker = new google.maps.Marker({
-    position: latLng,
-    map: map
-  });
-  map.panTo(latLng);
-  return marker;
+    marker = new google.maps.Marker({
+        position: latLng,
+        map: map
+    });
+    map.panTo(latLng);
+    return marker;
 }
 
+/**
+ * geocode the given location
+ * @param  geocoder   geocoder to use
+ * @param  map        map to draw
+ * @param  infowindow infowindow to pop up
+ * @param  latlng     point
+ * @param  marker     marker
+ */
 function geocodeLatLng(geocoder, map, infowindow, latlng, marker) {
-  geocoder.geocode({'location': latlng}, function(results, status) {
-    if (status === google.maps.GeocoderStatus.OK) {
-      if (results[1]) {
+    geocoder.geocode({
+        'location': latlng
+    }, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
 
-        infowindow.setContent(results[1].formatted_address);
-        infowindow.open(map, marker);
-      } else {
-        window.alert('No results found');
-      }
-    } else {
-      window.alert('Geocoder failed due to: ' + status);
-    }
-  });
+                infowindow.setContent(results[1].formatted_address);
+                infowindow.open(map, marker);
+            } else {
+                window.alert('No results found');
+            }
+        } else {
+            window.alert('Geocoder failed due to: ' + status);
+        }
+    });
 }
 
 var map;
 var bounds;
 
+/**
+ * draws polygons on the map (parking)
+ * @param  {JSON} input object of lat/lngs for polygon arrays
+ */
 function processShapes(input) {
     initMap();
     var shapes = [];
@@ -127,7 +168,6 @@ function processShapes(input) {
     for (shapeNum in input) {
         var shapeCoords = [];
         var coordArr = input[shapeNum]["coords"];
-        // console.log(coordArr);
 
         var index = 0;
         for (index; index < coordArr.length; index++) {
@@ -144,6 +184,7 @@ function processShapes(input) {
             markerBounds.extend(new google.maps.LatLng(Number(coordArr[index]["coord"]["long"]), Number(coordArr[index]["coord"]["lat"])));
         } // end for
 
+        // draw polygons (shapeCoords) on map
         shapes.push(new google.maps.Polygon({
             paths: shapeCoords,
             strokeColor: '#FF0000',
@@ -152,16 +193,14 @@ function processShapes(input) {
             fillColor: '#FF0000',
             fillOpacity: 0.35
         }));
-        // shapes[i].setMap(map);
-//        lotPolygons.push(polygons);
     }
-    for(var i=0; i<shapes.length; i++) {
-      shapes[i].setMap(map);
+    for (var i = 0; i < shapes.length; i++) {
+        shapes[i].setMap(map);
     }
-
     map.fitBounds(markerBounds);
 } // end function
 
+// initializes map
 function initMap() {
 
     // Define the LatLng coordinates for the polygon's path.
@@ -178,10 +217,9 @@ function initMap() {
         },
         mapTypeId: google.maps.MapTypeId.TERRAIN
     });
-
-
 }
 
+// initializes map for items
 function initItem(longitude, latitude) {
 
     // Define the LatLng coordinates for the polygon's path.
@@ -202,57 +240,59 @@ function initItem(longitude, latitude) {
         draggable: false
     });
     var latLng = new google.maps.LatLng(latitude, longitude);
-     marker = new google.maps.Marker({
+    marker = new google.maps.Marker({
         position: latLng,
         map: map
-      });
-
-
+    });
 }
 
-
-
+// initializes map for lost and found search
 function initLostAndFoundSearch() {
 
-  // Define the LatLng coordinates for the polygon's path.
-  lfmap = new google.maps.Map(document.getElementById('lfmap'), {
-         zoom: 15,
-         center: {lat: 37.227612, lng: -80.422135},
-         mapTypeId: google.maps.MapTypeId.TERRAIN
-  })
-  x = 0;
-  var marker;
-  var geocoder = new google.maps.Geocoder;
-  var infowindow = new google.maps.InfoWindow;
-  lfmap.addListener('click', function(e) {
-      if (x>0) {
-          marker.setMap(null);
-      }
-      marker = placeMarkerAndPanTo(e.latLng, lfmap, marker);
-      marker.setMap(lfmap);
-      geocodeLatLng(geocoder,lfmap, infowindow, e.latLng, marker);
-      setLocationSearchFields(e.latLng.lng(), e.latLng.lat());
+    // Define the LatLng coordinates for the polygon's path.
+    lfmap = new google.maps.Map(document.getElementById('lfmap'), {
+        zoom: 15,
+        center: {
+            lat: 37.227612,
+            lng: -80.422135
+        },
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+    })
+    x = 0;
+    var marker;
+    var geocoder = new google.maps.Geocoder;
+    var infowindow = new google.maps.InfoWindow;
+    lfmap.addListener('click', function(e) {
+        if (x > 0) {
+            marker.setMap(null);
+        }
+        marker = placeMarkerAndPanTo(e.latLng, lfmap, marker);
+        marker.setMap(lfmap);
+        geocodeLatLng(geocoder, lfmap, infowindow, e.latLng, marker);
+        setLocationSearchFields(e.latLng.lng(), e.latLng.lat());
 
-      setGeocodedAddress(geocoder, e.latLng);
-      x++;
-  });
+        setGeocodedAddress(geocoder, e.latLng);
+        x++;
+    });
 }
 
+// gets the geocoded address from given latlng
 function setGeocodedAddress(geocoder, latlng) {
 
-    geocoder.geocode({'location': latlng}, function(results, status) {
+    geocoder.geocode({
+        'location': latlng
+    }, function(results, status) {
         if (status === google.maps.GeocoderStatus.OK) {
-          if (results[1]) {
-            address = results[1].formatted_address;
-            document.getElementById(PF('geocodedAddress').id).value = address;
-          } else {
-            address = 'No address found';
-            document.getElementById(PF('geocodedAddress').id).value = address;
-          }
+            if (results[1]) {
+                address = results[1].formatted_address;
+                document.getElementById(PF('geocodedAddress').id).value = address;
+            } else {
+                address = 'No address found';
+                document.getElementById(PF('geocodedAddress').id).value = address;
+            }
         } else {
-          address = "No address found.";
-          document.getElementById(PF('geocodedAddress').id).value = address;
+            address = "No address found.";
+            document.getElementById(PF('geocodedAddress').id).value = address;
         }
-     });
-
+    });
 }

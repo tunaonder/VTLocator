@@ -25,13 +25,16 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                         <!--panelgroup to force ajax update-->
                         <h:panelGroup id="item-list">
                             <h:form>
+                                <!--A ui:repeat allows the jsf to create components dynamically. this is only rendered when user has uploaded items -->
                                 <ui:repeat var="i" value="#{itemManager.userItems}" rendered="#{itemManager.userItems.size() > 0}" id="item-repeat">
                                     <div class="col-md-12">
+                                        <!--arrange items in well-->
                                         <div class="manage-item-view well">
                                             <div class="row">
                                                 <div class="col-xs-3">
                                                     <img class="pull-left" src="FileStorageLocation/#{itemManager.getMainImageByItemId(i.id)}" />
                                                 </div>
+                                                <!--name, view, edit, resolve, delete buttons-->
                                                 <div class="col-xs-6">
                                                     <span>
                                                         <h3>#{i.name}</h3>
@@ -41,6 +44,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                                         <h:commandButton action="#{itemManager.delete(i.id)}" styleClass="btn btn-sm btn-default" value="Delete" /> 
                                                     </span>
                                                 </div>
+                                                <!--shows date in a nice format-->
                                                 <div class="col-xs-3 text-right">
                                                     <h:outputLabel styleClass="item-date" value="#{i.getFancyDate()}"/>
                                                 </div>
@@ -50,6 +54,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                 </ui:repeat>
                             </h:form>
                             </h:panelGroup>
+                        <!--rendered when user has no items-->
                         <h3><h:outputLabel rendered="#{itemManager.userItems == null || itemManager.userItems.size() == 0}">No items found</h:outputLabel></h3>
                     </div>
                 </div>
