@@ -11,15 +11,17 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
       xmlns:p="http://primefaces.org/ui">
 
     <h:body>
-        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
         <ui:composition template="template/siteTemplate.xhtml">
             <ui:define name="sidebar">
+                <!-- this is the left panel that allows search by location and text-->
                 <ui:include src="template/itemSearch.xhtml"></ui:include>
             </ui:define>
             <ui:define name="mainPanel">
                 <div class="lost-and-found-home-wrapper">
+                    <!-- this is the geocoded address. Google uses the long/lat to create a written address. We store in bean and retrieve that-->
                     <h1>Search results near: <i class="text-custom">"#{searchManager.geocodedAddress}"</i></h1>
                      <h:form class="detailPage">
+                         <!-- this displays a list in order of closeness of currently lost items-->
                         <ui:repeat var="item" value="#{searchManager.resultsList}" varStatus="status">
                             <h:commandLink action="#{itemManager.detailPage(item.id)}" >
                                 <div class="col-md-4 item-list-view-wrapper">
@@ -27,6 +29,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                         <img src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}" />
                                         <h3 class="item-title">#{itemManager.ellipsesTitle(item.name)}</h3>
                                         <p class="item-description">#{itemManager.ellipsesDescription(item.description)}</p>
+                                        <!-- how far away the item is from the selected point in miles-->
                                         <h4><i>Distance: #{item.formattedDistance} miles away</i></h4>
                                     </div>
                                 </div>
