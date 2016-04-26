@@ -67,7 +67,7 @@ public class ItemManager implements Serializable {
     private String name;
     private BigDecimal latitudeFound = new BigDecimal(0);
     private BigDecimal longitudeFound = new BigDecimal(0);
-    private Date dateFound;
+    private Date dateFound = new Date();
     private String category;
     private String statusMessage;
     private Collection<ItemPhoto> itemPhotoCollection;
@@ -238,7 +238,11 @@ public class ItemManager implements Serializable {
     
     public String ellipsesTitle(String str) {
         if (str != null && str.length() > 16) {
-            return str.substring(0, str.indexOf(' ', 13)) + "...";
+            int check = str.indexOf(' ', 13);
+            if (check == -1) {
+                check = 13;
+            }
+            return str.substring(0, check) + "...";
         }
         return str;
     }
@@ -276,7 +280,7 @@ public class ItemManager implements Serializable {
             clearCreateItemForm();
 
         } catch (EJBException e) {
-            //email = "";
+            e.printStackTrace();
             statusMessage = "Something went wrong while creating your item!";
             return "";
         }
@@ -292,7 +296,7 @@ public class ItemManager implements Serializable {
         description = "";
         name = "";
         category = "HOKIE_PASSPORT";
-        dateFound = null; 
+        dateFound = new Date(); 
         latitudeFound = new BigDecimal(0);
         longitudeFound = new BigDecimal(0);
         statusMessage = null;
@@ -318,13 +322,13 @@ public class ItemManager implements Serializable {
                 item.setDescription(detailItem.getDescription());
                 item.setId(detailItem.getId());
 //                item.setCreatedBy(user); // cannot change who created
-//                item.setItemPhotoCollection(itemPhotoCollection); // leave photo collection unchanged
+                item.setItemPhotoCollection(itemPhotoCollection); // leave photo collection unchanged
 
                 detailItem = item;
                 itemFacade.edit(detailItem);
                 notifyForCategory(item);
                 this.selected = item;
-//                uploadMultiple();
+                uploadMultiple();
                 clearCreateItemForm();
             }
             
@@ -717,5 +721,18 @@ public class ItemManager implements Serializable {
             }
         }
     }
-    
+
+    /**
+     * Deletes the item photo with the given id.
+     * @param photoId
+     * @throws IOException 
+     */
+    public void deleteItemPhotoById(String photoId) throws IOException {
+        int photo_id = Integer.parseInt(photoId);
+        itemPhotoFacade.deleteByItemPhotoID(photo_id);
+        FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Photo removed."));
+        // Force page refresh
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+    } 
 }
