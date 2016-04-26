@@ -276,7 +276,7 @@ public class ItemManager implements Serializable {
             clearCreateItemForm();
 
         } catch (EJBException e) {
-            //email = "";
+            e.printStackTrace();
             statusMessage = "Something went wrong while creating your item!";
             return "";
         }
@@ -723,8 +723,9 @@ public class ItemManager implements Serializable {
      * @param photoId
      * @throws IOException 
      */
-    public void deleteItemPhotoById(int photoId) throws IOException {
-        itemPhotoFacade.deleteByItemPhotoID(photoId);
+    public void deleteItemPhotoById(String photoId) throws IOException {
+        int photo_id = Integer.parseInt(photoId);
+        itemPhotoFacade.deleteByItemPhotoID(photo_id);
         FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Photo removed."));
         // Force page refresh
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();

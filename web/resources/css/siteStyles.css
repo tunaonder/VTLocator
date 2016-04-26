@@ -452,6 +452,23 @@ div.footer .footer-text {
     margin-right: 10px;
 }
 
+.edit-img img {
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
+.edit-img i {
+    position: absolute;
+    top: 4px;
+    right: 23px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,.25);
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+
 .item-list-view img {
     width: auto;
     height: 150px;
@@ -480,7 +497,6 @@ div.footer .footer-text {
 
 .item-view-wrapper .item-view-title {
     color: #e95051;
-    /*text-align: left;*/
 }
 
 .item-view-wrapper img.item-photo {
