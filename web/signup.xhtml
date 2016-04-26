@@ -21,10 +21,13 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
             <ui:define name="editableContent">
                 <div align="center">
                     <h:form class="form-signin">
+                        <!--Checks if password and confirm password matches-->
                          <f:event listener="#{accountManager.validateInformation}" type="postValidate"/>
                         <div align="center">
                         <h:graphicImage url="#{resource['images:logo_primary.png']}" styleClass="login-logo" alt="VTLocator"/>
 
+                        
+                        <!-- Each column in panel grid has different styling-->
                         <h:panelGrid columns="3" cellpadding="5" columnClasses="signup-label, signup-input, signup-message">
                             <p:outputLabel for="firstName" value="First Name" />
                             <h:inputText id="firstName" class="form-control"
@@ -56,6 +59,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                             <p:message for="phone" display="icon" />
 
                             <p:outputLabel for="security_ques" value="Security Question" />
+                            <!--Security questions are provided as default. Java Bean return list of constants-->
                             <h:selectOneMenu id="security_ques" value="#{accountManager.security_question}" required="true" class="form-control">
                                  <f:selectItems value="#{accountManager.security_questions}"/>
                             </h:selectOneMenu>
@@ -69,6 +73,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                             <p:message for="security_ans" display="icon" />                    
 
                             <p:outputLabel for="password" value="Password" />
+                            <!-- Password must be validated to provide highest secuirty-->
                             <h:inputSecret id="password" class="form-control"
                                            required="true" label="Password" value="#{accountManager.password}" >
                                 <f:validator validatorId="passwordValidator" /> 
@@ -82,10 +87,12 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                             <p:message for="confirmPassword" display="icon"/>
                         </h:panelGrid>
                         <br/>
+                        <!--Create User Account with the provided information-->
                         <h:commandButton class="btn btn-custom" id="submit" value="Create Account" action="#{accountManager.createAccount()}" />   
                         <h:button class="btn btn-default" id="cancel" value="Cancel" outcome="index" /> 
                         </div>
                         <br/>
+                        <!--Display status message if correct password is not entered-->
                         <h:outputLabel value ="#{accountManager.statusMessage}" />
                     </h:form>
                 </div>

@@ -33,8 +33,7 @@ import javax.json.JsonObjectBuilder;
 /*
 Used to fetch and edit the user's information
 The xhtml files do not interact with the CustomerFacade, they interact with this.
-*/
- 
+ */
 @Named(value = "accountManager") // what to use to refer to this class
 @SessionScoped // this class will leave scope when the browser ends the session
 /**
@@ -42,7 +41,7 @@ The xhtml files do not interact with the CustomerFacade, they interact with this
  * @author Michael
  */
 public class AccountManager implements Serializable {
- 
+
     // Instance Variables (Properties)
     private String firstName;
     private String lastName;
@@ -51,47 +50,40 @@ public class AccountManager implements Serializable {
     private String phone_number;
     private String statusMessage;
 
-    public String getStatusMessage() {
-        return statusMessage;
-    }
-
-    public void setStatusMessage(String statusMessage) {
-        this.statusMessage = statusMessage;
-    }
-    public String getPhone_number() {
-        return phone_number;
-    }
-
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
-    }
     private int security_question;
     private String security_answer;
-        
+
     private Map<String, Object> security_questions; // stored as a map
-    
+
     private User selected;
-    
+
+    private Collection<Subscription> subscriptions;
+
+    private List<String> selectedSubscriptions;
+
     /**
      * The instance variable 'userFacade' is annotated with the @EJB annotation.
-     * This means that the GlassFish application server, at runtime, will inject in
-     * this instance variable a reference to the @Stateless session bean UserFacade.
+     * This means that the GlassFish application server, at runtime, will inject
+     * in this instance variable a reference to the @Stateless session bean
+     * UserFacade.
      */
     @EJB
     private UserFacade userFacade;
 
     /**
-     * The instance variable 'photoFacade' is annotated with the @EJB annotation.
-     * This means that the GlassFish application server, at runtime, will inject in
-     * this instance variable a reference to the @Stateless session bean PhotoFacade.
+     * The instance variable 'photoFacade' is annotated with the @EJB
+     * annotation. This means that the GlassFish application server, at runtime,
+     * will inject in this instance variable a reference to the @Stateless
+     * session bean PhotoFacade.
      */
     @EJB
     private UserPhotoFacade photoFacade;
-    
+
     /**
-     * The instance variable 'subscriptionFacade' is annotated with the @EJB annotation.
-     * This means that the GlassFish application server, at runtime, will inject in
-     * this instance variable a reference to the @Stateless session bean PhotoFacade.
+     * The instance variable 'subscriptionFacade' is annotated with the @EJB
+     * annotation. This means that the GlassFish application server, at runtime,
+     * will inject in this instance variable a reference to the @Stateless
+     * session bean PhotoFacade.
      */
     @EJB
     private SubscriptionFacade subscriptionFacade;
@@ -174,6 +166,22 @@ public class AccountManager implements Serializable {
         this.security_answer = security_answer;
     }
 
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
     // Returns all security questions in the map
     public Map<String, Object> getSecurity_questions() {
         if (security_questions == null) {
@@ -185,16 +193,11 @@ public class AccountManager implements Serializable {
         return security_questions;
     }
 
-   
-
-    
-
-  
-
+    //Return selected user by using its' id
     public User getSelected() {
         if (selected == null) {
             selected = userFacade.find(FacesContext.getCurrentInstance().
-                getExternalContext().getSessionMap().get("user_id"));
+                    getExternalContext().getSessionMap().get("user_id"));
         }
         return selected;
     }
@@ -205,10 +208,10 @@ public class AccountManager implements Serializable {
 
     // Will create a customer object
     public String createAccount() {
-        
+
         // Check to see if a user already exists with the email given.
         User aUser = userFacade.findByEmail(email);
-        
+
         if (aUser != null) {
             email = "";
             return "";
@@ -218,7 +221,7 @@ public class AccountManager implements Serializable {
             try {
                 User user = new User();
                 user.setFirstName(firstName);
-                user.setLastName(lastName);                
+                user.setLastName(lastName);
                 user.setSecurityQuestion(security_question);
                 user.setSecurityAnswer(security_answer);
                 user.setEmail(email);
@@ -231,13 +234,13 @@ public class AccountManager implements Serializable {
                 statusMessage = "Something went wrong while creating your account!";
                 return "";
             }
-             // 
-            return "buildings"; // navigate to profile
+
+            return "buildings"; // navigate to buildings page
         }
         return "";
     }
 
-    // Updates the info on the account
+    // Updates the first name info on the account
     public void updateFirstName() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
         User editUser = userFacade.getUser(user_id);
@@ -248,9 +251,10 @@ public class AccountManager implements Serializable {
             } catch (EJBException e) {
                 statusMessage = "Something went wrong while editing your profile!";
             }
-        }  
+        }
     }
-    // Updates the info on the account
+
+    // Updates the last name info on the account
     public void updateLastName() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
         User editUser = userFacade.getUser(user_id);
@@ -263,7 +267,8 @@ public class AccountManager implements Serializable {
             }
         }
     }
-    // Updates the info on the account
+
+    // Updates the phone number info on the account
     public void updatePhoneNumber() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
         User editUser = userFacade.getUser(user_id);
@@ -276,8 +281,8 @@ public class AccountManager implements Serializable {
             }
         }
     }
-    
-    // Updates the email on the account
+
+    // Updates the email info on the account
     public void updateEmail() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
         User editUser = userFacade.getUser(user_id);
@@ -290,9 +295,8 @@ public class AccountManager implements Serializable {
             }
         }
     }
-    
-    
-    // Updates the info on the account
+
+    // Updates the security answer info on the account
     public void updateSecurityAnswer() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
         User editUser = userFacade.getUser(user_id);
@@ -305,9 +309,7 @@ public class AccountManager implements Serializable {
             }
         }
     }
-    
-    
-    
+
     // Checks to see if the user's name and password is correct
     public void validateInformation(ComponentSystemEvent event) {
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -333,12 +335,12 @@ public class AccountManager implements Serializable {
             statusMessage = "Passwords must match!";
         } else {
             statusMessage = "";
-        }   
+        }
     }
 
     // Creates a session for this user
     public void initializeSessionMap() {
-        User user = userFacade.findByEmail(getEmail()); 
+        User user = userFacade.findByEmail(getEmail());
         FacesContext.getCurrentInstance().getExternalContext().
                 getSessionMap().put("email", email);
         FacesContext.getCurrentInstance().getExternalContext().
@@ -353,27 +355,25 @@ public class AccountManager implements Serializable {
         if (verifyPassword.isEmpty()) {
             statusMessage = "";
             return false;
+        } else if (verifyPassword.equals(password)) {
+            return true;
         } else {
-            if (verifyPassword.equals(password)) {
-                return true;
-            } else {
-                statusMessage = "Invalid password entered!";
-                return false;
-            }
+            statusMessage = "Invalid password entered!";
+            return false;
         }
     }
 
-    // removes this session
+    // removes this session and invalidates session
     public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
         email = firstName = lastName = password = email = statusMessage = phone_number = "";
         security_answer = "";
         security_question = 0;
-        
+
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/index.xhtml?faces-redirect=true"; // TODO don't know address yet
     }
-   
+
     // returns the user's photo file name
     public String userPhoto() {
         String email = (String) FacesContext.getCurrentInstance()
@@ -385,11 +385,27 @@ public class AccountManager implements Serializable {
         }
         return photoList.get(0).getFilename();
     }
-    
-    private Collection<Subscription> subscriptions;
-    
-    private List<String> selectedSubscriptions;
 
+    //Return the list of subscriptions of the current user
+    public Collection<Subscription> getSubscriptions() {
+        selected = getSelected();
+        List<Subscription> others = subscriptionFacade.getByUserId(selected);
+        if (others.isEmpty()) {
+        } else {
+            return others;
+        }
+        if (selected.getSubscriptionCollection().isEmpty()) {
+            return null;
+        } else {
+            return selected.getSubscriptionCollection();
+        }
+    }
+
+    public void setSubscriptions(Collection<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
+    //Return list of subscriptions of the user as String Array List
     public List<String> getSelectedSubscriptions() {
         selectedSubscriptions = new ArrayList();
         Collection<Subscription> currentSubs = getSubscriptions();
@@ -403,23 +419,23 @@ public class AccountManager implements Serializable {
             selectedSubscriptions.add(sub.getCategory());
         }
 
-        
         return selectedSubscriptions;
     }
 
+    //Sets the list of subscriptions
     public void setSelectedSubscriptions(List<String> selectedSubscriptions) {
         subscriptions = getSubscriptions();
         this.selectedSubscriptions = selectedSubscriptions;
         for (int i = 0; i < selectedSubscriptions.size(); i++) {
             boolean exists = false;
             if (subscriptions != null) {
-                 Iterator<Subscription> iterator = subscriptions.iterator();
-                 while (iterator.hasNext()) {
+                Iterator<Subscription> iterator = subscriptions.iterator();
+                while (iterator.hasNext()) {
                     Subscription curr = iterator.next();
                     if (curr.getCategory().equals(selectedSubscriptions.get(i))) {
                         exists = true;
                     }
-                 }
+                }
             }
             if (!exists) {
                 Subscription subscription = new Subscription();
@@ -429,51 +445,22 @@ public class AccountManager implements Serializable {
             }
         }
         if (subscriptions != null) {
-//            System.out.println("hereYOYOYO");
             Iterator<Subscription> iterator = subscriptions.iterator();
             while (iterator.hasNext()) {
-                
+
                 Subscription oldSub = iterator.next();
-//                System.out.println(oldSub.getCategory() + "OLD");
                 boolean shouldExist = false;
                 for (int i = 0; i < selectedSubscriptions.size(); i++) {
-//                    System.out.println(selectedSubscriptions.get(i) + "NEW");
                     if (oldSub.getCategory().equals(selectedSubscriptions.get(i))) {
                         shouldExist = true;
                     }
                 }
                 if (!shouldExist) {
-//                    System.out.println("REMOVE IN");
                     subscriptionFacade.deleteBySub(oldSub.getId());
                 }
             }
         }
 
-        
     }
 
-    public Collection<Subscription> getSubscriptions() {
-        selected = getSelected();
-//        System.out.println(selected.getFirstName() + "YOYOYO");
-        List<Subscription> others = subscriptionFacade.getByUserId(selected);
-        if (others.isEmpty()) {
-//            System.out.println("OTHER IS EMPTY");
-        } else {
-            return others;
-        }
-        if (selected.getSubscriptionCollection().isEmpty()) {
-//            System.out.println(selected.getFirstName() + "NADAHERE");
-            return null;
-        } else {
-//            System.out.println("HERE!");
-            return selected.getSubscriptionCollection();
-        }
-    }
-
-    public void setSubscriptions(Collection<Subscription> subscriptions) {
-        this.subscriptions = subscriptions;
-    }
-    
-    
-    
 }

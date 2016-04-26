@@ -13,6 +13,8 @@ import com.vtlocator.jpaentityclasses.User;
  *
  * @author Onder
  */
+
+//User Facade class is used to get the user object with the provided information from database
 @Stateless
 public class UserFacade extends AbstractFacade<User> {
 
@@ -32,11 +34,14 @@ public class UserFacade extends AbstractFacade<User> {
     //The following methods are added to the generated code
     //-----------------------------------------------------
     
+    //Find user by its id
     public User getUser(int id) {
         return em.find(User.class, id);
     }
 
+    //Find User by its' email
     public User findByEmail(String email) {
+        //If it there is no such an email return null
         if (em.createNamedQuery("User.findByEmail")
                 .setParameter("email", email)
                 .getResultList().isEmpty()) {
