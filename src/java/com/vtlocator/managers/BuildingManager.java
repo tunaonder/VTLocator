@@ -40,7 +40,7 @@ public class BuildingManager implements Serializable {
     private List<String> buildingNamesJSON;
 
     //Restful Requests Base URL
-    private final String baseUrl = "http://jupiter.cs.vt.edu/VTBuildingsData/webresources/buildings/";
+    private final String baseUrl = "http://localhost:8080/VTBuildingsJAX-RS/webresources/buildings/";
 
     //Building Values
     private double lat;
@@ -69,7 +69,7 @@ public class BuildingManager implements Serializable {
 
     @PostConstruct
     public void init() {
-        
+
         //Initilize All Variables
         setInitialValues();
 
@@ -80,7 +80,7 @@ public class BuildingManager implements Serializable {
         try {
             //Get Names Of all Buildings from Restful Service
             String url = baseUrl + "names";
-            json = new JSONArray(readJSON(url));
+            json = new JSONArray(readUrlContent(url));
 
             int counter = 0;
             //Get Names of Buildings From JSON Data and make a building names List
@@ -100,7 +100,7 @@ public class BuildingManager implements Serializable {
         try {
             //Get Names Of all Buildings from Restful Service
             String url = baseUrl + "categories";
-            json = new JSONArray(readJSON(url));
+            json = new JSONArray(readUrlContent(url));
 
             int counter = 0;
             //Get Categories of Buildings From JSON Data and make a building names List
@@ -133,7 +133,7 @@ public class BuildingManager implements Serializable {
     }
 
     //This method Returns JSON data as String from Given URL
-    public String readJSON(String urlString) throws Exception {
+    public String readUrlContent(String urlString) throws Exception {
         BufferedReader reader = null;
         try {
             URL url = new URL(urlString);
@@ -184,7 +184,6 @@ public class BuildingManager implements Serializable {
     public void setLng(double lng) {
         this.lng = lng;
     }
-
 
     public String getImageUrl() {
         return imageUrl;
@@ -290,21 +289,18 @@ public class BuildingManager implements Serializable {
             //Replace Slash character with %2F
             modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
             //Create Restful Request Url
-            String restfulUrl = baseUrl + modifiedBuildingName;
+            String restfulUrl = baseUrl + "names/" +modifiedBuildingName;
             //Return Result As JSON
-            json = new JSONObject(readJSON(restfulUrl));
+            json = new JSONObject(readUrlContent(restfulUrl));
             //Get Specific Data from Returned Json
             lat = json.getDouble("latitude");
             lng = json.getDouble("longitude");
-            imageUrl = json.getString("image");
+            imageUrl = json.getString("imageUrl");
             //Url Has a description as txt. Read all String from Url and add it to description Variable
-            URL url = new URL(json.getString("description"));
-            try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
-                String str;
-                while ((str = in.readLine()) != null) {
-                    description = str;
-                }
-            }
+            String descriptionUrl = json.getString("descriptionUrl");
+
+            //Description will be read from url 
+            description = readUrlContent(descriptionUrl);
 
         } catch (JSONException ex) {
         } catch (Exception ex) {
@@ -319,7 +315,7 @@ public class BuildingManager implements Serializable {
         directionPressed = true;
 
     }
-    
+
     //When User click the refresh button, take the side bar interface to its initial stage
     public void refreshForm() {
         directionPressed = false;
@@ -338,7 +334,7 @@ public class BuildingManager implements Serializable {
             modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
             //Create Restful Request Url
             String restfulUrl = baseUrl + modifiedBuildingName;
-            json = new JSONObject(readJSON(restfulUrl));
+            json = new JSONObject(readUrlContent(restfulUrl));
             lat2 = json.getDouble("latitude");
             lng2 = json.getDouble("longitude");
         } catch (JSONException ex) {
@@ -347,6 +343,7 @@ public class BuildingManager implements Serializable {
         }
 
     }
+
     //Sets the Coordinates of destination point for routes
     public void createDestinationPoint() {
         JSONObject json;
@@ -358,7 +355,7 @@ public class BuildingManager implements Serializable {
             //Create Restful Request Url
             String restfulUrl = baseUrl + modifiedBuildingName;
             //Return Result As JSON
-            json = new JSONObject(readJSON(restfulUrl));
+            json = new JSONObject(readUrlContent(restfulUrl));
             //Get Specific Data from Returned Json
             lat = json.getDouble("latitude");
             lng = json.getDouble("longitude");
@@ -384,7 +381,7 @@ public class BuildingManager implements Serializable {
 
             //Create Restful Request Url
             String restfulUrl = baseUrl + modifiedCategoryName;
-            jsonCategory = readJSON(restfulUrl);
+            jsonCategory = readUrlContent(restfulUrl);
 
         } catch (JSONException ex) {
         } catch (Exception ex) {
@@ -433,21 +430,18 @@ public class BuildingManager implements Serializable {
             //Replace Slash character with %2F
             modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
             //Create Restful Request Url
-            String restfulUrl = baseUrl + modifiedBuildingName;
+            String restfulUrl = baseUrl + "names/" + modifiedBuildingName;
             //Return Result As JSON
-            json = new JSONObject(readJSON(restfulUrl));
+            json = new JSONObject(readUrlContent(restfulUrl));
             //Get Specific Data from Returned Json
             lat = json.getDouble("latitude");
             lng = json.getDouble("longitude");
-            imageUrl = json.getString("image");
+            imageUrl = json.getString("imageUrl");
             //Url Has a description as txt. Read all String from Url and add it to description Variable
-            URL url = new URL(json.getString("description"));
-            try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
-                String str;
-                while ((str = in.readLine()) != null) {
-                    description = str;
-                }
-            }
+            String descriptionUrl = json.getString("descriptionUrl");
+
+            //Description will be read from url 
+            description = readUrlContent(descriptionUrl);
 
         } catch (JSONException ex) {
         } catch (Exception ex) {
