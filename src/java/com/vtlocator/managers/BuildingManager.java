@@ -40,7 +40,7 @@ public class BuildingManager implements Serializable {
     private List<String> buildingNamesJSON;
 
     //Restful Requests Base URL
-    private final String baseUrl = "http://localhost:8080/VTBuildingsJAX-RS/webresources/buildings/";
+    private final String baseUrl = "http://orca.cs.vt.edu/VTBuildingsJAX-RS/webresources/vtBuildings/";
 
     //Building Values
     private double lat;
