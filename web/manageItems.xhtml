@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Sebastian Welsh on 2016.04.21 
-Copyright © 2016 Sebastian Welsh. All rights reserved.
+Created by VTLocator Group on 2016.04.04
+Copyright © 2016 VTLocator. All rights reserved.
 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
@@ -20,7 +20,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
             <ui:define name="mainPanel">
                 <div class="lost-and-found-home-wrapper">
                     <h:button outcome="createItem" class="btn btn-lg btn-default pull-right" value="Post Item" />
-                    <h1>Your Current Items:</h1> 
+                    <h1>Your Current Items:</h1>
                     <div class="row">
                         <!--panelgroup to force ajax update-->
                         <h:panelGroup id="item-list">
@@ -41,7 +41,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                                         <h:commandButton action="#{itemManager.detailPage(i.id)}" styleClass="btn btn-sm btn-custom" value="View" />
                                                         <h:commandButton action="#{itemManager.edit(i.id)}" styleClass="btn btn-sm btn-default" value="Edit" />
                                                         <h:commandButton action="#{itemManager.resolve(i.id)}" styleClass="btn btn-sm btn-default" value="Resolve" />
-                                                        <h:commandButton action="#{itemManager.delete(i.id)}" styleClass="btn btn-sm btn-default" value="Delete" /> 
+                                                        <h:commandButton action="#{itemManager.delete(i.id)}" styleClass="btn btn-sm btn-default" value="Delete" />
                                                     </span>
                                                 </div>
                                                 <!--shows date in a nice format-->

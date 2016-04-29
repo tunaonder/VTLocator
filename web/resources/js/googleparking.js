@@ -1,6 +1,6 @@
 /*
- * Created by Sean Goodrich on 2016.04.07  *
- * Copyright © 2016 Sean Goodrich. All rights reserved. *
+ * Created by VTLocator Group on 2016.04.07  *
+ * Copyright © 2016 VTLocator Group. All rights reserved. *
  */
 var map;
 
@@ -17,7 +17,7 @@ function initLostAndFound() {
             lng: -80.420745
         },
         mapTypeId: google.maps.MapTypeId.TERRAIN
-    })
+    });
     x = 0;
     var marker;
     var geocoder = new google.maps.Geocoder;
@@ -139,7 +139,7 @@ function geocodeLatLng(geocoder, map, infowindow, latlng, marker) {
     }, function(results, status) {
         if (status === google.maps.GeocoderStatus.OK) {
             if (results[1]) {
-
+                // set content window to the geocoded address
                 infowindow.setContent(results[1].formatted_address);
                 infowindow.open(map, marker);
             } else {

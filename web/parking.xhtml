@@ -1,49 +1,52 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-
+<!--
+Created by VTLocator Group on 2016.04.04
+Copyright © 2016 VTLocator. All rights reserved.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
     <!-- Do not enter tags before the composition line since they are ignored by JSF -->
-
     <!-- This page is constructed based on the siteTemplate -->
     <ui:composition template="template/siteTemplate.xhtml">
-        <ui:define name="sidebar">
-            <ul class="nav nav-tabs nav-justified categories-nav">
-                <li role="presentation"><h:link outcome="buildings">Buildings</h:link></li>
-                <li role="presentation" class="active"><h:link outcome="parking">Parking</h:link></li>
-            </ul>
-            <div class="text-center parking-sidebar-wrapper">
-                <h4 style="margin-top: 20px; margin-bottom: 20px;">Select your parking pass type</h4>
-                <h:commandButton value="Any Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getANY()})" /><br />
-                <h:commandButton value="Commuter Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getCOMMUTER()})" /><br />
-                <h:commandButton value="Resident Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getRESIDENT()})" /><br />
-                <h:commandButton value="Faculty Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getFACULTY()})" /><br />
-                <h:commandButton value="Metered Spots" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getMETERED()})" /><br />
-                <h:commandButton value="Parking Pass Office" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getPARKING()})" /><br />
-                
-                <br />
-                
-                <div class="panel panel-info afterhours-panel">
-                    <div class="panel-heading">After Hours</div>
-                    <div class="panel-body">
-                        <p>Drillfield is for faculty and staff from <b>7 am</b> to <b>5 pm</b>, graduate students from <b>5 pm</b> and open to the public after <b>8 pm.</b>
-                            Bookstore meters are enforced <b>7 am</b> to <b>6 pm</b> 7 days a week.</p>
-                    </div>
-                </div>
+    <!-- define sidebar -->
+    <ui:define name="sidebar">
+    <ul class="nav nav-tabs nav-justified categories-nav">
+        <li role="presentation"><h:link outcome="buildings">Buildings</h:link></li>
+        <li role="presentation" class="active"><h:link outcome="parking">Parking</h:link></li>
+    </ul>
+    <!-- sidebar content that contains buttons to trigger JS functions -->
+    <div class="text-center parking-sidebar-wrapper">
+        <h4 style="margin-top: 20px; margin-bottom: 20px;">Select your parking pass type</h4>
+        <!-- googleparking.js:processShapes() is passed a json formatted string that is populated from Constants->parkingLotManager -->
+        <h:commandButton value="Any Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getANY()})" /><br />
+        <h:commandButton value="Commuter Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getCOMMUTER()})" /><br />
+        <h:commandButton value="Resident Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getRESIDENT()})" /><br />
+        <h:commandButton value="Faculty Pass" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getFACULTY()})" /><br />
+        <h:commandButton value="Metered Spots" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getMETERED()})" /><br />
+        <h:commandButton value="Parking Pass Office" type="button" styleClass="btn btn-default" onclick="processShapes(#{parkingLotManager.getPARKING()})" /><br />
+        <br />
+        <!-- A simple panel that provides after hour parking info -->
+        <div class="panel panel-info afterhours-panel">
+            <div class="panel-heading">After Hours</div>
+            <div class="panel-body">
+                <p>Drillfield is for faculty and staff from <b>7 am</b> to <b>5 pm</b>, graduate students from <b>5 pm</b> and open to the public after <b>8 pm.</b>
+                Bookstore meters are enforced <b>7 am</b> to <b>6 pm</b> 7 days a week.</p>
             </div>
-        </ui:define>
-        <ui:define name="mainPanel">
-            <div id="map" style="width:100%; height:100%;"></div>
-            <script type="text/javascript" >
-                initMap();
-            </script>
-        </ui:define>
+        </div>
+    </div>
+    </ui:define>
+    <!-- main panel that contains the map -->
+    <ui:define name="mainPanel">
+        <div id="map" style="width:100%; height:100%;"></div>
+        <script type="text/javascript" >
+            initMap();
+        </script>
+    </ui:define>
     </ui:composition>
     <!-- Do not enter tags after the composition line since they are ignored by JSF -->
-    
-    
 </html>
