@@ -31,7 +31,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  * - Added functions: filename, filepath.
  * @author Onder
  */
-@Ent
 @Entity
 @Table(name = "ItemPhoto")
 @XmlRootElement
