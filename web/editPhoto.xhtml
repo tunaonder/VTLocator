@@ -4,6 +4,8 @@ Created by Michael Steele on 2016.03.14
 Copyright © 2016 Michael Steele. All rights reserved.
 -->
 <!-- 
+This file is very similar to the Users tutorial.
+
 Allows the user to upload a new photo to his account.
 Saves the uploaded file in the field fileManager.file.
 fileManager.upload() checks the uploaded file, creates a thumbnail, places in DB
@@ -29,14 +31,18 @@ fileManager.upload() checks the uploaded file, creates a thumbnail, places in DB
                     <h:form class="form-horizontal" enctype="multipart/form-data">
                         <p:growl id="messages" showDetail="true" redisplay="false"/>
                         <h2>Please Choose a File for Your Photo</h2>
+                        <!-- Uploaded file saves in bean using Primefaces simple upload. -->
                         <p:fileUpload id="upload" value="#{fileManager.file}" mode="simple" />
                         <br/>
                         <fieldset>
+                            <!-- Called function to save password in Bean into the DB. -->
                             <p:commandButton id="button" styleClass="btn btn-default" value="Upload" 
                                              ajax="false" action="#{fileManager.upload}" />
                         </fieldset>
+                        <!-- Error messages to display. -->
                         <h:outputText value="#{fileManager.message}" />
                         <br/>
+                        <!-- A function that resets the form and redirects the page.  -->
                         <h:commandButton styleClass="btn btn-default" value="Cancel" action="#{fileManager.cancel()}"/>
                     </h:form>
                 </div>

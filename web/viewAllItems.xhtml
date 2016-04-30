@@ -2,6 +2,9 @@
 <!--
 Created by Michael Steele on 2016.04.21 
 Copyright © 2016 Michael Steele. All rights reserved.
+
+This page allows viewing of all items posted by anyone.
+Items are displayed in a one column grid.
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -21,10 +24,13 @@ Copyright © 2016 Michael Steele. All rights reserved.
                     <h1>Displaying all items:</h1>
                     <h:form class="detailPage">
                         <div class="row">
+                            <!-- Create a display for each item in the DB. -->
                             <ui:repeat var="item" value="#{itemManager.allItems}" varStatus="status">
+                                <!-- Adds a link to detail page for that item. -->
                                 <h:commandLink action="#{itemManager.detailPage(item.id)}" >
                                     <div class="col-md-4 item-list-view-wrapper">
                                         <div class="item-list-view text-center">
+                                            <!-- Path to get item on the server. -->
                                             <img src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}"/>
                                             <h3 class="item-title">#{itemManager.ellipsesTitle(item.name)}</h3>
                                             <p class="item-description">#{itemManager.ellipsesDescription(item.description)}</p>
@@ -37,7 +43,6 @@ Copyright © 2016 Michael Steele. All rights reserved.
                 </div>
             </ui:define>
         </ui:composition>
-        <!-- Do not enter tags after the composition line since they are ignored by JSF -->
     </h:body>
 
 </html>
