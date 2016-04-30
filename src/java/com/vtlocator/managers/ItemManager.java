@@ -604,22 +604,6 @@ public class ItemManager implements Serializable {
             }
         }
     }
-
-    /**
-     * Get if owner of item
-     * @return True if owner
-     */
-    public boolean getItemOwner() {
-        return itemOwner = isOwner();
-    }
-
-    /**
-     * Sets owner user of item.
-     * @param passedBool 
-     */
-    public void setitemOwner(boolean passedBool) {
-        this.itemOwner = isOwner();
-    }
     
     /**
      * Checks if the user created the current lost item post.
