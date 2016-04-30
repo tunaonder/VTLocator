@@ -38,16 +38,13 @@ import javax.faces.bean.ManagedBean;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
-/*
-Used to fetch and edit the user's information
-The xhtml files do not interact with the CustomerFacade, they interact with this.
-*/
- 
 @Named(value = "itemManager") // what to use to refer to this class
 @SessionScoped // this class will leave scope when the browser ends the session
 @ManagedBean
 /**
- *
+ * This class contains:
+ * - Methods to access/manipulate items for lost and found.
+ * - Methods for item photos: upload photos, get photos for an item.
  * @author Sean
  */
 public class ItemManager implements Serializable {
@@ -62,24 +59,70 @@ public class ItemManager implements Serializable {
     private ItemPhotoFacade itemPhotoFacade;
     @EJB
     private UserPhotoFacade photoFacade;
-    
+    /**
+     * Currently selected item.
+     */
     private Item selected;
     private String name;
+    /**
+     * Get longitude of an item/
+     */
     private BigDecimal latitudeFound = new BigDecimal(0);
+    /**
+     * Get latitute of an item.
+     */
     private BigDecimal longitudeFound = new BigDecimal(0);
+    /**
+     * Get date item found.
+     */
     private Date dateFound;
+    /**
+     * Get category of an item.
+     */
     private String category;
+    /**
+     * Get status message to post on xhtml page.
+     */
     private String statusMessage;
+    /**
+     * Get photos belonging to an item.
+     */
     private Collection<ItemPhoto> itemPhotoCollection;
+    /**
+     * List of 3 most recently posted items.
+     */
     private List<Item> recent = null;
+    /**
+     * List of all items for logged in user.
+     */
     private List<Item> userItems = null;
+    /**
+     * Currently selected item for detail page.
+     */
     private Item detailItem; 
-    private boolean itemOwner = false;
+    /**
+     * All items sorted by most recent.
+     */
     private List<Item> allRecent = null;
+    /**
+     * All items in a list.
+     */
     private List<Item> allItems = null;
+    /**
+     * List of all photos associated with an item.
+     */
     private List<ItemPhoto> photosForItem;
+    /**
+     * Currently uploaded file.
+     */
     private UploadedFile file;
+    /**
+     * Set of photos uploaded using multiple file upload.
+     */
     private List<UploadedFile> fileList;
+    /**
+     * Primefaces message string.
+     */
     private String message = "";
     private String description;
     private String notifyNumber;
@@ -229,6 +272,11 @@ public class ItemManager implements Serializable {
         this.selected = selected;
     }
     
+    /**
+     * Returns a short summary of the given string.
+     * @param str A decription of an item
+     * @return Shortened description of an item.
+     */
     public String ellipsesDescription(String str) {
         if (str != null && str.length() > 45) {
             return str.substring(0, str.indexOf(' ', 40)) + "...";
@@ -236,6 +284,11 @@ public class ItemManager implements Serializable {
         return str;
     }
     
+    /**
+     * Returns a short titles for an item.
+     * @param str Full title of an item.
+     * @return Shortened title of an item.
+     */
     public String ellipsesTitle(String str) {
         if (str != null && str.length() > 16) {
             return str.substring(0, str.indexOf(' ', 13)) + "...";
@@ -298,6 +351,10 @@ public class ItemManager implements Serializable {
         statusMessage = null;
     }
     
+    /**
+     * Function for the cancel button on create item xhtml.
+     * @return Redirect page.
+     */
     public String cancelCreate() {
         clearCreateItemForm();
         
@@ -305,7 +362,10 @@ public class ItemManager implements Serializable {
     }
     
     
-        // Will edit an item object
+    /**
+     * Edits fields for the current item.
+     * @return Redirect page.
+     */
     public String editItem() {
         try {
             if (detailItem != null) {
