@@ -1,6 +1,6 @@
 /*
- * Created by Sait Tuna Onder on 2016.04.04  * 
- * Copyright © 2016 Sait Tuna Onder. All rights reserved. * 
+ * Created by VTLocator Group on 2016.04.04  *
+ * Copyright © 2016 VTLocator Group. All rights reserved. *
  */
 package com.vtlocator.jpaentityclasses;
 
@@ -30,8 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
- * @author Onder
+ * @purpose The Item.java class creates a definition for an Item.
+ * @author VTLocator Group
  */
 @Entity
 @Table(name = "Item")
@@ -98,8 +98,8 @@ public class Item implements Serializable, Comparable<Item> {
     private Collection<ItemPhoto> itemPhotoCollection;
 
     @Transient
-    private double distanceFromLocation; 
-    
+    private double distanceFromLocation;
+
     @Transient
     private String formattedDistance;
 
@@ -110,7 +110,7 @@ public class Item implements Serializable, Comparable<Item> {
     public void setFormattedDistance(String formattedDistance) {
         this.formattedDistance = formattedDistance;
     }
-    
+
     public double getDistanceFromLocation() {
         return distanceFromLocation;
     }
@@ -118,21 +118,33 @@ public class Item implements Serializable, Comparable<Item> {
     public void setDistanceFromLocation(double distanceFromLocation) {
         this.distanceFromLocation = distanceFromLocation;
     }
-    
-    
+
+    // formats the date into a specific format.
     public String getFancyDate() {
          Date date = this.getDateFound(); // your date
          SimpleDateFormat format = new SimpleDateFormat("EEE, MMM dd yyyy");
          return format.format(date);
      }
-    
-    public Item() {
-    }
 
-    public Item(Integer id) {
+     public Item() {
+     }
+
+     public Item(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Constructor for Item
+     * @param  id             [item ID]
+     * @param  name           [item name]
+     * @param  latitudeFound  [latitude of item]
+     * @param  longitudeFound [longitude of item]
+     * @param  dateFound      [item date found]
+     * @param  category       [item category]
+     * @param  createdAt      [when the item was created]
+     * @param  updatedAt      [when the item was updated]
+     * @return                [an item]
+     */
     public Item(Integer id, String name, BigDecimal latitudeFound, BigDecimal longitudeFound, Date dateFound, String category, Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
@@ -224,7 +236,7 @@ public class Item implements Serializable, Comparable<Item> {
     public void setItemPhotoCollection(Collection<ItemPhoto> itemPhotoCollection) {
         this.itemPhotoCollection = itemPhotoCollection;
     }
-    
+
     public User getCreatedBy() {
         return createdBy;
     }
@@ -268,5 +280,4 @@ public class Item implements Serializable, Comparable<Item> {
             return -1;
         }
     }
-    
 }

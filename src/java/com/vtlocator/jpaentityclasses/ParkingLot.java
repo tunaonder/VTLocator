@@ -1,6 +1,6 @@
 /*
- * Created by Sait Tuna Onder on 2016.04.04  * 
- * Copyright © 2016 Sait Tuna Onder. All rights reserved. * 
+ * Created by VTLocator Group on 2016.04.04  *
+ * Copyright © 2016 VTLocator Group. All rights reserved. *
  */
 package com.vtlocator.jpaentityclasses;
 
@@ -22,8 +22,8 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author Onder
+ * @purpose The ParkingLot.java class defines a parkinglot with long,lat and name, permission.
+ * @author VTLocator Group
  */
 @Entity
 @Table(name = "ParkingLot")
@@ -64,12 +64,12 @@ public class ParkingLot implements Serializable {
     @Size(min = 1, max = 21)
     @Column(name = "permission")
     private String permission;
-    
-    @Basic(optional = true)  
+
+    @Basic(optional = true)
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @Basic(optional = true)   
+    @Basic(optional = true)
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
@@ -81,6 +81,17 @@ public class ParkingLot implements Serializable {
         this.id = id;
     }
 
+    /**
+     * Parking Lot is a java object that describes a parking lot on a map. It does not contain the polygon, but the long/lat of the center of the parking lot.
+     * @param  id         [id of parking lot]
+     * @param  name       [parking lot name]
+     * @param  latitude   [parking lot latitude]
+     * @param  longitude  [parking lot longitude]
+     * @param  permission [parking lot permission: ANY, COMMUTER, FACULTY, RESIDENT, METERED, PARKING_OFFICE]
+     * @param  createdAt  [parking lot created date]
+     * @param  updatedAt  [parking lot updated date]
+     * @return            [new parking lot]
+     */
     public ParkingLot(Integer id, String name, String latitude, String longitude, String permission, Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
@@ -171,5 +182,5 @@ public class ParkingLot implements Serializable {
     public String toString() {
         return "jpaentityclasses.ParkingLot[ id=" + id + " ]";
     }
-    
+
 }

@@ -1,6 +1,6 @@
 /*
- * Created by Sait Tuna Onder on 2016.04.04  * 
- * Copyright © 2016 Sait Tuna Onder. All rights reserved. * 
+ * Created by VTLocator Group on 2016.04.04  *
+ * Copyright © 2016 VTLocator Group. All rights reserved. *
  */
 package com.vtlocator.sessionbeans;
 
@@ -11,8 +11,8 @@ import com.vtlocator.jpaentityclasses.ParkingLot;
 import java.util.List;
 
 /**
- *
- * @author Onder
+ * ParkingLotFacade class communicates with the entity manager to return specific lots
+ * @author VTLocator Group
  */
 @Stateless
 public class ParkingLotFacade extends AbstractFacade<ParkingLot> {
@@ -25,15 +25,22 @@ public class ParkingLotFacade extends AbstractFacade<ParkingLot> {
         return em;
     }
 
+    /**
+     * Constructor for ParkingLotFacade, calls AbstractFacade()
+     */
     public ParkingLotFacade() {
         super(ParkingLot.class);
     }
-    
-    
+
+    /**
+     * getLotsByPermission receives permission (ANY, FACULTY, ...) and returns a list of parking lots
+     * @param  permission a string representation of parking pass permission {any, commuter, faculty, resident, metered, parking_office}
+     * @return            A list of ParkingLot objects
+     */
     public List<ParkingLot> getLotsByPermission(String permission) {
         return (em.createNamedQuery("ParkingLot.findByPermission")
                 .setParameter("permission", permission)
-                .getResultList());        
-        
+                .getResultList());
+
     }
 }
