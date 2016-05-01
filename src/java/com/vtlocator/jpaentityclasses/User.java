@@ -1,6 +1,6 @@
 /*
- * Created by Sait Tuna Onder on 2016.04.04  * 
- * Copyright © 2016 Sait Tuna Onder. All rights reserved. * 
+ * Created by VTLocator Group on 2016.04.04  * 
+ * Copyright © 2016 SVTLocator. All rights reserved. * 
  */
 package com.vtlocator.jpaentityclasses;
 
@@ -49,10 +49,11 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    
-    //Set the Size boundaries of each database column data.
-    //Set their names to use in java bean
-    //Set if values are optional or not
+    /**
+     * Set the Size boundaries of each database column data.
+     * Set their names to use in java bean
+     * Set if values are optional or not
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -108,16 +109,33 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "subscriber")
     private Collection<Subscription> subscriptionCollection;
 
-    //User Constractor 1
+    /**
+     * User Constructor that is parameterless
+     */
     public User() {
     }
     
-    //User Constractor 2
+    /**
+     * User Constructor that takes the id of the user to initialize
+     * @param id that id of the user to create
+     */
     public User(Integer id) {
         this.id = id;
     }
 
-    //User Constractor 3
+    /**
+     * User Constructor that takes all user entity attributes
+     * @param id the id of the new user entity
+     * @param firstName the first name of the user entity
+     * @param lastName the last name of the user entity
+     * @param email the email of the user entity
+     * @param phoneNumber the phone number of the user entity
+     * @param securityQuestion the security question of the user entity
+     * @param securityAnswer the security answer of the user entity
+     * @param password the password of the user entity
+     * @param createdAt the created at timestamp of the user entity
+     * @param updatedAt the updated at timestamp of the user entity
+     */
     public User(Integer id, String firstName, String lastName, String email, String phoneNumber, int securityQuestion, String securityAnswer, String password, Date createdAt, Date updatedAt) {
         this.id = id;
         this.firstName = firstName;
@@ -236,10 +254,13 @@ public class User implements Serializable {
         return hash;
     }
 
-    //Check if provided object equals to this instance or not
+    /**
+     * Check if provided object equals to this instance or not
+     * @param object the object to compare
+     * @return true if the object parameter is equal to this.  false otherwise.
+     */
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof User)) {
             return false;
         }
@@ -250,7 +271,10 @@ public class User implements Serializable {
         return true;
     }
 
-    //Print User Object with its id
+    /**
+     * Print User Object with its id
+     * @return a string representation of this
+     */
     @Override
     public String toString() {
         return "jpaentityclasses.User[ id=" + id + " ]";

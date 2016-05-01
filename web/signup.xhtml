@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Sait Tuna Onder on 2016.04.05 
-Copyright © 2016 Sait Tuna Onder. All rights reserved.
+Created by VTLocator Group on 2016.04.04 
+Copyright © 2016 VTLocator. All rights reserved.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"   
@@ -11,11 +11,8 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:body>
-        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
-
         <!-- This page is constructed based on the siteTemplate -->
         <ui:composition template="template/siteTemplate.xhtml">
-
 
             <!-- Create the content for this page below -->
             <ui:define name="editableContent">
@@ -26,7 +23,6 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                         <div align="center">
                         <h:graphicImage url="#{resource['images:logo_primary.png']}" styleClass="login-logo" alt="VTLocator"/>
 
-                        
                         <!-- Each column in panel grid has different styling-->
                         <h:panelGrid columns="3" cellpadding="5" columnClasses="signup-label, signup-input, signup-message">
                             <p:outputLabel for="firstName" value="First Name" />
@@ -97,9 +93,6 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                     </h:form>
                 </div>
             </ui:define>
-
         </ui:composition>
-        <!-- Do not enter tags after the composition line since they are ignored by JSF -->
     </h:body>
-
 </html>

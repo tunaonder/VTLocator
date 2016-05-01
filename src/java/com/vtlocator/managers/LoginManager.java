@@ -1,6 +1,6 @@
 /*
- * Created by Michael Steele on 2016.03.15  * 
- * Copyright © 2016 Michael Steele. All rights reserved. * 
+ * Created by VTLocator Group on 2016.03.15  * 
+ * Copyright © 2016 VTLocator. All rights reserved. * 
  */
 package com.vtlocator.managers;
 
@@ -12,17 +12,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-/*
-#1 confirms that the users entered username and password match what's stored on the DB
-#2 creates a session for the user
+/**
+ * This class confirms that the users entered username and password match 
+ * what's stored on the DB and creates a session for the user
 */
-
 @ManagedBean(name = "loginManager")
 @SessionScoped
-/**
- *
- * @author Michael
- */
 public class LoginManager implements Serializable {
 
   private String email;
@@ -43,12 +38,16 @@ public class LoginManager implements Serializable {
   public LoginManager() {
   }
 
-  
-
+  /**
+   * @return the email
+   */
   public String getEmail() {
         return email;
   }
-
+  
+  /**
+   * @param email the email address
+   */
   public void setEmail(String email) {
         this.email = email;
   }
@@ -81,7 +80,10 @@ public class LoginManager implements Serializable {
     this.errorMessage = errorMessage;
   }
 
-
+  /**
+   * This method logs in the given user.
+   * @return redirect string depending on success of failure of auth
+   */
   public String loginUser() {
     User user = userFacade.findByEmail(getEmail());
     //If there isnt such a user in database return ""
@@ -103,7 +105,10 @@ public class LoginManager implements Serializable {
     }
   }
 
-  //Add necassary information of user into current session map
+  /**
+   * Add necessary information of user into current session map
+   * @param user the user to initialize to the session map
+   */
   public void initializeSessionMap(User user) {
     FacesContext.getCurrentInstance().getExternalContext().
             getSessionMap().put("first_name", user.getFirstName());

@@ -1,6 +1,6 @@
 /*
- * Created by Michael Steele on 2016.03.15  * 
- * Copyright © 2016 Michael Steele. All rights reserved. * 
+ * Created by VTLocator Group on 2016.03.15  * 
+ * Copyright © 2016 VTLocator. All rights reserved. * 
  */
 package com.vtlocator.managers;
 
@@ -25,21 +25,13 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 
 /*
-Used to fetch and edit the user's information
-The xhtml files do not interact with the CustomerFacade, they interact with this.
+ * Used to fetch and edit the user's information
+ * The xhtml files do not interact with the CustomerFacade, they interact with this.
  */
 @Named(value = "accountManager") // what to use to refer to this class
 @SessionScoped // this class will leave scope when the browser ends the session
-/**
- *
- * @author Michael
- */
 public class AccountManager implements Serializable {
 
     // Instance Variables (Properties)
@@ -49,16 +41,11 @@ public class AccountManager implements Serializable {
     private String email;
     private String phone_number;
     private String statusMessage;
-
     private int security_question;
     private String security_answer;
-
     private Map<String, Object> security_questions; // stored as a map
-
     private User selected;
-
     private Collection<Subscription> subscriptions;
-
     private List<String> selectedSubscriptions;
 
     /**
@@ -88,64 +75,37 @@ public class AccountManager implements Serializable {
     @EJB
     private SubscriptionFacade subscriptionFacade;
 
-    /**
-     * Creates a new instance of AccountManager
-     */
     public AccountManager() {
     }
 
-    /**
-     * @return the first name
-     */
     public String getFirstName() {
         return firstName;
     }
 
-    /**
-     * @param firstName the first name to set
-     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    /**
-     * @return the last name
-     */
     public String getLastName() {
         return lastName;
     }
 
-    /**
-     * @param lastName the last name to set
-     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    /**
-     * @return the password
-     */
     public String getPassword() {
         return password;
     }
 
-    /**
-     * @param password the password to set
-     */
     public void setPassword(String password) {
         this.password = password;
     }
 
-    /**
-     * @return the email
-     */
     public String getEmail() {
         return email;
     }
 
-    /**
-     * @param email the email to set
-     */
     public void setEmail(String email) {
         this.email = email;
     }
@@ -182,7 +142,10 @@ public class AccountManager implements Serializable {
         this.phone_number = phone_number;
     }
 
-    // Returns all security questions in the map
+    /**
+     * Returns all security questions in the map
+     * @return all possible security questions
+     */
     public Map<String, Object> getSecurity_questions() {
         if (security_questions == null) {
             security_questions = new LinkedHashMap<>();
@@ -193,7 +156,10 @@ public class AccountManager implements Serializable {
         return security_questions;
     }
 
-    //Return selected user by using its' id
+    /**
+     * Return selected user
+     * @return the current user
+     */
     public User getSelected() {
         if (selected == null) {
             selected = userFacade.find(FacesContext.getCurrentInstance().
@@ -202,11 +168,18 @@ public class AccountManager implements Serializable {
         return selected;
     }
 
+    /**
+     * Set the currently selected user
+     * @param selected the current user to set
+     */
     public void setSelected(User selected) {
         this.selected = selected;
     }
 
-    // Will create a customer object
+    /**
+     * Will create a new user account
+     * @return redirect string after the action is complete
+     */
     public String createAccount() {
 
         // Check to see if a user already exists with the email given.
@@ -240,7 +213,9 @@ public class AccountManager implements Serializable {
         return "";
     }
 
-    // Updates the first name info on the account
+    /**
+     * Updates the first name info on the current account
+     */
     public void updateFirstName() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
         User editUser = userFacade.getUser(user_id);
@@ -254,7 +229,9 @@ public class AccountManager implements Serializable {
         }
     }
 
-    // Updates the last name info on the account
+    /**
+     * Updates the last name info on the current account
+     */
     public void updateLastName() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
         User editUser = userFacade.getUser(user_id);
@@ -268,7 +245,9 @@ public class AccountManager implements Serializable {
         }
     }
 
-    // Updates the phone number info on the account
+    /**
+     * Updates the phone number info on the account
+     */
     public void updatePhoneNumber() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
         User editUser = userFacade.getUser(user_id);
@@ -282,7 +261,9 @@ public class AccountManager implements Serializable {
         }
     }
 
-    // Updates the email info on the account
+    /**
+     * Updates the email info on the account
+     */
     public void updateEmail() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
         User editUser = userFacade.getUser(user_id);
@@ -296,7 +277,9 @@ public class AccountManager implements Serializable {
         }
     }
 
-    // Updates the security answer info on the account
+    /**
+     * Updates the security answer info on the account
+     */
     public void updateSecurityAnswer() {
         int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
         User editUser = userFacade.getUser(user_id);
@@ -310,7 +293,9 @@ public class AccountManager implements Serializable {
         }
     }
 
-    // Checks to see if the user's name and password is correct
+    /**
+     * Checks to see if the user's name and password is correct
+     */
     public void validateInformation(ComponentSystemEvent event) {
         FacesContext fc = FacesContext.getCurrentInstance();
 
@@ -338,7 +323,9 @@ public class AccountManager implements Serializable {
         }
     }
 
-    // Creates a session for this user
+    /**
+     * Creates a session for this user
+     */
     public void initializeSessionMap() {
         User user = userFacade.findByEmail(getEmail());
         FacesContext.getCurrentInstance().getExternalContext().
@@ -347,7 +334,9 @@ public class AccountManager implements Serializable {
                 getSessionMap().put("user_id", user.getId());
     }
 
-    // Confirms if the enter password is correct
+    /**
+     * Confirms if the enter password is correct
+     */
     private boolean correctPasswordEntered(UIComponent components) {
         UIInput uiInputVerifyPassword = (UIInput) components.findComponent("verifyPassword");
         String verifyPassword = uiInputVerifyPassword.getLocalValue() == null ? ""
@@ -363,7 +352,10 @@ public class AccountManager implements Serializable {
         }
     }
 
-    // removes this session and invalidates session
+    /**
+     * Removes this session and invalidates it
+     * @return redirect string
+     */
     public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
         email = firstName = lastName = password = email = statusMessage = phone_number = "";
@@ -371,10 +363,13 @@ public class AccountManager implements Serializable {
         security_question = 0;
 
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "/index.xhtml?faces-redirect=true"; // TODO don't know address yet
+        return "/index.xhtml?faces-redirect=true";
     }
 
-    // returns the user's photo file name
+    /**
+     * Returns the user's photo file name
+     * @return the filename and path of the users profile photo or the placeholder
+     */
     public String userPhoto() {
         String email = (String) FacesContext.getCurrentInstance()
                 .getExternalContext().getSessionMap().get("email");
@@ -386,7 +381,10 @@ public class AccountManager implements Serializable {
         return photoList.get(0).getFilename();
     }
 
-    //Return the list of subscriptions of the current user
+    /**
+     * Return the list of subscriptions of the current user
+     * @return a collection of all the current user's subscriptions
+     */
     public Collection<Subscription> getSubscriptions() {
         selected = getSelected();
         List<Subscription> others = subscriptionFacade.getByUserId(selected);
@@ -401,11 +399,18 @@ public class AccountManager implements Serializable {
         }
     }
 
+    /**
+     * Sets the user's current subscriptions
+     * @param subscriptions the subscription to set for the current user
+     */
     public void setSubscriptions(Collection<Subscription> subscriptions) {
         this.subscriptions = subscriptions;
     }
 
-    //Return list of subscriptions of the user as String Array List
+    /**
+     * Return list of subscriptions of the user as String Array List
+     * @return a list of the users subscriptions in List format for the view to parse
+     */
     public List<String> getSelectedSubscriptions() {
         selectedSubscriptions = new ArrayList();
         Collection<Subscription> currentSubs = getSubscriptions();
@@ -422,7 +427,10 @@ public class AccountManager implements Serializable {
         return selectedSubscriptions;
     }
 
-    //Sets the list of subscriptions
+    /**
+     * Sets the list of subscriptions
+     * @param selectedSubscriptions the selected subscriptions to set for the current user
+     */
     public void setSelectedSubscriptions(List<String> selectedSubscriptions) {
         subscriptions = getSubscriptions();
         this.selectedSubscriptions = selectedSubscriptions;

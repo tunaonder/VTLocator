@@ -439,7 +439,7 @@ public class ItemManager implements Serializable {
 
     /**
      * Obtains the message
-     * @param message A string
+     * @return message A string
      */
     public String getMessage() {
         return message;
@@ -641,13 +641,9 @@ public class ItemManager implements Serializable {
             User currentUser = userFacade.getUser((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
             
             boolean userCheck = currentUser != null & createdBy != null;
-            
-            
+             
             if (userCheck) {
-//                System.out.println("email of currentUser: " + currentUser.getEmail());
-//                System.out.println("email of createdBy: " + createdBy.getEmail());
                 if (createdBy.equals(currentUser)) {
-//                if (currentUser.getEmail().equals(createdBy.getEmail())) {
                     return true;
                 }
             }
@@ -680,6 +676,7 @@ public class ItemManager implements Serializable {
     
     /**
      * Uploader removes post
+     * @return redirect string
      */
     public String resolve() {
         if (detailItem != null) {
@@ -697,6 +694,7 @@ public class ItemManager implements Serializable {
     
     /** 
      * Currently logged in user notifies uploader
+     * @return redirect string
      */
     public String claim() {
         if (detailItem != null) {
@@ -736,7 +734,6 @@ public class ItemManager implements Serializable {
      */
     public void delete(String itemID) throws IOException {
         User currentUser = userFacade.getUser((int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id"));
-//        int item_id = Integer.parseInt(itemID);
         int item_id = Integer.parseInt(itemID);
         itemFacade.deleteByItemID(item_id);
         FacesContext.getCurrentInstance().addMessage("belonging-growl", new FacesMessage("Your item has been deleted."));

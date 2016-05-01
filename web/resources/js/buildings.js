@@ -1,6 +1,6 @@
 /* 
- * Created by Sait Tuna Onder on 2016.04.24  * 
- * Copyright © 2016 Sait Tuna Onder. All rights reserved. * 
+ * Created by VTLocator Group on 2016.04.24  * 
+ * Copyright © 2016 VTLocator. All rights reserved. * 
  */
 
 /* global i, google, infowindow */
@@ -11,11 +11,11 @@ var directionsDisplay;
 var routeRefreshed = false;
 var currentMarker = null;
 
-
-
-//Initiliaze Map
+/**
+ * Initiliaze Map for buildings functionality
+ * @returns {undefined}
+ */
 function initilaizeMap() {
-
 
     //Set the Map features
     map = new google.maps.Map(document.getElementById('map'), {
@@ -30,9 +30,10 @@ function initilaizeMap() {
     });
 }
 
-
-
-//Displays location of selected building
+/**
+ * Displays location of selected building
+ * @returns {undefined}
+ */
 function displayBuilding() {
 
     refreshMap();
@@ -57,10 +58,12 @@ function displayBuilding() {
     //Add the marker to the map
     currentMarker.setMap(map);
 
-
 }
 
-//Display all buildings in a specific category
+/**
+ * Display all buildings in a specific category
+ * @returns {undefined}
+ */
 function displayBuildingLocations() {
 
     //First refresh map information
@@ -105,20 +108,23 @@ function displayBuildingLocations() {
 
 }
 
-function buildingInfoFromTitle(title){
-    
+/**
+ * Get the building informations fo a selected building
+ * @param {type} title the title information for the building info panel
+ * @returns {undefined}
+ */
+function buildingInfoFromTitle(title) {
     //Update the value of selected building
     document.getElementById("dropDownForm:clickedBuildingMarker").value = title;
     //Trigger a hidden button click. Java bean will be triggered and selected building information will be updated
     $(".hidden-marker-button").click();
-
 }
 
-
-
-//Add starting point and draw route to destination
+/**
+ * Add starting point and draw route to destination
+ * @returns {undefined}
+ */
 function drawRoute() {
-
 
     //Check If Starting Building Selected
     if (document.getElementById("dropDownForm:startBuildingLat").value === '0.0') {
@@ -187,7 +193,10 @@ function drawRoute() {
 
 }
 
-//Clear All Data On The Map
+/**
+ * Clear All Data On The Map
+ * @returns {undefined}
+ */
 function refreshMap() {
 
     currentMarker = null;
@@ -205,7 +214,10 @@ function refreshMap() {
     initilaizeMap();
 }
 
-//Reset current marker
+/**
+ * Reset current marker
+ * @returns {undefined}
+ */
 function resetMarker(){
      if (currentMarker !== null) {
         currentMarker.setMap(null);
