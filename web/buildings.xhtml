@@ -13,148 +13,172 @@
         <!-- This page is constructed based on the siteTemplate -->
         <ui:composition template="template/siteTemplate.xhtml">
 
-
+            <!--Override Side Bar-->
             <ui:define name="sidebar">
 
+                <!--Make Buildings Tab Active-->
                 <h:form>
                     <ul class="nav nav-tabs nav-justified categories-nav">
                         <li role="presentation"  class="active"><h:link outcome="buildings">Buildings</h:link></li>
-                        <li role="presentation"><h:commandLink action="#{buildingManager.reInit()}">Parking</h:commandLink></li>
+                        <li role="presentation"><h:link outcome="parking">Parking</h:link></li>
                     </ul>
 
                 </h:form>
 
 
                 <h:form id="dropDownForm">
-                    <!--                    Initial DropDown Menu, Thats why it is rendered if direction button is not pressed yet-->
+                    <!--Initial DropDown Menu, It is rendered if direction button is not pressed yet-->
                     <div class="dropdown" >
-                        <p:selectOneMenu id="buildingNamesDropDown" value="#{buildingManager.selectedBuildingName}" styleClass="dropMenu" rendered="#{buildingManager.directionPressed == false}" >
-                            <!--                            Display Building Location and Update the value of selected building-->
+                        <h:selectOneMenu id="buildingNamesDropDown" value="#{buildingManager.selectedBuildingName}" styleClass="dropMenu form-control" rendered="#{buildingManager.directionPressed == false}" >
+                            <!--Display Building Location and Update the value of selected building-->
                             <p:ajax  oncomplete="displayBuilding()" update="address buildingLat buildingLong buildingImage buildingDescription getDirection buildingCategoryDropDown selectCategoryButton" />
                             <p:ajax listener="#{buildingManager.displayBuildingInformation}" />
                             <p:ajax listener="#{buildingManager.changeDirectionAvailableStatus()}" />
                             <f:selectItem itemLabel="Select Building" itemValue="" noSelectionOption="true" />
-                            <!--                            Building Names is returned from Restful Service-->
+                            <!--Building Names are returned from Restful Service-->
                             <f:selectItems value="#{buildingManager.buildingNamesJSON}"  />
 
-                        </p:selectOneMenu>
-                        <p:commandButton id="getDirection"  value="Get Directions" disabled="#{buildingManager.directionAvailable == false}"
+                        </h:selectOneMenu>
+                        <!--Make Direction Button disabled unless user chooses a building-->
+                        <!--After User clicks this button, do not render the button and display direction functionality components-->
+                        <h:commandButton id="getDirection"  value="Get Directions" disabled="#{buildingManager.directionAvailable == false}"
                                          styleClass="btn btn-default btn-direction" rendered="#{buildingManager.directionPressed == false}">
+                            <!--After user clicks direction button update all components, so they can be rendered according to user's task-->
                             <p:ajax listener="#{buildingManager.directionButtonPressed()}" update="dropDownForm dropDownForm:destinationDropdown dropDownForm:buildingDescription dropDownForm:buildingImage" />
 
-                        </p:commandButton>
+                        </h:commandButton>
 
-
-                        <p:selectOneMenu id="buildingCategoryDropDown" value="#{buildingManager.buildingCategory}" styleClass="dropMenu"  rendered="#{buildingManager.directionPressed == false}">
+                        <!--Display Building Categories in A DropDown Menu-->
+                        <h:selectOneMenu id="buildingCategoryDropDown" value="#{buildingManager.buildingCategory}" styleClass="dropMenu form-control"  rendered="#{buildingManager.directionPressed == false}">
                             <f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true" />
-                            <!--                            Building Categories are returned from Restful Service-->
+                            <!--Building Categories are returned from Restful Service-->
                             <f:selectItems value="#{buildingManager.buildingCategoriesJSON}"  />
                             <p:ajax listener="#{buildingManager.searchByCategory}" update="getDirection buildingNamesDropDown buildingDescription buildingImage" />
                             <p:ajax listener="#{buildingManager.changeCategoryAvailableStatus()}" update="selectCategoryButton"/>
+                            <!--If a category is selected reset the marker on the map, if a building is choosen before-->
                             <p:ajax oncomplete="resetMarker()" />
+                            <!--Update the name of selected category. So that javasript can use the latest value of selected category-->
                             <p:ajax update="dropDownForm:jsonResult"/>
 
-                        </p:selectOneMenu>
-                        <p:commandButton id="selectCategoryButton" value = "Display Buildings"  styleClass="btn btn-default btn-direction" 
+                        </h:selectOneMenu>
+                        <!-- Display buildings from selected category. If Category is not choosen disable it-->
+                        <h:commandButton id="selectCategoryButton" value = "Display Buildings"  styleClass="btn btn-default btn-direction" 
                                          rendered="#{buildingManager.directionPressed == false}" disabled="#{buildingManager.categoryAvailable == false}" >
+                            <!--Display selected buildings on the map-->
                             <p:ajax oncomplete="displayBuildingLocations()"/>
-                        </p:commandButton> 
+                        </h:commandButton> 
 
                     </div>
-                    <!--                        Get The Value Of Building Name To An Hidden Input-->
+                    <!--Get The Value Of Building Name To A Hidden Input-->
                     <h:inputHidden id="address" value="#{buildingManager.selectedBuildingName}"/>
-                    <!--                    Latitude and Longitude of currently selected building-->
+                    <!--Latitude and Longitude of currently selected building-->
                     <h:inputHidden id="buildingLat" value="#{buildingManager.lat}" />
                     <h:inputHidden id="buildingLong" value="#{buildingManager.lng}" />
+                    <!--Get the value of choosen category into a hidden input-->
                     <h:inputHidden id="jsonResult" value="#{buildingManager.jsonCategory}" />
-
+                    <!--Latitude and Longitude of starting building for route-->
+                    <h:inputHidden id="startBuildingLat" value="#{buildingManager.lat2}" />
+                    <h:inputHidden id="startBuildingLong" value="#{buildingManager.lng2}" />
 
 
                     <div align="center">
 
-
-
-
-
+                        <!--If direction button is clicked, display new functionality which has two dropdowns for starting and destination buildings-->
                         <h:panelGrid  rendered="#{buildingManager.directionPressed == true}" columns="2" columnClasses="building-label, login-input">
 
                             <h:outputLabel styleClass="outputLabel"  value="From: " />
-                            <!--                        This Dropdown Menu is displayed after Direction Button Pressed-->
+                            <!--This Dropdown Menu is displayed after Direction Button Pressed-->
                             <ul class="dropdown" >
-                                <p:selectOneMenu id="startDropdown" value="#{buildingManager.selectedStartPoint}" styleClass="dropMenu" rendered="#{buildingManager.directionPressed == true}">
+                                <h:selectOneMenu id="startDropdown" value="#{buildingManager.selectedStartPoint}" styleClass="dropMenu form-control" rendered="#{buildingManager.directionPressed == true}">
+                                      <!-- Get coordinates of Starting Building -->
                                     <p:ajax listener="#{buildingManager.createStartPoint}" />
-                                    <!--                                Calls Java Script Method which draws the Route-->
+                                    <!--Calls Java Script Method which draws the Route-->
                                     <p:ajax oncomplete="drawRoute()" update="startBuildingLat startBuildingLong" />
                                     <f:selectItem itemLabel="Select Building" itemValue="" noSelectionOption="true" />
                                     <f:selectItems value="#{buildingManager.buildingNamesJSON}"  />
-                                </p:selectOneMenu>                       
+                                </h:selectOneMenu>                       
 
 
                             </ul>
 
 
                             <h:outputLabel styleClass="outputLabel" value="To: " />
+                            <!--This Dropdown Menu is displayed after Direction Button Pressed-->
                             <ul class="dropdown" >
-                                <p:selectOneMenu id="destinationDropdown" value="#{buildingManager.selectedBuildingName}" styleClass="dropMenu"  rendered="#{buildingManager.directionPressed == true}">
+                                <h:selectOneMenu id="destinationDropdown" value="#{buildingManager.selectedBuildingName}" styleClass="dropMenu form-control"  rendered="#{buildingManager.directionPressed == true}">
+                                    <!-- Get coordinates of Destination Building -->
                                     <p:ajax listener="#{buildingManager.createDestinationPoint}" />
-                                    <!--                                Calls Java Script Method which draws the Route-->
+                                    <!--Calls Java Script Method which draws the Route-->
                                     <p:ajax oncomplete="drawRoute()" update="buildingLat buildingLong distanceValue durationValue" />
                                     <f:selectItems value="#{buildingManager.buildingNamesJSON}"  />
-                                </p:selectOneMenu>
+                                </h:selectOneMenu>
                             </ul>
-                            
+
 
 
                         </h:panelGrid>
-                        <h:panelGrid rendered="#{buildingManager.directionPressed == true}" width="280px" columns="2">
-                            <h:outputLabel styleClass="outputLabel" value="Distance: " /> <h:outputLabel id="distanceValue" styleClass="outputLabel" value="0" />
-                            <h:outputLabel styleClass="outputLabel" value="Duration: " /> <h:outputLabel id="durationValue" styleClass="outputLabel" value="0" />
-                            
-                        </h:panelGrid>
+                        <h:panelGroup layout="block" class="buildings-data text-left" rendered="#{buildingManager.directionPressed == true}">
+                            <h:outputLabel styleClass="outputLabel spacer" value="Distance: " /> <h:outputLabel id="distanceValue" styleClass="outputLabel" value="0" />
+                            <br />
+                            <h:outputLabel styleClass="outputLabel spacer" value="Duration: " /> <h:outputLabel id="durationValue" styleClass="outputLabel" value="0" />
+                        </h:panelGroup>
+
                         
-                        <h:inputHidden id="startBuildingLat" value="#{buildingManager.lat2}" />
-                        <h:inputHidden id="startBuildingLong" value="#{buildingManager.lng2}" />
 
-                        <!--                        Resets the Page to its initial state-->
-                        <p:commandButton id="refreshButton" value="Refresh" onclick="refreshMap()"
-                                          styleClass="btn btn-default btn-direction">
-                            <p:ajax listener="#{buildingManager.init()}" update="dropDownForm"/>
+                        <!--Resets the Page to its initial state-->
+                        <h:commandButton id="refreshButton" value="Refresh" onclick="refreshMap()"
+                                         styleClass="btn btn-default btn-direction buildings-refresh-button" action="#{buildingManager.init()}">
+                            <p:ajax update="dropDownForm"/>
 
-                        </p:commandButton>
+                        </h:commandButton>
 
                     </div>
 
-                    <!--                    Building Description and Image Is Displayed-->
+                    <!--Building Description and Image Is Displayed-->
                     <div class="buildingInfo" >
                         <p:outputLabel id="buildingDescription" styleClass="buildingDescription" 
-                                         value="#{buildingManager.description}" rendered="#{buildingManager.directionPressed == false}"/>
+                                       value="#{buildingManager.description}" rendered="#{buildingManager.directionPressed == false}"/>
 
                         <h:graphicImage id="buildingImage" url="#{buildingManager.imageUrl}" styleClass="buildingImage" rendered="#{buildingManager.directionPressed == false}"/>
                     </div>
 
+                    
+                    <!--Name of clicked building from building markers-->
+                    <h:inputHidden id="clickedBuildingMarker" />
+
+                    <!--Hidden Button. It wont be displayed. It is used to trigger java bean method from javascript. This button will be clicked from javascript method-->
+                    <h:commandButton value="test" 
+                                     styleClass="btn btn-default btn-direction hidden-marker-button hideComponent" action="#{buildingManager.displayBuildingInformationFromMarker()}">
+                        <p:ajax update="dropDownForm"/>
+
+                    </h:commandButton>
+
                 </h:form>
-
-
 
             </ui:define>
 
+            <!--Override Main Panel-->
             <ui:define  name="mainPanel" >
                 <p:growl id="messages" showDetail="true" />
 
+                <!--Set the Map-->
                 <div id="map" style="width:100%; height:100%;"></div>
 
-
                 <script type="text/javascript" >
+                    
+                    //Initialize Map
                     initilaizeMap();
-                    
-                    $( document ).ready(function() {
-                        $("#refreshButton").click();
-                    });
-                    
+
+                    //When user unload the page, click refresh button. So all data in buildings.xhtml will be refreshed
+                    window.addEventListener("beforeunload", function (e) {
+                        $(".buildings-refresh-button").click();
+                    }, false);
+
+
                 </script>
 
-
             </ui:define>
+
 
         </ui:composition>
         <!-- Do not enter tags after the composition line since they are ignored by JSF -->

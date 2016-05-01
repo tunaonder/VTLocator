@@ -19,30 +19,37 @@ public abstract class AbstractFacade<T> {
         this.entityClass = entityClass;
     }
 
+    //Get entity manager
     protected abstract EntityManager getEntityManager();
 
+    //Create New Entity
     public void create(T entity) {
         getEntityManager().persist(entity);
     }
 
+    //Edit the given entity
     public void edit(T entity) {
         getEntityManager().merge(entity);
     }
 
+    //Remove Entity
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 
+    //Find an object with its id
     public T find(Object id) {
         return getEntityManager().find(entityClass, id);
     }
 
+    //Find all objects from given entity class and return as a list
     public List<T> findAll() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    //Find all objects in a specific range
     public List<T> findRange(int[] range) {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
@@ -52,6 +59,7 @@ public abstract class AbstractFacade<T> {
         return q.getResultList();
     }
 
+    //Return the number of all entities in the corresponding class
     public int count() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         javax.persistence.criteria.Root<T> rt = cq.from(entityClass);

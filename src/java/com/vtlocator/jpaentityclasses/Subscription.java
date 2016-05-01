@@ -63,56 +63,110 @@ public class Subscription implements Serializable {
     @ManyToOne
     private User subscriber;
 
+    /**
+     * Default empty constructor
+     */
     public Subscription() {
     }
 
+    /**
+     * Default constructor for with id as parameter
+     * @param id the id for the subscription
+     */
     public Subscription(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Constructor that takes in all fields to set
+     * @param id the id of the subscription
+     * @param category the category for the subscription
+     * @param createdAt the date the subscription was created
+     * @param updatedAt the date the subscription was last updated
+     */
     public Subscription(Integer id, String category, Date createdAt, Date updatedAt) {
         this.id = id;
         this.category = category;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-
+    
+    /**
+     * Gets the id of the subscription
+     * @return id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Sets the id of the subscription
+     * @param id the new id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Gets the category of the subscription
+     * @return the category
+     */
     public String getCategory() {
         return category;
     }
 
+    /**
+     * Sets the category of the subscription
+     * @param category the new category
+     */
     public void setCategory(String category) {
         this.category = category;
     }
 
+    /**
+     * Gets the date the subscription was created at
+     * @return the date of creation
+     */
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    /**
+     * Sets the date the subscription was created
+     * @param createdAt the date it was created
+     */
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
+    /**
+     * Gets the date the subscription was last updated
+     * @return  last updated date
+     */
     public Date getUpdatedAt() {
         return updatedAt;
     }
 
+    /**
+     * Sets the last update date for the subscription
+     * @param updatedAt the date it was last updated
+     */
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 
+    /**
+     * Gets the user associated with the subscription
+     * @return user for the subscription
+     */
     public User getSubscriber() {
         return subscriber;
     }
 
+    /**
+     * Sets the user who is subscribed
+     * @param subscriber user who is subscribed
+     */
     public void setSubscriber(User subscriber) {
         this.subscriber = subscriber;
     }

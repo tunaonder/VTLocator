@@ -17,17 +17,20 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
         <ui:composition template="template/siteTemplate.xhtml">
 
 
-            <!-- Create the content for this page below -->
+            <!-- this contains the content for the user profile page-->
             <ui:define name="editableContent">
                 <style>body {height: auto;}</style>
                 <div align="center">
                     <h:form class="form-signin">
+                        <!-- this form is used to allow update of various profile settings-->
                         <f:event listener="#{accountManager.validateInformation}" type="postValidate"/>
                         <div align="center">
+                            <!-- user photo is loaded and scaled using bootstrap css 'img-responsive' to a certain size-->
                             <img src="FileStorageLocation/#{accountManager.userPhoto()}" class="img-responsive profile-logo img-thumbnail" alt="Profile Photo" />
                             <h:panelGrid columns="4" cellpadding="5" columnClasses="signup-label, signup-input, signup-message">
                                 <p:outputLabel for="firstName" value="First Name" />
                                 <p:inplace id="firstName" editor="true" widgetVar="firstName-inplace">
+                                    <!-- the call to update first name using the value in the input label below-->
                                     <p:ajax event="save" listener="#{accountManager.updateFirstName}" />
                                     <p:inputText label="text" class="form-display"
                                                  value="#{accountManager.selected.firstName}" />
@@ -35,6 +38,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                                 <i class="fa fa-pencil-square-o fa-2x fa-fw" onclick="PF('firstName-inplace').show()"></i>
                                 <p:message for="firstName" display="icon" />
 
+                                <!-- identical to first names convention above-->
                                 <p:outputLabel for="lastName" value="Last Name" />
                                 <p:inplace id="lastName" editor="true" widgetVar="lastName-inplace">
                                     <p:ajax event="save" listener="#{accountManager.updateLastName}" />
@@ -43,7 +47,8 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                                 </p:inplace>
                                 <i class="fa fa-pencil-square-o fa-2x fa-fw" onclick="PF('lastName-inplace').show()"></i>
                                 <p:message for="lastName" display="icon" />
-
+                                
+                                <!-- identical to first name's convention above-->
                                 <p:outputLabel for="phone" value="Phone Number" />
                                 <p:inplace id="phone" editor="true" widgetVar="phone-inplace">
                                     <p:ajax event="save" listener="#{accountManager.updatePhoneNumber}" />
@@ -52,7 +57,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                                 </p:inplace>
                                 <i class="fa fa-pencil-square-o fa-2x fa-fw" onclick="PF('phone-inplace').show()"></i>
                                 <p:message for="phone" display="icon" />
-
+                                <!-- identical to first name's convention above-->
                                 <p:outputLabel for="email" value="Email" />
                                 <p:inplace id="email" editor="true" widgetVar="email-inplace">
                                     <p:ajax event="save" listener="#{accountManager.updateEmail}" />
@@ -64,15 +69,17 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                             </h:panelGrid>
                         </div>
                         <br/>
+                        <!-- edit photo button leads to page where a new photo can be uploaded-->
                         <h:button class="btn btn-lg btn-default" id="editPhoto" outcome="editPhoto" value="Edit Photo" />
+                        <!-- change password button leads to page where the password can be changed-->
                         <h:button class="btn btn-lg btn-default" id="changePassword" outcome="changePassword" value="Change Password" />
                         <br/>
+                        <!-- any error statuses from the server-side will be displayed here-->
                         <h:outputLabel value ="#{accountManager.statusMessage}" />
                     </h:form>
                 </div>
             </ui:define>
         </ui:composition>
-        <!-- Do not enter tags after the composition line since they are ignored by JSF -->
     </h:body>
 
 </html>

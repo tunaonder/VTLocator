@@ -11,22 +11,29 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
       xmlns:p="http://primefaces.org/ui">
 
     <h:body>
-        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
+        
         <ui:composition template="template/siteTemplate.xhtml">
             <ui:define name="sidebar">
+                <!-- the sidebar that contains location and text search-->
                 <ui:include src="template/itemSearch.xhtml"></ui:include>
             </ui:define>
             <ui:define name="mainPanel">
                 <div class="lost-and-found-home-wrapper">
+                    <!-- the name of the query that we are displaying results for-->
                     <h1>Search results for: <i class="text-custom">"#{searchManager.query}"</i></h1>
+                    <!-- displays a list of results if size >0 or panel explaining no results are found if none found-->
                     <h:panelGroup layout="block" rendered="#{searchManager.resultsList.size() == 0}">
                         <h2>No Results Found.</h2>
                     </h:panelGroup>
+                    <!--panel of results-->
                     <h:form class="detailPage">
+                        <!-- ui repeat used to display all items in a list in identical html-->
                         <ui:repeat var="item" value="#{searchManager.resultsList}" varStatus="status">
+                            <!-- commandlink used to allow users to click on panel and see detailed item view page for item-->
                             <h:commandLink action="#{itemManager.detailPage(item.id)}" >
                             <div class="col-md-4 item-list-view-wrapper">
                                 <div class="item-list-view text-center">
+                                    <!-- basic information for current item in ui:repeat-->
                                     <img src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}" />
                                     <h3 class="item-title">#{itemManager.ellipsesTitle(item.name)}</h3>
                                     <p class="item-description">#{itemManager.ellipsesDescription(item.description)}</p>
@@ -38,7 +45,7 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                 </div>
             </ui:define>
         </ui:composition>
-        <!-- Do not enter tags after the composition line since they are ignored by JSF -->
+        
     </h:body>
 
 </html>

@@ -52,14 +52,6 @@ public class LoginManager implements Serializable {
   public void setEmail(String email) {
         this.email = email;
   }
-    
-  public String createUser() {
-    return "CreateAccount"; //TODO we don't know page names
-  }
-  
-  public String resetPassword() {
-      return "EnterUsername?faces-redirect=true"; //TODO we don't know page names
-  }
 
   /**
    * @return the password
@@ -89,22 +81,29 @@ public class LoginManager implements Serializable {
     this.errorMessage = errorMessage;
   }
 
+
   public String loginUser() {
     User user = userFacade.findByEmail(getEmail());
+    //If there isnt such a user in database return ""
     if (user == null) {
       errorMessage = "Invalid email or password!";
       return "";
     } else {
+        //Check if provided password is same with the actual password of the user
       if (user.getEmail().equals(getEmail()) && user.getPassword().equals(getPassword())) {
         errorMessage = "";
+        //Start the session map
         initializeSessionMap(user);
-        return "buildings"; //TODO should return profile page
+        //Navigate to buildings
+        return "buildings"; 
       }
+      //If given information is not correct give an error message
       errorMessage = "Invalid email or password!";
       return "";
     }
   }
 
+  //Add necassary information of user into current session map
   public void initializeSessionMap(User user) {
     FacesContext.getCurrentInstance().getExternalContext().
             getSessionMap().put("first_name", user.getFirstName());
