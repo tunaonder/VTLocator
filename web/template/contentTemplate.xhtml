@@ -1,26 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Sait Tuna Onder on 2016.04.04 
-Copyright © 2016 Sait Tuna Onder. All rights reserved.
+Created by VTLocator Group on 2016.04.04 
+Copyright © 2016 VTLocator. All rights reserved.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-    
+    <!-- 
+    Declaration of content template composition that represents the section
+    between the navbar and footer.  This section contains the main and page-specific
+    content of each page.
+    -->
     <ui:composition>
         <div class="content-wrapper">
+            <!-- 
+            The sidebar wrapper of each page's content where actions and supporting
+            functionalities will be placed
+            -->
             <div id="sidebar" style="display: none;">
+                <!-- Sidebar collapser inclusion to allow for collapse of click -->
                 <div class="sidebar-collapser">
                     <i class="fa fa-angle-double-left"></i>
                 </div>
+                <!-- sidebar template inclusion -->
                 <ui:insert name="sidebar" >
                     <ui:include src="sidebarTemplate.xhtml" />
                 </ui:insert>
             </div>
+            <!-- 
+            The main panel wrapper of each page's content where the page
+            specific content will go 
+            -->
             <div id="mainPanel">
+                <!-- 
+                Sidebar expander inclusion to allow for expansion on click.
+                This element is originally hidden by default as the sidebar 
+                defaults to open and then javascript changes its state
+                depending on collapser clicks and screen width
+                -->
                 <div class="sidebar-collapser-hidden" style="display: none;">
                     <i class="fa fa-angle-double-right"></i>
                 </div>
+                <!-- mainPanel template inclusion -->
                 <ui:insert name="mainPanel" >
                     <ui:include src="mainPanelTemplate.xhtml" />
                 </ui:insert>

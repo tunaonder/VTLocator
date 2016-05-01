@@ -1,12 +1,20 @@
+/**
+ * Created by VTLocator Group on 2016.04.19 
+ * Copyright © 2016 VTLocator. All rights reserved.
+ */
+
+/**
+ * Generic document CSS Rules
+ */
 html {
-    /*display: block;
-    height: 100%;*/
+    /* The primary purpose of these rules is to enable the footer and sidebar */
     overflow-x: hidden;
     min-height: 100% !important;
     height: 100%;
 }
 
 body {
+    /* The primary purpose of these rules is to enable the header and footer */
     padding-top: 50px;
     overflow-x: hidden;
     margin: 0;
@@ -16,25 +24,44 @@ body {
 }
 
 hr {
+    /* Custom hr element stying to override default color to better match theme */
     border-color: #C4C4C4;
 }
 
 .btn-custom {
+    /* Custom button style class to add theme/brand color to bootstrap button options */
     color: white;
     background-color: #e95051;
     border-color: #A94442;
 }
 
 .btn-custom:hover {
+    /* Hover style for the aforementioned .btn-custom style class */
     background-color: #D03738;
     color: white;
 }
 
 .text-custom {
+    /* Custom text color style to match theme/brand */
     color: #e95051; 
 }
 
+div .center {
+    /* Custom centering class for divs within the entirety of the site to work with custom layout */
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.vcenter {
+    /* Custom class to vertically center elements.  Used throughout the site. */
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
 #editableContent {
+    /* Styles applied to the entire editableContent containing element of the site template */
     position:relative;
     min-height: 100% !important;
     height: 100%;
@@ -44,36 +71,50 @@ hr {
  * Navbar CSS Rules
  */
 nav.navbar-default {
+    /* Put themed border underneither the generic navbar */
     border-bottom: 2px solid #e95051;
 }
 
+.logo {
+    /* Position for the VTLocator logo/brand in the navbar */
+    height: 39px;
+    margin-top: -7px;
+    margin-left: -9px;
+}
+
 .user-dropdown {
+    /* Position the user-dropdown inside of the navbar */
     margin-top: 5px;
     margin-left: 10px;
     margin-right: 15px;
 }
 
 .user-dropdown button {
+    /* Specify a fixed width and alignment for the contents of the user-dropdown */
     width: 170px;
     text-align: left;
     padding: 0;
 }
 
 .user-dropdown .dropdown-menu {
+    /* Specify the same fixed width for the dropdown portion of the expanded user-dropdown */
     width: 170px;
 }
 
 .user-dropdown p.user-name {
+    /* Spacing and alignment for the user's name inside of the dropdown' */
     margin-top: 8px;
 }
 
 .user-dropdown button i {
+    /* Spacing and alignment for the chevron icon in the dropdown */
     font-size: 1.5em;
     margin-right: 10px;
     margin-top: 8px;
 }
 
 .user-dropdown .user-profile-img {
+    /* Spacing and styling of the user's profile image inside of the dropdown */
     border-radius: 50%;
     height: 30px;
     width: 30px;
@@ -87,17 +128,13 @@ nav.navbar-default {
 }
 
 .btn-nav {
+    /* Spacing for the navigational links apart of the navbar */
     margin-top: 8px;
     margin-right: 10px;
 }
 
-.content-wrapper {
-    position: relative;
-    padding-left: 300px;
-    height: 100%;
-}
-
 .nav i {
+    /* Styling for the icons inside of the navbar links */
     margin-right: 5px;
 }
 
@@ -105,6 +142,7 @@ nav.navbar-default {
  * Sidebar CSS Rules
  */
 #sidebar {
+    /* Styles applied to the entire sidebar containing element of the site template */
     min-height: 100%;
     height: 100%;
     display: inline-block;
@@ -123,6 +161,7 @@ nav.navbar-default {
 }
 
 .sidebar-collapser {
+    /* Styling and positioning for the clickable div that collapses the sidebar */
     width: 40px;
     height: 40px;
     position: absolute;
@@ -133,6 +172,7 @@ nav.navbar-default {
 }
 
 .sidebar-collapser-hidden {
+    /* Styling and positioning for the clickable div and expands the sidebar */
     width: 40px;
     height: 40px;
     position: absolute;
@@ -145,6 +185,7 @@ nav.navbar-default {
 
 .sidebar-collapser i,
 .sidebar-collapser-hidden i {
+    /* Styling for the icon inside of the sidebar-collapser* element */
     color: white;
     font-size: 2em;
     font-weight: bold;
@@ -152,66 +193,89 @@ nav.navbar-default {
     margin-left: 10px;
 }
 
+/**
+ * Sidebar > Search CSS Rules
+ */
 .location-search-wrapper {
+    /* Location search containing element styles */
     background-color: lightblue;
     width: 100%;
     height: 200px;
 }
 
 h4.search-header {
+    /* Header styling for the headers within the item search functionality inside of the sidebar */
     margin-top: 20px;
 }
 
 .categories-nav {
+    /* Positioning of the categories dropdown in the search functionality of the sidebar */
     margin-bottom: 30px;
+}
+
+/**
+ * Sidebar > Lost and Found CSS Rules
+ */
+.lost-and-found-sidebar-wrapper .btn {
+    /* Custom styles to override bootstrap buttons within the lost and found sidebar */
+    margin-top: 10px;
 }
 
 /**
  * Main Panel CSS Rules
  */
 #mainPanel {
+    /* Styles applied to the entire mainPanel containing element of the site template */
     display: inline-block;
     height: 100%;
     width: 100%;
     overflow-y: scroll;
 }
 
+.content-wrapper {
+    /* Styles applied to the entire content containing element of the site template */
+    position: relative;
+    padding-left: 300px;
+    height: 100%;
+}
+
 /**
  * Login CSS Rules
  */
 .form-signin {
+    /* Mobile friendly styles of the signin/up form */
     max-width: 550px;
 }
 
-.logo {
-    height: 39px;
-    margin-top: -7px;
-    margin-left: -9px;
-}
-
 .login-logo {
+    /* Styling and positioning for the logo on the signin/up pages */
     margin-top: 100px;
     margin-bottom: 30px;
     width: 75%;
 }
 
 .login-label {
+    /* Style class of the labels in the login form */
     padding-right: 10px;
 }
 
 .signup-label {
+    /* Style class of the labels in the signup form */
     padding-right: 10px;
 }
 
 .form-signin table {
+    /* Style class of the overall login/signup form */
     border-collapse: collapse;
 }
 
 .form-signin td {
+    /* Style class of the rows of the login/signup form */
     padding-bottom: 10px;
 }
 
 .form-signin .btn {
+    /* Style class of the buttons in the login/signup form */
     margin-right: 5px;
     margin-left: 5px;
 }
@@ -220,6 +284,7 @@ h4.search-header {
  * Landing page CSS Rules
  */
 .landing-jumbotron {
+    /* Styles for the landing page jumbotron background */
     height: 85vh;
     background-image: url(../resources/images/splash_background.png);
     background-size: cover;
@@ -232,6 +297,7 @@ h4.search-header {
 }
 
 .landing-jumbotron .jumbotron-text {
+    /* Styles and positioning for the landing page jumbotron text overlay */
     position: absolute;
     top: 0;
     bottom: 0;
@@ -243,6 +309,7 @@ h4.search-header {
 }
 
 .landing-jumbotron h1 {
+    /* Override font size of h1 element inside of the Jumbotron to look better */
     font-size: 4em;
 }
 
@@ -250,6 +317,7 @@ h4.search-header {
  * Footer CSS Rules
  */
 div.footer {
+    /* Style and positioning to customize the footer to match theme/brand */
     background-color: #e95051;
     color: white;
     height: 20px;
@@ -260,10 +328,15 @@ div.footer {
 }
 
 div.footer .footer-text {
+    /* Positioning for the text inside of the navbar */
     margin-bottom: 0;
 }
 
+/**
+ * Generic map styling
+ */
 #map {
+    /* General map size rules used by most maps throughout the site */
     width: 500px;
     height: 500px;
 }
@@ -272,47 +345,57 @@ div.footer .footer-text {
  * Building CSS Rules
  */
 .buildingInfo .buildingImage {
+    /* Style and positioning for the buildings image inside of the sidebar */
     margin-top: 20px;
     width: 100%;
     margin-bottom: 10px;
 }
 
 .hideComponent {
+    /* Class to hide conponents to enable advanced functionality within views */
    display: none;
 }
 
 .buildingInfo .buildingDescription {
+    /* Positioning for the buildings description box inside of the sidebar */
     margin-top: 30px;
 }
 
 #dropDownForm {
+    /* Styling for the form containing the dropdowns withing the buildings sidebar */
     width: 100%;
 }
 
 #dropDownForm .btn {
+    /* Custom stlying for the bootstrap buttons withing the buildings sidebar */
     margin-top: 15px;
 }
 
 .dropdown .dropMenu {
+    /* Styling for the form containing the dropdowns withing the buildings sidebar */
     width: 100%;
     margin-top: 20px;
 }
 
 .building-label {
+    /* Positioning for the various, generic elements within the buldings sidebar */
     padding-top: 10px;
     padding-right: 10px;
 }
 
 .buildings-data {
+    /* Styling for the wrapper the contains the distance and duration from directions inside the buildings sidebar */
     text-align: left;
     margin-top: 10px;
 }
 
 div.ui-selectonemenu-trigger {
+    /* Custom, overridding styling for primefaces dropdowns to improve visual appearance */
     width: 24px !important;
 }
 
 label.spacer {
+    /* Styling to add space between distance/duration label and value */
     margin-right: 5px;
 }
 
@@ -320,10 +403,12 @@ label.spacer {
  * Parking CSS Rules
  */
 .parking-sidebar-wrapper .btn {
+    /* Styling for the bootstrap buttons inside of the parking sidebar */
     margin-top: 10px;
 }
 
 .afterhours-panel {
+    /* Styling for the bootstrap alert within the sidebar that is used as the afterhours prompt */
     margin: 20px 10px;
 }
 
@@ -331,47 +416,114 @@ label.spacer {
  * Lost and Found CSS Rules
  */
 .form-subscribe table {
+    /* Styling for the overall subscribe to threads form on lostAndFound page */
     margin-left: 20px;
     margin-bottom: 10px;
 }
 
 .form-subscribe table label {
+    /* Styling for the individual labels for each subscribable thread */
     margin-left: 10px;
 }
 
 .btn-subscription {
+    /* Styling for the boostrap buttons that save the subscribing settings */
     margin-right: 10px;
     margin-bottom: 20px;
 }
 
+.lost-and-found-home-wrapper {
+    /* Styling for generic lost and found containing, templated page */
+    margin: 0 65px;
+}
+
+.lost-and-found-home-wrapper h1 {
+    /* Positioning for the h1 elements within the lost and found containing, templated page (page titles)*/
+    margin-bottom: 25px;
+}
+
+.lost-and-found-home-wrapper p {
+    /* Font size for the p elememts within the lost and found containing, templated page (descriptions)*/
+    font-size: 1.4em;
+}
+
+.item-list-view-wrapper {
+    /* Padding around item list view wrapper to enable border on hover animation */
+    padding: 10px;
+}
+
+.item-list-view {
+    /* Styles and positioning for items in a list view */
+    cursor: pointer;
+    margin-bottom: 30px;
+    padding: 10px;
+    border: 2px dashed white;
+    height: 275px;
+    overflow: hidden;
+}
+
+.item-list-view:hover {
+    /* On hover styles for items in a list view.  This enables the dashed border on mouseover */
+    border: 2px dashed #e95051;
+    border-radius: 10px;
+}
+
+.item-list-view img {
+    /* Styles and positioning for images of items in a list view */
+    width: auto;
+    height: 150px;
+}
+
+.item-list-view .item-title {
+    /* Styles and positioning for the titles of items in a list view */
+    color: #e95051;
+    white-space: nowrap;
+}
+
+.view-all-link {
+    /* Styles and positioning for the view all link of the lostAndFound page */
+    color: #e95051;
+    margin-right: 20px;
+}
+
+/**
+ * Lost and Found > Create CSS Rules
+ */
 .form-create-item {
+    /* Styling for the overall create item form */
     margin-top: 50px;
 }
 
 .create-item-label {
+    /* Styling for the form labels inside of the overall create item form */
     padding-right: 10px;
 }
 
 .form-create-item table {
+    /* Styling for the field containing table in create item form */
     border-collapse: collapse;
     margin-top: 10px;
 }
 
 .form-create-item table textArea {
+    /* Disable horizonal resize ability on text area inside create item form */
     resize:vertical;
 }
 
 .form-create-item td {
+    /* Add spacing between line items in the create item form */
     padding-bottom: 10px;
 }
 
 .form-create-item .btn {
+    /* Overridding styles for the bootstrap buttons in the create item form */
     margin-right: 5px;
     margin-left: 5px;
     margin-bottom: 20px;
 }
 
 .item-img-upload-wrapper {
+    /* Wrapper styles for the div containing the PF image uploader for items */
     border: 3px dashed gray;
     border-radius: 10px;
     color: gray;
@@ -384,89 +536,57 @@ label.spacer {
 }
 
 .item-uploaded-img-wrapper {
+    /* Wrapper styles for the div containing images uploaded to an item */
     padding: 0 20px;
     margin-top: 20px;
 }
 
 .item-uploaded-img {
+    /* Styling for primary container of images added to an item within the form */
     position: relative;
 }
 
-.item-uploaded-img a {
-    position: absolute;
-    top: 6px;
-    right: 27px;
-    color: white;
-    font-size: 1.7em;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-}
-
 .item-uploaded-img img {
+    /* Rules to style the img elements within the create form on upload of photos */
     width: 100%;
     margin-bottom: 20px;
 }
 
 .location-found-map-wrapper {
+    /* Styling for the Google map where users enter the location that they found the item upon create */
     width: 85%;
     height: 400px;
     background-color: lightblue;
 }
 
-.lost-and-found-home-wrapper {
-    margin: 0 65px;
-}
-
-.lost-and-found-home-wrapper h1 {
-    margin-bottom: 25px;
-}
-
-.lost-and-found-home-wrapper p {
-    font-size: 1.4em;
-}
-
 .coordinates {
+    /* Styles for the hidden inputs for the Google geocoding api implementation where users select where the item was found */
    display: none;
 }
-
-.item-list-view-wrapper {
-    padding: 10px;
-}
-
-.item-list-view {
-    cursor: pointer;
-    margin-bottom: 30px;
-    padding: 10px;
-    border: 2px dashed white;
-    height: 275px;
-    overflow: hidden;
-}
-
-.item-list-view:hover {
-    border: 2px dashed #e95051;
-    border-radius: 10px;
-}
-
+ /**
+  * Manage Items CSS Rules
+  */
 .manage-item-view {
+    /* Positioning and height declarations for wells within the manage items view */
     padding: 10px;
     height: 120px;
 }
 
-.manage-item-view span {
-    padding-left: -20px;
-}
-
 .manage-item-view .item-title {
+    /* Styles for the title of items within the manage items view */
     margin-top: 17px;
     white-space: nowrap;
 }
 
 .manage-item-view .item-date {
+    /* Styles for the date found of items within the manage items view */
     margin-top: 39px;
     color: #e95051;
     margin-right: 20px;
 }
 
 .manage-item-view img {
+    /* Styles for the image of items within the manage items view */
     height: 100px;
     width: auto;
     border-radius: 4px;
@@ -474,16 +594,22 @@ label.spacer {
 }
 
 .manage-item-view .btn {
+    /* Styles for the option buttons for an item within the manage items view */
     margin-right: 10px;
 }
 
+/**
+ * Edit Item CSS Rules
+ */
 .edit-img img {
+    /* Styles for the current images of an item on the edit item page */
     width: 100%;
     height: auto;
     position: relative;
 }
 
 .edit-img i {
+    /* Styles for the delete image 'X' on images on the edit item page */
     position: absolute;
     top: 4px;
     right: 23px;
@@ -493,54 +619,39 @@ label.spacer {
     cursor: pointer;
 }
 
-
-.item-list-view img {
-    width: auto;
-    height: 150px;
-}
-
-.item-list-view .item-title {
-    color: #e95051;
-    white-space: nowrap;
-}
-
-.view-all-link {
-    color: #e95051;
-    margin-right: 20px;
-}
-
-.lost-and-found-sidebar-wrapper {
-}
-
-.lost-and-found-sidebar-wrapper .btn {
-    margin-top: 10px;
-}
-
+/**
+ * Detailed Item View CSS Rules
+ */
 .item-view-wrapper {
+    /* Positioning for UI of item detail containing element */
     margin: 0 65px;
 }
 
 .item-view-wrapper .item-view-title {
+    /* Override the color of the title of an item in the detailed item view */
     color: #e95051;
 }
 
 .item-view-wrapper img.item-photo {
+    /* Styling of the photos of an item in the detailed item view */
     width: 75%;
     max-width: 500px;
     margin: 20px auto;
 }
 
 .item-view-wrapper p.item-decription {
-    /*text-align: left;*/
+    /* Styling of the description of an item in the detailed item view */
     font-size: 1.4em;
     margin-bottom: 20px;
 }
 
 .item-view-wrapper .input-group {
+    /* Styling of the inputs within the options form in the detailed item view */
     margin-bottom: 20px;
 }
 
 .item-view-map-wrapper {
+    /* Styling of the map displaying the location found of an item in the detailed item view */
     width: 100%;
     height: 500px;
     background-color: lightblue;
@@ -548,10 +659,12 @@ label.spacer {
 }
 
 .finder-wrapper {
+    /* Wrapper styles for the section that contains the information about the person who found an item in the detailed item view */
     max-width: 400px;
 }
 
 .finder-wrapper .finder-photo {
+    /* Wrapper styles for the image of the person who found an item in the detailed item view */
     border-radius: 50%;
     height: 100px;
     width: 100px;
@@ -562,46 +675,25 @@ label.spacer {
     background-position: center;
 }
 
-/**
- * Profile CSS Rules
- */
-.profile-logo {
-    width: 75%;
-    height: auto;
-    max-width: 500px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.signup-input {
-    width: 54%;
-}
-
-.fa-email, .fa-security-question {
-    visibility: hidden;
-}
-
-.output-email {
-    font-weight: normal;
-}
-
-.profile-question {
-    border: none;
-    border-radius: 4px;
-    background-color: #f1f1f1;
-}
-
-.fa-2x:hover {
-    cursor: pointer;
-}
-
-/*Detailed item view*/
 .belonging-wrapper {
+    /* Styles of the buttons and elements withing the belongings options function pane of the detailed item view page */
     min-width: 100%;
     overflow: hidden;
 }
 
+.belonging-btn {
+    /* Styles for the custom bootstrap overridng of buttons within the belongs options function pane */
+    max-width: 400px;
+}
+
+.belonging-action-wrapper {
+    /* Styles for the specific button containing elements within the options funcion of the detailed item view page */
+    box-sizing: border-box;
+    width: 100%;
+}
+
 .item-view-gallery-wrapper {
+    /* Styles for the wrapper containing the image carousel/spinner for detailed item view */
     margin-top: 20px;
     border-left: 30px solid #ccc;
     border-right: 30px solid #ccc;
@@ -611,28 +703,37 @@ label.spacer {
     margin-right: auto;
 }
 
-div .center {
-    float: none;
-    margin-left: auto;
-    margin-right: auto;
+/**
+ * Profile CSS Rules
+ */
+.profile-logo {
+    /* Styles for the profile photo of a user on the profile page */
+    width: 75%;
+    height: auto;
+    max-width: 500px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-.vcenter {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
+.signup-input {
+    /* Styles for the inputs within the attribute editing forms on the profile page */
+    width: 54%;
 }
 
-.belonging-btn {
-    max-width: 400px;
+.fa-email, .fa-security-question {
+    /* Hide the icons for the email and security question initially */
+    visibility: hidden;
 }
 
-.belonging-action-wrapper {
-    box-sizing: border-box;
-    width: 100%;
+.fa-2x:hover {
+    /* Hover styles for inplace edit form on profile view */
+    cursor: pointer;
 }
 
-/*messages*/
+/**
+ * Custom Growl CSS Rules
+ */
  .ui-growl {
+     /* Positioning of growl messages to enable fixed navbar design */
    margin-top: 50px;
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Sebastian Welsh on 2016.04.22 
-Copyright © 2016 Sebastian Welsh. All rights reserved.
+Created by VTLocator Group on 2016.04.04 
+Copyright © 2016 VTLocator. All rights reserved.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -9,23 +9,32 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    
+
+    <!-- 
+    Declaration of search template composition to override generic sidebar 
+    layout for most item pages.
+    -->
     <ui:composition>
+        <!-- Wrapper to contain all custom search UI elements -->
         <div class="lost-and-found-sidebar-wrapper">
             <h3 style="margin-top: 5px;">Search by...</h3>
+            <!-- Tabular selector to switch between the two supported search capabilites -->
             <ul class="nav nav-tabs nav-justified categories-nav">
                 <li id="searchByTextTab" role="presentation" class="active"><a href="#">Text</a></li>
                 <li id="searchByLocationTab" role="presentation"><a href="#">Location</a></li>
             </ul>
+            <!-- The wrapper containing the search by text capability.  Visible by default -->
             <div id="textSearch">
                 <h:form id="dropDownForm">
+                    <!-- Search textfield for user specified search queries -->
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>
                         <p:inputText type="text" class="form-control" placeholder="Search..."
-                                    required="true" value="#{searchManager.query}" >
+                                     required="true" value="#{searchManager.query}" >
                             <f:validateLength minimum="1" maximum="32" />
                         </p:inputText>
                     </div>
+                    <!-- Filter label and options dropdown to refine search by item type -->
                     <h4 class="search-header">Filter:</h4>
                     <div class="dropdown" >
                         <p:selectOneMenu styleClass="dropMenu" value="#{searchManager.filterType}">
@@ -37,32 +46,30 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                             <f:selectItem itemLabel="Other" itemValue="OTHER" />
                         </p:selectOneMenu>
                     </div>
+                    <!-- Button to submit search data to the backend for processing -->
                     <h:commandButton class="btn btn-custom pull-right" id="submit" value="Search" action="#{searchManager.fullTextSearch()}" />
                 </h:form>
             </div>
+            <!-- The wrapper containing the search by location capability.  Hidden by default -->
             <div id="locationSearch" class="text-center" style="display: none;">
+                <!-- Container for search by location Google geocoding map -->
                 <div class="location-search-wrapper"> 
-                    <div id="lfmap" style="width:100%; height:100%;"></div>
-                                    
+                    <div id="lfmap" style="width:100%; height:100%;"></div>              
                 </div>
-                 <h:form id="locationSearchForm">
-                  <p:inputText id="longitudeSearch" class="form-control coordinates"
-                                required="true" label="longitutde" value="#{searchManager.longitudeSearch}" widgetVar="longitudeSearch">
-
-                  </p:inputText>
-
-                   <p:inputText id="latitudeSearch" class="form-control coordinates"
-                                required="true" label="latitude" value="#{searchManager.latitudeSearch}" widgetVar="latitudeSearch">
-
-                  </p:inputText>
-                     
-                  <p:inputText id="geoaddress" class="form-control coordinates"
-                                required="true" label="geocodedAddress" value="#{searchManager.geocodedAddress}" widgetVar="geocodedAddress">
-
-                  </p:inputText>
-                     
-                <h:commandButton class="btn btn-custom pull-right" id="submit" value="Search" action="#{searchManager.locationSearch()}" />  
-                 </h:form>
+                <!-- Hidden inputs for the data obtained from the Google geocoding map above -->
+                <h:form id="locationSearchForm">
+                    <p:inputText id="longitudeSearch" class="form-control coordinates"
+                                 required="true" label="longitutde" value="#{searchManager.longitudeSearch}" widgetVar="longitudeSearch">
+                    </p:inputText>
+                    <p:inputText id="latitudeSearch" class="form-control coordinates"
+                                 required="true" label="latitude" value="#{searchManager.latitudeSearch}" widgetVar="latitudeSearch">
+                    </p:inputText>
+                    <p:inputText id="geoaddress" class="form-control coordinates"
+                                 required="true" label="geocodedAddress" value="#{searchManager.geocodedAddress}" widgetVar="geocodedAddress">
+                    </p:inputText>
+                    <!-- Button to submit geocoding data obtained from the Google api -->
+                    <h:commandButton class="btn btn-custom pull-right" id="submit" value="Search" action="#{searchManager.locationSearch()}" />  
+                </h:form>
             </div>
         </div>
     </ui:composition>
