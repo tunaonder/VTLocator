@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "User")
 @XmlRootElement
+//Create Select Queries to get data from database
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
@@ -43,9 +44,15 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByCreatedAt", query = "SELECT u FROM User u WHERE u.createdAt = :createdAt"),
     @NamedQuery(name = "User.findByUpdatedAt", query = "SELECT u FROM User u WHERE u.updatedAt = :updatedAt")})
+
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    
+    //Set the Size boundaries of each database column data.
+    //Set their names to use in java bean
+    //Set if values are optional or not
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -101,13 +108,16 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "subscriber")
     private Collection<Subscription> subscriptionCollection;
 
+    //User Constractor 1
     public User() {
     }
-
+    
+    //User Constractor 2
     public User(Integer id) {
         this.id = id;
     }
 
+    //User Constractor 3
     public User(Integer id, String firstName, String lastName, String email, String phoneNumber, int securityQuestion, String securityAnswer, String password, Date createdAt, Date updatedAt) {
         this.id = id;
         this.firstName = firstName;
@@ -226,6 +236,7 @@ public class User implements Serializable {
         return hash;
     }
 
+    //Check if provided object equals to this instance or not
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -239,6 +250,7 @@ public class User implements Serializable {
         return true;
     }
 
+    //Print User Object with its id
     @Override
     public String toString() {
         return "jpaentityclasses.User[ id=" + id + " ]";
