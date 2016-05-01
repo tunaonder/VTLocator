@@ -90,7 +90,7 @@
                             <!--This Dropdown Menu is displayed after Direction Button Pressed-->
                             <ul class="dropdown" >
                                 <h:selectOneMenu id="startDropdown" value="#{buildingManager.selectedStartPoint}" styleClass="dropMenu form-control" rendered="#{buildingManager.directionPressed == true}">
-                                      <!-- Get coordinates of Starting Building -->
+                                    <!-- Get coordinates of Starting Building -->
                                     <p:ajax listener="#{buildingManager.createStartPoint}" />
                                     <!--Calls Java Script Method which draws the Route-->
                                     <p:ajax oncomplete="drawRoute()" update="startBuildingLat startBuildingLong" />
@@ -123,7 +123,7 @@
                             <h:outputLabel styleClass="outputLabel spacer" value="Duration: " /> <h:outputLabel id="durationValue" styleClass="outputLabel" value="0" />
                         </h:panelGroup>
 
-                        
+
 
                         <!--Resets the Page to its initial state-->
                         <h:commandButton id="refreshButton" value="Refresh" onclick="refreshMap()"
@@ -142,7 +142,7 @@
                         <h:graphicImage id="buildingImage" url="#{buildingManager.imageUrl}" styleClass="buildingImage" rendered="#{buildingManager.directionPressed == false}"/>
                     </div>
 
-                    
+
                     <!--Name of clicked building from building markers-->
                     <h:inputHidden id="clickedBuildingMarker" />
 
@@ -166,6 +166,12 @@
 
                 <script type="text/javascript" >
                     
+                    //On page load refreh the page. This method is necassery because, if page is refreshed listener
+                    //defined below wont be called.
+                    $(document).ready(function () {
+                        $(".buildings-refresh-button").click();
+                    });
+
                     //Initialize Map
                     initilaizeMap();
 
@@ -173,6 +179,7 @@
                     window.addEventListener("beforeunload", function (e) {
                         $(".buildings-refresh-button").click();
                     }, false);
+
 
 
                 </script>
