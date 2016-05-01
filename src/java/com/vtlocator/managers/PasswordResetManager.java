@@ -16,23 +16,30 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
 
-/*
-Contains all the logic for changing the user's password in the DB.
-Only possible after the user has entered correct security questions.
-*/
-
 @Named(value = "passwordResetManager")
 @SessionScoped
 /**
- *
+ * Contains all the logic for changing the user's password in the DB.
+ * Only possible after the user has entered correct security questions.
  * @author Michael
  */
 public class PasswordResetManager implements Serializable{
     
-    // Instance Variables (Properties)
+    /**
+     * Email entered to identify account to reset.
+     */
     private String email;
+    /**
+     * Variable for success/error messages to display.
+     */
     private String message = "";
+    /**
+     * Holds security question answer entered by user.
+     */
     private String answer;
+    /**
+     * Holds new password entered by user.
+     */
     private String password;
     
     /**
@@ -59,7 +66,10 @@ public class PasswordResetManager implements Serializable{
         this.message = message;
     }
         
-    // gets the username from the db
+    /**
+     * gets the username from the db
+     * @return Page to redirect to.
+     */
     public String emailSubmit() {
         User user = userFacade.findByEmail(email);
         if (user == null) {
@@ -72,7 +82,10 @@ public class PasswordResetManager implements Serializable{
         }
     }
     
-    // submits the security questionss
+    /**
+     * Submits the security questions
+     * @return Page to redirect to.
+     */
     public String securityquestionSubmit() {
         User user = userFacade.findByEmail(email);
         if (user.getSecurityAnswer().equals(answer)) {
@@ -98,7 +111,10 @@ public class PasswordResetManager implements Serializable{
         this.answer = answer;
     }
 
-    // checks to see if the users username and password match
+    /**
+     * Checks to see if the users username and password match
+     * @param event Multiple information input by the user.
+     */
     public void validateInformation(ComponentSystemEvent event) {
         FacesContext fc = FacesContext.getCurrentInstance();
 
@@ -133,7 +149,10 @@ public class PasswordResetManager implements Serializable{
     public void setPassword(String password) {
         this.password = password;
     }
-    // Sets the users pass to the given password
+    /**
+     * Sets the users pass to the given password
+     * @return Page to redirect to.
+     */
     public String resetPassword() {
         if (message.equals("")) {
             message = "";
@@ -153,6 +172,11 @@ public class PasswordResetManager implements Serializable{
         }
     }
     
+    /**
+     * This function called after users entered correct security questions.
+     * Allows user to set password of the recovered account.
+     * @return Redirect page.
+     */
     public String changePassword() {
         if (message.equals("")) {
             message = "";

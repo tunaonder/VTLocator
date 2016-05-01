@@ -4,6 +4,8 @@ Created by Michael Steele on 2016.03.14
 Copyright © 2016 Michael Steele. All rights reserved.
 -->
 <!-- 
+This file is identical to the Users tutorial.
+
 Checks user's entered security questions.
 Calls passwordResetManager.securityquestionSubmit() to confirm security questions.
 -->
@@ -26,16 +28,20 @@ Calls passwordResetManager.securityquestionSubmit() to confirm security question
                         <h2 class="form-signin-heading">Please Answer Your Security Question</h2>
                         <fieldset>
                         <div class="form-group" style="margin-bottom:20px">
+                            <!-- Displays user's security questions. -->
                             <h:outputLabel for="question" value="#{passwordResetManager.securityQuestion}" />
                         </div>
                         <div class="form-group" style="margin-bottom: 10px; max-width: 200px;">
+                            <!-- Saves given security question answers into the DB. -->
                             <h:inputText id="answer" class="form-control" value="#{passwordResetManager.answer}"/>
                         </div>
                         <br/>
+                        <!-- Submits & validates given security answers for correctness. -->
                         <h:commandButton styleClass="btn btn-custom" id="submit" action="#{passwordResetManager.securityquestionSubmit()}" value="Submit" />
                         <h:button styleClass="btn btn-default" id="cancel" outcome="login" value="Cancel" />
                         </fieldset>
                         <br/>
+                        <!-- For error messages. -->
                         <h:outputLabel value ="#{passwordResetManager.message}" />                  
                     </h:form>
                 </div>
