@@ -386,6 +386,7 @@ public class AccountManager implements Serializable {
      * @return a collection of all the current user's subscriptions
      */
     public Collection<Subscription> getSubscriptions() {
+       //get subscriptions of current user
         selected = getSelected();
         List<Subscription> others = subscriptionFacade.getByUserId(selected);
         if (others.isEmpty()) {
@@ -432,6 +433,7 @@ public class AccountManager implements Serializable {
      * @param selectedSubscriptions the selected subscriptions to set for the current user
      */
     public void setSelectedSubscriptions(List<String> selectedSubscriptions) {
+       //Subscriptions of current user
         subscriptions = getSubscriptions();
         this.selectedSubscriptions = selectedSubscriptions;
         for (int i = 0; i < selectedSubscriptions.size(); i++) {
@@ -445,6 +447,7 @@ public class AccountManager implements Serializable {
                     }
                 }
             }
+            //if this subscription is not created before, create new subscription.
             if (!exists) {
                 Subscription subscription = new Subscription();
                 subscription.setCategory(selectedSubscriptions.get(i));
