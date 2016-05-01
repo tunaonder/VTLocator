@@ -333,7 +333,7 @@ public class BuildingManager implements Serializable {
             //Replace Slah character with %2F
             modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
             //Create Restful Request Url
-            String restfulUrl = baseUrl + modifiedBuildingName;
+            String restfulUrl = baseUrl + "names/" + modifiedBuildingName;
             json = new JSONObject(readUrlContent(restfulUrl));
             lat2 = json.getDouble("latitude");
             lng2 = json.getDouble("longitude");
@@ -353,7 +353,7 @@ public class BuildingManager implements Serializable {
             //Replace Slah character with %2F
             modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
             //Create Restful Request Url
-            String restfulUrl = baseUrl + modifiedBuildingName;
+            String restfulUrl = baseUrl + "names/" + modifiedBuildingName;
             //Return Result As JSON
             json = new JSONObject(readUrlContent(restfulUrl));
             //Get Specific Data from Returned Json
