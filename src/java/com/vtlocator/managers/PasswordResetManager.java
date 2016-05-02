@@ -5,6 +5,7 @@
 package com.vtlocator.managers;
 
 import com.vtlocator.jpaentityclasses.User;
+import com.vtlocator.jsfclasses.util.CipherService;
 import com.vtlocator.sessionbeans.UserFacade;
 import java.io.Serializable;
 import javax.ejb.EJB;
@@ -49,6 +50,11 @@ public class PasswordResetManager implements Serializable{
      */
     @EJB
     private UserFacade userFacade;
+    
+    /**
+     * CipherService declaration and instantiation to be used by this class.
+     */
+    private CipherService cipherService = new CipherService();
     
     public String getEmail() {
         return email;
@@ -158,7 +164,7 @@ public class PasswordResetManager implements Serializable{
             message = "";
             User user = userFacade.findByEmail(email);
             try {
-                user.setPassword(password);
+                user.setPassword(cipherService.hash(password));
                 userFacade.edit(user);
                 email = answer = password = "";                
             } catch (EJBException e) {
@@ -183,7 +189,7 @@ public class PasswordResetManager implements Serializable{
             int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
             User user = userFacade.getUser(user_id);
             try {
-                user.setPassword(password);
+                user.setPassword(cipherService.hash(password));
                 userFacade.edit(user);
                 email = answer = password = "";                
             } catch (EJBException e) {

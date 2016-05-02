@@ -264,6 +264,11 @@ h4.search-header {
     padding-right: 10px;
 }
 
+.signup-input input {
+    /* Style class for the inline profile edit inputs */
+    display: block;
+}
+
 .form-signin table {
     /* Style class of the overall login/signup form */
     border-collapse: collapse;

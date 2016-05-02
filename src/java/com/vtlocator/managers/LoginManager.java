@@ -5,6 +5,7 @@
 package com.vtlocator.managers;
 
 import com.vtlocator.jpaentityclasses.User;
+import com.vtlocator.jsfclasses.util.CipherService;
 import com.vtlocator.sessionbeans.UserFacade;
 import java.io.Serializable;
 import javax.ejb.EJB;
@@ -32,6 +33,10 @@ public class LoginManager implements Serializable {
   @EJB
   private UserFacade userFacade;
 
+  /**
+   * CipherService declaration and instantiation to be used by this class.
+   */
+  private CipherService cipherService = new CipherService();
   /**
    * Creates a new instance of LoginManager
    */
@@ -91,8 +96,9 @@ public class LoginManager implements Serializable {
       errorMessage = "Invalid email or password!";
       return "";
     } else {
-        //Check if provided password is same with the actual password of the user
-      if (user.getEmail().equals(getEmail()) && user.getPassword().equals(getPassword())) {
+        //Check if the hash of the provided password is same with the actual password in the DB
+      if (user.getEmail().equals(getEmail()) 
+              && user.getPassword().equals(cipherService.hash(getPassword()))) {
         errorMessage = "";
         //Start the session map
         initializeSessionMap(user);

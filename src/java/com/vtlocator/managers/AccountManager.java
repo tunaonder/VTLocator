@@ -7,6 +7,7 @@ package com.vtlocator.managers;
 import com.vtlocator.jpaentityclasses.Subscription;
 import com.vtlocator.jpaentityclasses.UserPhoto;
 import com.vtlocator.jpaentityclasses.User;
+import com.vtlocator.jsfclasses.util.CipherService;
 import com.vtlocator.sessionbeans.SubscriptionFacade;
 import com.vtlocator.sessionbeans.UserPhotoFacade;
 import com.vtlocator.sessionbeans.UserFacade;
@@ -47,6 +48,11 @@ public class AccountManager implements Serializable {
     private User selected;
     private Collection<Subscription> subscriptions;
     private List<String> selectedSubscriptions;
+    
+    /**
+     * CipherService declaration and instantiation to be used by this class.
+     */
+    private CipherService cipherService = new CipherService();
 
     /**
      * The instance variable 'userFacade' is annotated with the @EJB annotation.
@@ -199,7 +205,7 @@ public class AccountManager implements Serializable {
                 user.setSecurityAnswer(security_answer);
                 user.setEmail(email);
                 user.setPhoneNumber(phone_number);
-                user.setPassword(password);
+                user.setPassword(cipherService.hash(password));
                 userFacade.create(user);
                 initializeSessionMap();
             } catch (EJBException e) {
@@ -271,6 +277,7 @@ public class AccountManager implements Serializable {
             try {
                 editUser.setEmail(this.selected.getEmail());
                 userFacade.edit(editUser);
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("email", this.selected.getEmail());
             } catch (EJBException e) {
                 statusMessage = "Something went wrong while editing your profile!";
             }
