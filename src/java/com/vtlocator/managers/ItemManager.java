@@ -382,7 +382,7 @@ public class ItemManager implements Serializable {
         try {
             if (detailItem != null) {
                 Item item = detailItem;
-                item.setCategory(this.category);
+                item.setCategory(detailItem.getCategory());
                 item.setDateFound(detailItem.getDateFound());
                 item.setLatitudeFound(this.latitudeFound);
                 item.setLongitudeFound(this.longitudeFound);
