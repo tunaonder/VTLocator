@@ -26,21 +26,24 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.model.UploadedFile;
 
-// Allows users to upload a photo to the page
-// Confirms the uploaded photo is valid
-// Resizes the photo to create a thumbnail, stores in the db.
-
 @Named(value = "fileManager")
 @ManagedBean  
 @SessionScoped
 /**
- *
+ * - Allows users to upload a photo to the users profile.
+ * - Confirms the uploaded photo is valid.
+ * - Stores the uploaded photo in the DB.
  * @author Michael
  */
 public class FileManager {
 
-    // Instance Variables (Properties)
+    /**
+     * An uploaded file that is not yet in the DB.
+     */
     private UploadedFile file;
+    /**
+     * Error message to display.
+     */
     private String message = "";
     
     /**
@@ -59,12 +62,18 @@ public class FileManager {
     @EJB
     private UserPhotoFacade photoFacade;
 
-    // Returns the uploaded file
+    /**
+     * An uploaded file that is not yet in the DB.
+     * @return A file
+     */
     public UploadedFile getFile() {
         return file;
     }
 
-    // Obtains the uploaded file
+    /**
+     * Obtains the uploaded file
+     * @param file A file
+     */
     public void setFile(UploadedFile file) {
         this.file = file;
     }
@@ -96,7 +105,10 @@ public class FileManager {
         }
     }
     
-    // redirect to profile
+    /**
+     * Redirect to profile
+     * @return Redirect
+     */
     public String cancel() {
         message = "";
         return "profile?faces-redirect=true";
@@ -105,6 +117,11 @@ public class FileManager {
     // Takes an uploaded file
     // Copies the file, creates a thumbnail version of the file
     // Stores in the database, attached to the customer
+    /**
+     * Stores uploaded file in the database, attached to the user.
+     * @param file Uploaded file
+     * @return Error message or success message.
+     */
     public FacesMessage copyFile(UploadedFile file) {
         try {
             deletePhoto();
@@ -141,7 +158,13 @@ public class FileManager {
             "There was a problem reading the image file. Please try again with a new photo file.");
     }
 
-    // Streams in bytes, converts the streamed bytes into a file
+    /**
+     * Streams in bytes, converts the streamed bytes into a file
+     * @param inputStream Stream of data from file
+     * @param childName Name of file + extension
+     * @return A file
+     * @throws IOException 
+     */
     private File inputStreamToFile(InputStream inputStream, String childName)
             throws IOException {
         // Read in the series of bytes from the input stream
@@ -160,7 +183,9 @@ public class FileManager {
         return targetFile;
     }
 
-    // deletes current users photo from the DB
+    /**
+     * deletes current users photo from the DB
+     */
     public void deletePhoto() {
         FacesMessage resultMsg;
         String email = (String) FacesContext.getCurrentInstance()

@@ -13,8 +13,8 @@ import javax.faces.validator.ValidatorException;
 
 @FacesValidator("emailValidator")
 /**
- *
- * @author Balci
+ * This class validates an email address using a regular expression (regex).
+ * @author Onder
  */
 public class EmailValidator implements Validator {
 

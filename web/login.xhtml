@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Sait Tuna Onder on 2016.04.05 
-Copyright © 2016 Sait Tuna Onder. All rights reserved.
+Created by VTLocator Group on 2016.04.04 
+Copyright © 2016 VTLocator. All rights reserved.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"   
@@ -12,36 +12,39 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
 
     <!-- This page is constructed based on the siteTemplate -->
     <ui:composition template="template/siteTemplate.xhtml">
-
         <!-- Create the content for this page below -->
         <ui:define name="editableContent">
             <div align="center">
                 <h:form class="form-signin">
+                    <!--Center all components in the form-->
                     <div align="center">
+                        
+                    <!--VTLocator logo on the top of panel grid-->
                     <h:graphicImage url="#{resource['images:logo_primary.png']}" styleClass="login-logo" alt="VTLocator"/>
 
                     <h:panelGrid columns="2" columnClasses="login-label, login-input">
-
+                        
                         <h:outputLabel styleClass="outputLabel" for="loginname" value="Email: " />
+                        <!--Entered Email-->
                         <h:inputText class="form-control" id="loginname" value="#{loginManager.email}" />
-
                         <h:outputLabel styleClass="outputLabel" for="password" value="Password: " />
+                        <!--Entered Password-->
                         <h:inputSecret class="form-control"  id="password" value="#{loginManager.password}"/>
 
                     </h:panelGrid>
                     <br/>
+                    <!--Display Login button and Forgot Password link in a field set which %60 width of the form-->
                     <fieldset style="width:60%; margin:0 auto;">
+                        <!--Login the user and if given information is correct, session is started-->
                         <h:commandButton id="login" action="#{loginManager.loginUser()}" value="Login" styleClass="btn btn-custom"/>
                         <p:link outcome="enterEmail" id="retrieve" value="Forgot Password" styleClass="btn btn-default"/>                
                     </fieldset>  
                     </div>
                     <br/>
+                    <!--Error Message Label-->
                     <h:outputLabel value="#{loginManager.errorMessage}" />
                 </h:form>
             </div>
         </ui:define>
-
     </ui:composition>
-    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
-
 </html>

@@ -4,6 +4,8 @@ Created by Michael Steele on 2016.03.14
 Copyright © 2016 Michael Steele. All rights reserved.
 -->
 <!-- 
+This file is identical to Users tutorial.
+
 Allows the user to enter the username of the account to recover the password of.
 passwordResetManager.emailSubmit() checks & accepts the email.
 -->
@@ -30,10 +32,12 @@ passwordResetManager.emailSubmit() checks & accepts the email.
                                 <p:inputText id="username" class="form-control" placeholder="Email Address" value="#{passwordResetManager.email}" required="true"/>
                             </div>
                             <br/>
+                            <!-- Stores email in Bean for use later in the recovery process. -->
                             <h:commandButton styleClass="btn btn-custom" id="submit" action="#{passwordResetManager.emailSubmit()}" value="Submit" /> 
                             <h:button styleClass="btn btn-default" id="cancel" outcome="login" value="Cancel" />
                         </fieldset>  
                         <br/>
+                        <!-- Error messages to display.  -->
                         <h:outputLabel value ="#{passwordResetManager.message}" />                
                     </h:form>
                 </div>

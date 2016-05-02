@@ -9,7 +9,6 @@ import com.vtlocator.sessionbeans.ItemFacade;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
@@ -24,55 +23,37 @@ import javax.inject.Named;
  */
 public class SearchManager implements Serializable {
  
+    /**
+     * Default empty constructor
+     */
     public SearchManager() {
         
     }
     
+    /**
+     * The human-readable street address associated with longitude latitude point.
+     */
     private String geocodedAddress;
+    
+    /**
+     * The latitude associated with a search by location query.
+     */
     private BigDecimal latitudeSearch = new BigDecimal(0);
+    
+    /**
+     * The longitude associated with a search by location query.
+     */
     private BigDecimal longitudeSearch = new BigDecimal(0);
+    
+    /**
+     * The query in words that was made by the user.
+     */
     private String query;
+    
+    /**
+     * Specifies the type of filter on the text query
+     */
     private String filterType;
-
-    public String getGeocodedAddress() {
-        return geocodedAddress;
-    }
-
-    public void setGeocodedAddress(String geocodedAddress) {
-        this.geocodedAddress = geocodedAddress;
-    }
-
-    public BigDecimal getLatitudeSearch() {
-        return latitudeSearch;
-    }
-
-    public void setLatitudeSearch(BigDecimal latitudeSearch) {
-        this.latitudeSearch = latitudeSearch;
-    }
-
-    public BigDecimal getLongitudeSearch() {
-        return longitudeSearch;
-    }
-
-    public void setLongitudeSearch(BigDecimal longitudeSearch) {
-        this.longitudeSearch = longitudeSearch;
-    }
-    
-    public String getQuery () {
-        return this.query;
-    }
-    
-    public void setQuery(String query) {
-        this.query = query;
-    }
-    
-    public String getFilterType () {
-        return this.filterType;
-    }
-    
-    public void setFilterType(String filterType) {
-        this.filterType = filterType;
-    }
     
      /**
      * The instance variable 'itemFacade' is annotated with the @EJB annotation.
@@ -82,16 +63,111 @@ public class SearchManager implements Serializable {
     @EJB
     private ItemFacade itemFacade;
     
+    /**
+     * 
+     */
     private List<Item> resultsList;
 
+     /**
+     * Gets the geocoded address
+     * @return geocodedAddress
+     */
+    public String getGeocodedAddress() {
+        return geocodedAddress;
+    }
+
+    /**
+     * Set the geocoded address for a search
+     * @param geocodedAddress the human-readable name for an address
+     */
+    public void setGeocodedAddress(String geocodedAddress) {
+        this.geocodedAddress = geocodedAddress;
+    }
+    
+    /**
+     * Gets the latitude for a location search
+     * @return latitude in bigdecimal form
+     */
+    public BigDecimal getLatitudeSearch() {
+        return latitudeSearch;
+    }
+
+    /**
+     * Sets the latitude for a location search
+     * @param latitudeSearch latitude for search
+     */
+    public void setLatitudeSearch(BigDecimal latitudeSearch) {
+        this.latitudeSearch = latitudeSearch;
+    }
+
+    /**
+     * Gets the longitude for a location search
+     * @return longitude in bigdecimal form
+     */
+    public BigDecimal getLongitudeSearch() {
+        return longitudeSearch;
+    }
+
+    /**
+     * Sets the longitude for a location search
+     * @param longitudeSearch longitude to be searched for
+     */
+    public void setLongitudeSearch(BigDecimal longitudeSearch) {
+        this.longitudeSearch = longitudeSearch;
+    }
+    
+    /**
+     * Gets the query string for text searches
+     * @return string of query
+     */
+    public String getQuery () {
+        return this.query;
+    }
+    
+    /**
+     * Sets the query string for text searches
+     * @param query new query string
+     */
+    public void setQuery(String query) {
+        this.query = query;
+    }
+    
+    /**
+     * Gets filter type applied to search
+     * @return string representing filter type
+     */
+    public String getFilterType () {
+        return this.filterType;
+    }
+    
+    /**
+     * Sets the filter type for query
+     * @param filterType filter type to use in search
+     */
+    public void setFilterType(String filterType) {
+        this.filterType = filterType;
+    }
+    
+    /**
+     * Gets the list of search results
+     * @return list of type item
+     */
     public List<Item> getResultsList() {
         return resultsList;
     }
 
+    /**
+     * Sets the list of search results
+     * @param resultsList item list of results
+     */
     public void setResultsList(List<Item> resultsList) {
         this.resultsList = resultsList;
     }
     
+    /**
+     * Runs a full text search, and returns results page
+     * @return results page
+     */
     public String fullTextSearch() {
         List<Item> allItems = itemFacade.fullTextQuery(this.query, this.filterType);
         resultsList = allItems;
@@ -99,6 +175,10 @@ public class SearchManager implements Serializable {
         return "lostAndFoundResults";
     }
     
+    /**
+     * Runs a location search for items
+     * @return location results page
+     */
     public String locationSearch() {
         List<Item> allItems = itemFacade.findAll();
         for (int i = 0; i < allItems.size(); i++) {

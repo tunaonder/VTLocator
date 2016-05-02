@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Sait Tuna Onder on 2016.04.05 
-Copyright © 2016 Sait Tuna Onder. All rights reserved.
+Created by VTLocator Group on 2016.04.04 
+Copyright © 2016 VTLocator. All rights reserved.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"   
@@ -11,20 +11,19 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:body>
-        <!-- Do not enter tags before the composition line since they are ignored by JSF -->
-
         <!-- This page is constructed based on the siteTemplate -->
         <ui:composition template="template/siteTemplate.xhtml">
-
 
             <!-- Create the content for this page below -->
             <ui:define name="editableContent">
                 <div align="center">
                     <h:form class="form-signin">
+                        <!--Checks if password and confirm password matches-->
                          <f:event listener="#{accountManager.validateInformation}" type="postValidate"/>
                         <div align="center">
                         <h:graphicImage url="#{resource['images:logo_primary.png']}" styleClass="login-logo" alt="VTLocator"/>
 
+                        <!-- Each column in panel grid has different styling-->
                         <h:panelGrid columns="3" cellpadding="5" columnClasses="signup-label, signup-input, signup-message">
                             <p:outputLabel for="firstName" value="First Name" />
                             <h:inputText id="firstName" class="form-control"
@@ -56,6 +55,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                             <p:message for="phone" display="icon" />
 
                             <p:outputLabel for="security_ques" value="Security Question" />
+                            <!--Security questions are provided as default. Java Bean return list of constants-->
                             <h:selectOneMenu id="security_ques" value="#{accountManager.security_question}" required="true" class="form-control">
                                  <f:selectItems value="#{accountManager.security_questions}"/>
                             </h:selectOneMenu>
@@ -69,6 +69,7 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                             <p:message for="security_ans" display="icon" />                    
 
                             <p:outputLabel for="password" value="Password" />
+                            <!-- Password must be validated to provide highest secuirty-->
                             <h:inputSecret id="password" class="form-control"
                                            required="true" label="Password" value="#{accountManager.password}" >
                                 <f:validator validatorId="passwordValidator" /> 
@@ -82,17 +83,16 @@ Copyright © 2016 Sait Tuna Onder. All rights reserved.
                             <p:message for="confirmPassword" display="icon"/>
                         </h:panelGrid>
                         <br/>
+                        <!--Create User Account with the provided information-->
                         <h:commandButton class="btn btn-custom" id="submit" value="Create Account" action="#{accountManager.createAccount()}" />   
                         <h:button class="btn btn-default" id="cancel" value="Cancel" outcome="index" /> 
                         </div>
                         <br/>
+                        <!--Display status message if correct password is not entered-->
                         <h:outputLabel value ="#{accountManager.statusMessage}" />
                     </h:form>
                 </div>
             </ui:define>
-
         </ui:composition>
-        <!-- Do not enter tags after the composition line since they are ignored by JSF -->
     </h:body>
-
 </html>

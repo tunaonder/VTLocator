@@ -1,6 +1,6 @@
 /*
- * Created by Sait Tuna Onder on 2016.04.07  * 
- * Copyright © 2016 Sait Tuna Onder. All rights reserved. * 
+ * Created by VTLocator Group on 2016.04.07  * 
+ * Copyright © 2016 VTLocator. All rights reserved. * 
  */
 package com.vtlocator.managers;
 
@@ -22,10 +22,6 @@ import org.primefaces.json.JSONArray;
 import org.primefaces.json.JSONException;
 import org.primefaces.json.JSONObject;
 
-/**
- *
- * @author Onder
- */
 @ManagedBean
 @SessionScoped
 @Named(value = "buildingManager")
@@ -35,12 +31,10 @@ public class BuildingManager implements Serializable {
     private String selectedBuildingName;
     //Selected Building to get direction from. Route will be from here to selectedBuildingName
     private String selectedStartPoint;
-
     //List of All Buildings Names From Restful Service
     private List<String> buildingNamesJSON;
-
     //Restful Requests Base URL
-    private final String baseUrl = "http://jupiter.cs.vt.edu/VTBuildingsData/webresources/buildings/";
+    private final String baseUrl = "http://orca.cs.vt.edu/VTBuildingsJAX-RS/webresources/vtBuildings/";
 
     //Building Values
     private double lat;
@@ -48,14 +42,11 @@ public class BuildingManager implements Serializable {
     private String imageUrl;
     private String description;
 
-    //Second Building Values
+    //Second Building Values to get Direction
     private double lat2;
     private double lng2;
 
-    //Center Of The Map (Virginia Tech Coordinates)
-    private double vtLat = 37.227264;
-    private double vtLong = -80.420745;
-
+    //Check if GET DIRECTION button pressed. This is used to render page when button is clicked
     private boolean directionPressed;
 
     //Selected building category from building category list
@@ -63,93 +54,12 @@ public class BuildingManager implements Serializable {
     //List of All categories from Restul service
     private List<String> buildingCategoriesJSON;
 
+    //Name of the selected category
     private String jsonCategory;
 
-    
-    //DOCUMENTATION STARTED
+    //Direction Button
     private boolean directionAvailable;
     private boolean categoryAvailable;
-
-    @PostConstruct
-    public void init() {
-
-        setInitialValues();
-
-        JSONArray json;
-        buildingNamesJSON = new ArrayList<>();
-        try {
-            //Get Names Of all Buildings from Restful Service
-            String url = baseUrl + "names";
-            json = new JSONArray(readJSON(url));
-
-            int counter = 0;
-            //Get Names of Buildings From JSON Data and make a building names List
-            while (json != null && json.length() > counter) {
-                buildingNamesJSON.add(json.getJSONObject(counter).get("name").toString());
-                counter++;
-            }
-        } catch (JSONException ex) {
-        } catch (Exception ex) {
-            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        //Read all building categories from  ../VTBuildingsData/webresources/buildings/categories
-        buildingCategoriesJSON = new ArrayList<>();
-        try {
-            //Get Names Of all Buildings from Restful Service
-            String url = baseUrl + "categories";
-            json = new JSONArray(readJSON(url));
-
-            int counter = 0;
-            //Get Categories of Buildings From JSON Data and make a building names List
-            while (json != null && json.length() > counter) {
-                buildingCategoriesJSON.add(json.getJSONObject(counter).get("category").toString());
-                counter++;
-            }
-        } catch (JSONException ex) {
-        } catch (Exception ex) {
-            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    private void setInitialValues() {
-
-        imageUrl = null;
-        categoryAvailable = false;
-        directionAvailable = false;
-        selectedBuildingName = "";
-        selectedStartPoint = "";
-        buildingCategory = "";
-        jsonCategory = "";
-        lat = 0;
-        lng = 0;
-        lat2 = 0;
-        lng2 = 0;
-        description = "";
-        directionPressed = false;
-    }
-
-    //This method Returns JSON data as String from Given URL
-    public String readJSON(String urlString) throws Exception {
-        BufferedReader reader = null;
-        try {
-            URL url = new URL(urlString);
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            StringBuilder buffer = new StringBuilder();
-
-            int read;
-            char[] chars = new char[10240];
-            while ((read = reader.read(chars)) != -1) {
-                buffer.append(chars, 0, read);
-            }
-            return buffer.toString();
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
-    }
 
     public List<String> getBuildingNamesJSON() {
         return buildingNamesJSON;
@@ -181,22 +91,6 @@ public class BuildingManager implements Serializable {
 
     public void setLng(double lng) {
         this.lng = lng;
-    }
-
-    public double getVtLat() {
-        return vtLat;
-    }
-
-    public void setVtLat(double vtLat) {
-        this.vtLat = vtLat;
-    }
-
-    public double getVtLong() {
-        return vtLong;
-    }
-
-    public void setVtLong(double vtLong) {
-        this.vtLong = vtLong;
     }
 
     public String getImageUrl() {
@@ -287,36 +181,51 @@ public class BuildingManager implements Serializable {
         this.categoryAvailable = categoryAvailable;
     }
 
-    //Gets All Data From Selected Json Object and Parse it. Therefore, view can be updated with the information of selected building
-    public void displayBuildingInformation() throws IOException {
+        /**
+     * This function initializes the bean for all buildings functionality
+     * and should be called whenever the page is navigated to.
+     */
+    @PostConstruct
+    public void init() {
 
-        //If category is choosen before set it to empty, so dont display building category name in its own dropdown
-        buildingCategory = "";
-        categoryAvailable = false;
+        //Initilize All Variables
+        setInitialValues();
 
-        JSONObject json;
+        //-----------------Send get request for building names list------------------
+        //Read all building names from  ../VTBuildingsData/webresources/buildings/names
+        JSONArray json;
+        buildingNamesJSON = new ArrayList<>();
         try {
-            //Replace Space with %20
-            String modifiedBuildingName = selectedBuildingName.replaceAll(" ", "%20");
-            //Replace Slah character with %2F
-            modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
-            //Create Restful Request Url
-            String restfulUrl = baseUrl + modifiedBuildingName;
-            //Return Result As JSON
-            json = new JSONObject(readJSON(restfulUrl));
-            //Get Specific Data from Returned Json
-            lat = json.getDouble("latitude");
-            lng = json.getDouble("longitude");
-            imageUrl = json.getString("image");
-            //Url Has a description as txt. Read all String from Url and add it to description Variable
-            URL url = new URL(json.getString("description"));
-            try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
-                String str;
-                while ((str = in.readLine()) != null) {
-                    description = str;
-                }
-            }
+            //Get Names Of all Buildings from Restful Service
+            String url = baseUrl + "names";
+            json = new JSONArray(readUrlContent(url));
 
+            int counter = 0;
+            //Get Names of Buildings From JSON Data and make a building names List
+            while (json != null && json.length() > counter) {
+                buildingNamesJSON.add(json.getJSONObject(counter).get("name").toString());
+                counter++;
+            }
+        } catch (JSONException ex) {
+        } catch (Exception ex) {
+            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //--------------------------------------------------------------------------
+
+        //-----------------Send get request for building categories list-----------------------
+        //Read all building categories from  ../VTBuildingsData/webresources/buildings/categories
+        buildingCategoriesJSON = new ArrayList<>();
+        try {
+            //Get Names Of all Buildings from Restful Service
+            String url = baseUrl + "categories";
+            json = new JSONArray(readUrlContent(url));
+
+            int counter = 0;
+            //Get Categories of Buildings From JSON Data and make a building names List
+            while (json != null && json.length() > counter) {
+                buildingCategoriesJSON.add(json.getJSONObject(counter).get("category").toString());
+                counter++;
+            }
         } catch (JSONException ex) {
         } catch (Exception ex) {
             Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -324,12 +233,115 @@ public class BuildingManager implements Serializable {
 
     }
 
+    /**
+     * This function resets the initial values of this.
+     */
+    private void setInitialValues() {
+
+        imageUrl = null;
+        categoryAvailable = false;
+        directionAvailable = false;
+        selectedBuildingName = "";
+        selectedStartPoint = "";
+        buildingCategory = "";
+        jsonCategory = "";
+        lat = 0;
+        lng = 0;
+        lat2 = 0;
+        lng2 = 0;
+        description = "";
+        directionPressed = false;
+    }
+
+    /**
+     * This method Returns JSON data as String from Given URL
+     * @param urlString the url to request data from
+     * @return the JSON data from the given URL
+     * @throws Exception
+     */
+    public String readUrlContent(String urlString) throws Exception {
+        BufferedReader reader = null;
+        try {
+            URL url = new URL(urlString);
+            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            StringBuilder buffer = new StringBuilder();
+
+            int read;
+            char[] chars = new char[10240];
+            while ((read = reader.read(chars)) != -1) {
+                buffer.append(chars, 0, read);
+            }
+            return buffer.toString();
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
+    
+    /**
+     * Gets All Data From Selected JSON Object and Parse it. 
+     * Therefore, view can be updated with the information of selected building
+     * @throws Exception if an error occurred during the request
+     */
+    public void displayBuildingInformation() throws Exception {
+
+        //If category is choosen from the category dropdown, set it to its initial stage.
+        buildingCategory = "";
+        //Make Category button unclickable.
+        categoryAvailable = false;
+
+        //--------------Send a get request with the name of selected building---------------------------------
+        JSONObject json;
+        try {
+            //Replace Space with %20
+            String modifiedBuildingName = selectedBuildingName.replaceAll(" ", "%20");
+            //Replace Slash character with %2F
+            modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
+            //Create Restful Request Url
+            String restfulUrl = baseUrl + "names/" +modifiedBuildingName;
+            //Return Result As JSON
+            json = new JSONObject(readUrlContent(restfulUrl));
+            //Get Specific Data from Returned Json
+            lat = json.getDouble("latitude");
+            lng = json.getDouble("longitude");
+            imageUrl = json.getString("imageUrl");
+            //Url Has a description as txt. Read all String from Url and add it to description Variable
+            String descriptionUrl = json.getString("descriptionUrl");
+
+            //Description will be read from url 
+            description = readUrlContent(descriptionUrl);
+
+        } catch (JSONException ex) {
+        } catch (Exception ex) {
+            Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //-----------------------------------------------------------------------------------------------------
+
+    }
+
+    /**
+     * When Direction Button is Clicked set a variable true. 
+     * So that side bar interface can be rendered to interface with direction 
+     * functionality components.
+     */
     public void directionButtonPressed() {
         directionPressed = true;
 
     }
 
-    //This Methods sets the Coordinates of starting point for routes
+    /**
+     * When User click the refresh button, take the side bar interface to 
+     * its initial stage
+     */
+    public void refreshForm() {
+        directionPressed = false;
+
+    }
+
+    /**
+     * Sets the Coordinates of starting point for routes
+     */
     public void createStartPoint() {
 
         JSONObject json;
@@ -340,17 +352,19 @@ public class BuildingManager implements Serializable {
             //Replace Slah character with %2F
             modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
             //Create Restful Request Url
-            String restfulUrl = baseUrl + modifiedBuildingName;
-            json = new JSONObject(readJSON(restfulUrl));
+            String restfulUrl = baseUrl + "names/" + modifiedBuildingName;
+            json = new JSONObject(readUrlContent(restfulUrl));
             lat2 = json.getDouble("latitude");
             lng2 = json.getDouble("longitude");
         } catch (JSONException ex) {
         } catch (Exception ex) {
             Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
+    /**
+     * Sets the Coordinates of destination point for routes
+     */
     public void createDestinationPoint() {
         JSONObject json;
         try {
@@ -359,9 +373,9 @@ public class BuildingManager implements Serializable {
             //Replace Slah character with %2F
             modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
             //Create Restful Request Url
-            String restfulUrl = baseUrl + modifiedBuildingName;
+            String restfulUrl = baseUrl + "names/" + modifiedBuildingName;
             //Return Result As JSON
-            json = new JSONObject(readJSON(restfulUrl));
+            json = new JSONObject(readUrlContent(restfulUrl));
             //Get Specific Data from Returned Json
             lat = json.getDouble("latitude");
             lng = json.getDouble("longitude");
@@ -371,16 +385,14 @@ public class BuildingManager implements Serializable {
         }
     }
 
-    public void refreshForm() {
-        directionPressed = false;
-
-    }
-
-    //This method creates buildings array list with the provided category
-    //Works same as searchBuilding(). All buildings are added to buildings array list.
-    //So that users can only view buildings from specific category
+    /**
+     * Take the all json data for a selected category into a variable
+     * This json data is parsed in java script
+     * It is trasfered to java script with hidden input jsonResult
+     */
     public void searchByCategory() {
 
+        //When a category is selected, set the values of selected building to its initial stage.
         selectedBuildingName = "";
         directionAvailable = false;
         description = "";
@@ -391,7 +403,7 @@ public class BuildingManager implements Serializable {
 
             //Create Restful Request Url
             String restfulUrl = baseUrl + modifiedCategoryName;
-            jsonCategory = readJSON(restfulUrl);
+            jsonCategory = readUrlContent(restfulUrl);
 
         } catch (JSONException ex) {
         } catch (Exception ex) {
@@ -400,6 +412,9 @@ public class BuildingManager implements Serializable {
 
     }
 
+    /**
+     * If a Building is not selected make get directions button unclickable
+     */
     public void changeDirectionAvailableStatus() {
         if (selectedBuildingName.equals("")) {
             directionAvailable = false;
@@ -409,6 +424,9 @@ public class BuildingManager implements Serializable {
 
     }
 
+    /**
+     * If a category is not selected make display buildings button unclickable
+     */
     public void changeCategoryAvailableStatus() {
         if (buildingCategory.equals("")) {
             categoryAvailable = false;
@@ -418,44 +436,47 @@ public class BuildingManager implements Serializable {
 
     }
 
-    //Gets All Data From Selected Json Object and Parse it. Therefore, view can be updated with the information of selected building
-    public void displayBuildingInformationFromMarker() throws IOException {
+    /**
+     * Gets All Data From Selected Json Object and Parse it. Therefore, 
+     * view can be updated with the information of selected building
+     * This method will be called when user clicks a marker
+     * @throws Exception if request was unsuccessful
+     */
+    public void displayBuildingInformationFromMarker() throws Exception {
 
+        //Get the Name of selected building from html
         String value = FacesContext.getCurrentInstance().
                 getExternalContext().getRequestParameterMap().get("dropDownForm:clickedBuildingMarker");
 
-        //If category is choosen before set it to empty, so dont display building category name in its own dropdown
+        //If category is choosen from the category dropdown, set it to its initial stage.
         buildingCategory = "";
         categoryAvailable = false;
 
+        //--------------Send a get request with the name of selected building---------------------------------
         JSONObject json;
         try {
             //Replace Space with %20
             String modifiedBuildingName = value.replaceAll(" ", "%20");
-            //Replace Slah character with %2F
+            //Replace Slash character with %2F
             modifiedBuildingName = modifiedBuildingName.replace("/", "%2F");
             //Create Restful Request Url
-            String restfulUrl = baseUrl + modifiedBuildingName;
+            String restfulUrl = baseUrl + "names/" + modifiedBuildingName;
             //Return Result As JSON
-            json = new JSONObject(readJSON(restfulUrl));
+            json = new JSONObject(readUrlContent(restfulUrl));
             //Get Specific Data from Returned Json
             lat = json.getDouble("latitude");
             lng = json.getDouble("longitude");
-            imageUrl = json.getString("image");
+            imageUrl = json.getString("imageUrl");
             //Url Has a description as txt. Read all String from Url and add it to description Variable
-            URL url = new URL(json.getString("description"));
-            try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
-                String str;
-                while ((str = in.readLine()) != null) {
-                    description = str;
-                }
-            }
+            String descriptionUrl = json.getString("descriptionUrl");
+
+            //Description will be read from url 
+            description = readUrlContent(descriptionUrl);
 
         } catch (JSONException ex) {
         } catch (Exception ex) {
             Logger.getLogger(BuildingManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        //-----------------------------------------------------------------------------------------------------
     }
-
 }

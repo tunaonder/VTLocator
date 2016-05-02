@@ -1,4 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
+<!--
+Created by VTLocator Group on 2016.04.04 
+Copyright © 2016 VTLocator. All rights reserved.
+-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
@@ -10,15 +14,20 @@
     <!-- This page is constructed based on the siteTemplate -->
     <ui:composition template="template/siteTemplate.xhtml">
         <ui:define name="editableContent">
+            <!-- Custom style to enable proper footer alignment on pages without sidebar -->
             <style>body {height: auto;}</style>
+            <!-- Jumbotron display containing grayscale map of Blacksburg, VA and a greeting -->
             <div class="jumbotron landing-jumbotron" align="center">
                 <div class="jumbotron-text">
                     <h1>Welcome to VTLocator!</h1>
                     <h1><i class="fa fa-chevron-down"></i></h1>
                 </div>
             </div>
+            <!-- Container element to improve readability on wide screen displays by padding the sides in -->
             <div class="container">
+                <!-- VTLocator descriptor -->
                 <h2>A location-based web application for Virginia Tech students, faculty, and staff</h2>
+                <!-- Unordered list element containing bullet points that explain the functionalities of VTLocator -->
                 <h3>
                     <ul>
                         <li>Find the location of any building on campus, a picture, and a short description</li>
@@ -27,10 +36,10 @@
                         <li>Find your lost items or help others get their belongings back</li>
                     </ul>
                 </h3>
+                <!-- Inclusion of the VTLocator logo at the bottom of the home page for aesthetics -->
                 <img class="img-responsive" style="margin: 60px auto;" src="resources/images/logo_primary.png"/>
                 <h4>Built by: Sean Goodrich, Sait Tuna Onder, Jaemin Seo, Michael Steele, Sebastian Welsh</h4>
             </div>
         </ui:define>
     </ui:composition>
-    <!-- Do not enter tags after the composition line since they are ignored by JSF -->
 </html>

@@ -1,10 +1,11 @@
 /*
- * Created by Michael Steele on 2016.03.15  * 
- * Copyright © 2016 Michael Steele. All rights reserved. * 
+ * Created by VTLocator Group on 2016.03.15  * 
+ * Copyright © 2016 VTLocator. All rights reserved. * 
  */
 package com.vtlocator.managers;
 
 import com.vtlocator.jpaentityclasses.User;
+import com.vtlocator.jsfclasses.util.CipherService;
 import com.vtlocator.sessionbeans.UserFacade;
 import java.io.Serializable;
 import javax.ejb.EJB;
@@ -12,17 +13,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-/*
-#1 confirms that the users entered username and password match what's stored on the DB
-#2 creates a session for the user
+/**
+ * This class confirms that the users entered username and password match 
+ * what's stored on the DB and creates a session for the user
 */
-
 @ManagedBean(name = "loginManager")
 @SessionScoped
-/**
- *
- * @author Michael
- */
 public class LoginManager implements Serializable {
 
   private String email;
@@ -38,27 +34,27 @@ public class LoginManager implements Serializable {
   private UserFacade userFacade;
 
   /**
+   * CipherService declaration and instantiation to be used by this class.
+   */
+  private CipherService cipherService = new CipherService();
+  /**
    * Creates a new instance of LoginManager
    */
   public LoginManager() {
   }
 
-  
-
+  /**
+   * @return the email
+   */
   public String getEmail() {
         return email;
   }
-
+  
+  /**
+   * @param email the email address
+   */
   public void setEmail(String email) {
         this.email = email;
-  }
-    
-  public String createUser() {
-    return "CreateAccount"; //TODO we don't know page names
-  }
-  
-  public String resetPassword() {
-      return "EnterUsername?faces-redirect=true"; //TODO we don't know page names
   }
 
   /**
@@ -89,22 +85,36 @@ public class LoginManager implements Serializable {
     this.errorMessage = errorMessage;
   }
 
+  /**
+   * This method logs in the given user.
+   * @return redirect string depending on success of failure of auth
+   */
   public String loginUser() {
     User user = userFacade.findByEmail(getEmail());
+    //If there isnt such a user in database return ""
     if (user == null) {
       errorMessage = "Invalid email or password!";
       return "";
     } else {
-      if (user.getEmail().equals(getEmail()) && user.getPassword().equals(getPassword())) {
+        //Check if the hash of the provided password is same with the actual password in the DB
+      if (user.getEmail().equals(getEmail()) 
+              && user.getPassword().equals(cipherService.hash(getPassword()))) {
         errorMessage = "";
+        //Start the session map
         initializeSessionMap(user);
-        return "buildings"; //TODO should return profile page
+        //Navigate to buildings
+        return "buildings"; 
       }
+      //If given information is not correct give an error message
       errorMessage = "Invalid email or password!";
       return "";
     }
   }
 
+  /**
+   * Add necessary information of user into current session map
+   * @param user the user to initialize to the session map
+   */
   public void initializeSessionMap(User user) {
     FacesContext.getCurrentInstance().getExternalContext().
             getSessionMap().put("first_name", user.getFirstName());

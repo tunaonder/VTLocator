@@ -5,6 +5,7 @@
 package com.vtlocator.managers;
 
 import com.vtlocator.jpaentityclasses.User;
+import com.vtlocator.jsfclasses.util.CipherService;
 import com.vtlocator.sessionbeans.UserFacade;
 import java.io.Serializable;
 import javax.ejb.EJB;
@@ -16,23 +17,30 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
 
-/*
-Contains all the logic for changing the user's password in the DB.
-Only possible after the user has entered correct security questions.
-*/
-
 @Named(value = "passwordResetManager")
 @SessionScoped
 /**
- *
+ * Contains all the logic for changing the user's password in the DB.
+ * Only possible after the user has entered correct security questions.
  * @author Michael
  */
 public class PasswordResetManager implements Serializable{
     
-    // Instance Variables (Properties)
+    /**
+     * Email entered to identify account to reset.
+     */
     private String email;
+    /**
+     * Variable for success/error messages to display.
+     */
     private String message = "";
+    /**
+     * Holds security question answer entered by user.
+     */
     private String answer;
+    /**
+     * Holds new password entered by user.
+     */
     private String password;
     
     /**
@@ -42,6 +50,11 @@ public class PasswordResetManager implements Serializable{
      */
     @EJB
     private UserFacade userFacade;
+    
+    /**
+     * CipherService declaration and instantiation to be used by this class.
+     */
+    private CipherService cipherService = new CipherService();
     
     public String getEmail() {
         return email;
@@ -59,7 +72,10 @@ public class PasswordResetManager implements Serializable{
         this.message = message;
     }
         
-    // gets the username from the db
+    /**
+     * gets the username from the db
+     * @return Page to redirect to.
+     */
     public String emailSubmit() {
         User user = userFacade.findByEmail(email);
         if (user == null) {
@@ -72,7 +88,10 @@ public class PasswordResetManager implements Serializable{
         }
     }
     
-    // submits the security questionss
+    /**
+     * Submits the security questions
+     * @return Page to redirect to.
+     */
     public String securityquestionSubmit() {
         User user = userFacade.findByEmail(email);
         if (user.getSecurityAnswer().equals(answer)) {
@@ -98,7 +117,10 @@ public class PasswordResetManager implements Serializable{
         this.answer = answer;
     }
 
-    // checks to see if the users username and password match
+    /**
+     * Checks to see if the users username and password match
+     * @param event Multiple information input by the user.
+     */
     public void validateInformation(ComponentSystemEvent event) {
         FacesContext fc = FacesContext.getCurrentInstance();
 
@@ -133,13 +155,16 @@ public class PasswordResetManager implements Serializable{
     public void setPassword(String password) {
         this.password = password;
     }
-    // Sets the users pass to the given password
+    /**
+     * Sets the users pass to the given password
+     * @return Page to redirect to.
+     */
     public String resetPassword() {
         if (message.equals("")) {
             message = "";
             User user = userFacade.findByEmail(email);
             try {
-                user.setPassword(password);
+                user.setPassword(cipherService.hash(password));
                 userFacade.edit(user);
                 email = answer = password = "";                
             } catch (EJBException e) {
@@ -153,13 +178,18 @@ public class PasswordResetManager implements Serializable{
         }
     }
     
+    /**
+     * This function called after users entered correct security questions.
+     * Allows user to set password of the recovered account.
+     * @return Redirect page.
+     */
     public String changePassword() {
         if (message.equals("")) {
             message = "";
             int user_id = (int) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user_id");
             User user = userFacade.getUser(user_id);
             try {
-                user.setPassword(password);
+                user.setPassword(cipherService.hash(password));
                 userFacade.edit(user);
                 email = answer = password = "";                
             } catch (EJBException e) {

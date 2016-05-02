@@ -1,4 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
+<!--
+Created by VTLocator Group on 2016.04.04 
+Copyright © 2016 VTLocator. All rights reserved.
+-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
@@ -11,6 +15,7 @@
         <!-- Do not enter tags before the composition line since they are ignored by JSF -->
         <ui:composition template="template/siteTemplate.xhtml">
             <ui:define name="sidebar">
+                <!-- template that includes sidebar for searching by location and text-->
                 <ui:include src="template/itemSearch.xhtml"></ui:include>
             </ui:define>
             <ui:define name="mainPanel">
@@ -22,22 +27,27 @@
                         <div class="col-md-6"><p><b>Find an item and not sure who the owner is?</b><br />  Create a new lost item post such that the community can see what you found.  It is just a matter of time before the true owner is located and reunited with their belonging.</p></div>
                     </div>
                     <hr/>
+                    <!-- navigates to a page with all items, in order of recency-->
                     <a href="viewAllItems.xhtml" class="pull-right view-all-link">View All</a>
                     <h4 style="margin-bottom: 40px;">Recently Found Items:</h4>
                     
                     <div class="row">
+                        <!-- form is in place to allow navigation to individual item detail pages-->
                          <h:form class="detailPage">
+                             <!-- ui repeat is used to populate list of items in identical format on the page -->
                         <ui:repeat var="item" value="#{itemManager.recent}" varStatus="status">
-                        <h:commandLink action="#{itemManager.detailPage(item.id)}" >
-                        <div class="col-md-4 item-list-view-wrapper">
-                            <div class="item-list-view text-center">
-                                <img src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}"/>
-                                <h3 class="item-title">#{itemManager.ellipsesTitle(item.name)}</h3>
-                                <p class="item-description">#{itemManager.ellipsesDescription(item.description)}</p>
+                            <!-- this is the link to the item detail page which is wrapped around the entire item tile-->
+                            <h:commandLink action="#{itemManager.detailPage(item.id)}" >
+                            <div class="col-md-4 item-list-view-wrapper">
+                                <div class="item-list-view text-center">
+                                    <!-- item details-->
+                                    <img src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}"/>
+                                    <h3 class="item-title">#{itemManager.ellipsesTitle(item.name)}</h3>
+                                    <!-- item description that is shortened for a uniform size so tile styling is consistent-->
+                                    <p class="item-description">#{itemManager.ellipsesDescription(item.description)}</p>
+                                </div>
                             </div>
-                        </div>
-                        </h:commandLink>
-
+                            </h:commandLink>
                         </ui:repeat>
                          </h:form>
                     </div>
@@ -45,6 +55,7 @@
                     <h4>Subscribe to a lost item thread:</h4>
                     <p>Be notified whenever a new item is posted to one or more of the following categories.  Simply let us know which categories you wish to subscribe to below...</p>
                     <h:form class="form-subscribe">
+                        <!-- the user can select any number of these. Their current preferences are populated as well-->
                         <p:selectManyCheckbox id="basic" layout="pageDirection" value="#{accountManager.selectedSubscriptions}">
                             <f:selectItem itemLabel="Cell Phones" itemValue="PHONE" />
                             <f:selectItem itemLabel="Hokie Passport" itemValue="HOKIE_PASSPORT" />
@@ -53,6 +64,7 @@
                             <f:selectItem itemLabel="Clothing" itemValue="CLOTHING" />
                             <f:selectItem itemLabel="Other" itemValue="OTHER" />
                         </p:selectManyCheckbox>
+                        <!-- this button takes the results of the selectItems and updates the preferences for the user in the database-->
                         <h:commandButton class="btn btn-custom btn-subscription" id="submit" value="Save These Settings" />   
                     </h:form>
                 </div>

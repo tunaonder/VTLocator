@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Created by Sebastian Welsh on 2016.04.21 
-Copyright © 2016 Sebastian Welsh. All rights reserved.
+Created by VTLocator Group on 2016.04.04
+Copyright © 2016 VTLocator. All rights reserved.
 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
@@ -20,27 +20,31 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
             <ui:define name="mainPanel">
                 <div class="lost-and-found-home-wrapper">
                     <h:button outcome="createItem" class="btn btn-lg btn-default pull-right" value="Post Item" />
-                    <h1>Your Current Items:</h1> 
+                    <h1>Your Current Items:</h1>
                     <div class="row">
                         <!--panelgroup to force ajax update-->
                         <h:panelGroup id="item-list">
                             <h:form>
+                                <!--A ui:repeat allows the jsf to create components dynamically. this is only rendered when user has uploaded items -->
                                 <ui:repeat var="i" value="#{itemManager.userItems}" rendered="#{itemManager.userItems.size() > 0}" id="item-repeat">
                                     <div class="col-md-12">
+                                        <!--arrange items in well-->
                                         <div class="manage-item-view well">
                                             <div class="row">
                                                 <div class="col-xs-3">
                                                     <img class="pull-left" src="FileStorageLocation/#{itemManager.getMainImageByItemId(i.id)}" />
                                                 </div>
+                                                <!--name, view, edit, resolve, delete buttons-->
                                                 <div class="col-xs-6">
                                                     <span>
                                                         <h3>#{i.name}</h3>
                                                         <h:commandButton action="#{itemManager.detailPage(i.id)}" styleClass="btn btn-sm btn-custom" value="View" />
                                                         <h:commandButton action="#{itemManager.edit(i.id)}" styleClass="btn btn-sm btn-default" value="Edit" />
                                                         <h:commandButton action="#{itemManager.resolve(i.id)}" styleClass="btn btn-sm btn-default" value="Resolve" />
-                                                        <h:commandButton action="#{itemManager.delete(i.id)}" styleClass="btn btn-sm btn-default" value="Delete" /> 
+                                                        <h:commandButton action="#{itemManager.delete(i.id)}" styleClass="btn btn-sm btn-default" value="Delete" />
                                                     </span>
                                                 </div>
+                                                <!--shows date in a nice format-->
                                                 <div class="col-xs-3 text-right">
                                                     <h:outputLabel styleClass="item-date" value="#{i.getFancyDate()}"/>
                                                 </div>
@@ -49,7 +53,8 @@ Copyright © 2016 Sebastian Welsh. All rights reserved.
                                     </div>
                                 </ui:repeat>
                             </h:form>
-                            </h:panelGroup>
+                        </h:panelGroup>
+                        <!--rendered when user has no items-->
                         <h3><h:outputLabel rendered="#{itemManager.userItems == null || itemManager.userItems.size() == 0}">No items found</h:outputLabel></h3>
                     </div>
                 </div>

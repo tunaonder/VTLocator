@@ -1,6 +1,6 @@
 /* 
- * Created by Sait Tuna Onder on 2016.04.24  * 
- * Copyright © 2016 Sait Tuna Onder. All rights reserved. * 
+ * Created by VTLocator Group on 2016.04.24  * 
+ * Copyright © 2016 VTLocator. All rights reserved. * 
  */
 
 /* global i, google, infowindow */
@@ -11,11 +11,13 @@ var directionsDisplay;
 var routeRefreshed = false;
 var currentMarker = null;
 
-
-
-//Initiliaze Map
+/**
+ * Initiliaze Map for buildings functionality
+ * @returns {undefined}
+ */
 function initilaizeMap() {
 
+    //Set the Map features
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
         center: {lat: 37.227264, lng: -80.420745},
@@ -28,9 +30,10 @@ function initilaizeMap() {
     });
 }
 
-
-
-//Displays location of selected building
+/**
+ * Displays location of selected building
+ * @returns {undefined}
+ */
 function displayBuilding() {
 
     refreshMap();
@@ -52,26 +55,33 @@ function displayBuilding() {
 
     });
 
+    //Add the marker to the map
     currentMarker.setMap(map);
-
 
 }
 
+/**
+ * Display all buildings in a specific category
+ * @returns {undefined}
+ */
 function displayBuildingLocations() {
 
+    //First refresh map information
     refreshMap();
     
+    //Get the json data which is already fetched from restful server
     var json = JSON.parse(document.getElementById("dropDownForm:jsonResult").value);
     var count = json.length;
     
-    
+    //Infovindow is used to display name of the building on the marker
     var infoWindow = new google.maps.InfoWindow();
     
     i = 0;
 
+    //Iterate all buildings in a specific category
     while (i < count) {
         var marker = null;
-        //Create Marker
+        //Create Marker with buildings coordinates and name
         marker = new google.maps.Marker({
             position: new google.maps.LatLng(json[i].latitude,
                     json[i].longitude),
@@ -80,11 +90,14 @@ function displayBuildingLocations() {
 
         });
         
+        //Add marker to the map
         marker.setMap(map);
         
+        //When user click on marker user can view its name on the map
         google.maps.event.addListener(marker, "click", function (evt) {
             infoWindow.setContent(this.get('title'));
             infoWindow.open(map, this);
+            //Display selected building image and description
             buildingInfoFromTitle(this.get('title'));
         });  
 
@@ -95,18 +108,23 @@ function displayBuildingLocations() {
 
 }
 
-function buildingInfoFromTitle(title){
-    
+/**
+ * Get the building informations fo a selected building
+ * @param {type} title the title information for the building info panel
+ * @returns {undefined}
+ */
+function buildingInfoFromTitle(title) {
+    //Update the value of selected building
     document.getElementById("dropDownForm:clickedBuildingMarker").value = title;
+    //Trigger a hidden button click. Java bean will be triggered and selected building information will be updated
     $(".hidden-marker-button").click();
-
 }
 
-
-
-//Add starting point and draw route to destination
+/**
+ * Add starting point and draw route to destination
+ * @returns {undefined}
+ */
 function drawRoute() {
-
 
     //Check If Starting Building Selected
     if (document.getElementById("dropDownForm:startBuildingLat").value === '0.0') {
@@ -123,10 +141,12 @@ function drawRoute() {
             currentMarker.setMap(null);
 
         }
-
+        
+        //Set the current marker to null
         currentMarker = null;
         directionsDisplay = new google.maps.DirectionsRenderer;
         directionsDisplay.setMap(map);
+        
         //Coordinates of starting building and destination building
         var start = new google.maps.LatLng(document.getElementById("dropDownForm:startBuildingLat").value.toString(), document.getElementById("dropDownForm:startBuildingLong").value.toString());
         var end = new google.maps.LatLng(document.getElementById("dropDownForm:buildingLat").value.toString(), document.getElementById("dropDownForm:buildingLong").value.toString());
@@ -137,35 +157,46 @@ function drawRoute() {
         };
 
         directionsService.route(request, function (response, status) {
-
+            
+            //If a direction is returned
             if (status === google.maps.DirectionsStatus.OK) {
 
+                //Display the route
                 directionsDisplay.setDirections(response);
                 
+                //Duration is returned as seconds from the API. Divide it by 60 to find minutes
                 var minutes = response.routes[0].legs[0].duration.value/60;
                 minutes = minutes.toFixed(2);
                 
+                //Find the seconds by using mod 60
                 var seconds = response.routes[0].legs[0].duration.value%60;
                 seconds = seconds.toFixed(2);
+                //Generate final duration
                 var durationValue = minutes + ' min ' + seconds + ' sec';
           
+                //Api returns the distance as meters. One meter equals to 0.000621371192 miles
                 var miles = 0.000621371192 * response.routes[0].legs[0].distance.value;
                 miles = miles.toFixed(2);
                 
+                //Display distance and duration on the map
                 document.getElementById("dropDownForm:distanceValue").innerHTML = miles  + ' miles';
                 document.getElementById("dropDownForm:durationValue").innerHTML = durationValue;
 
 
             }
         });
-
+        
+        //Route is refreshed
         routeRefreshed = true;
     }
 
 
 }
 
-//Clear All Data On The Map
+/**
+ * Clear All Data On The Map
+ * @returns {undefined}
+ */
 function refreshMap() {
 
     currentMarker = null;
@@ -183,6 +214,10 @@ function refreshMap() {
     initilaizeMap();
 }
 
+/**
+ * Reset current marker
+ * @returns {undefined}
+ */
 function resetMarker(){
      if (currentMarker !== null) {
         currentMarker.setMap(null);
