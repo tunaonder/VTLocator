@@ -187,15 +187,12 @@ public class AccountManager implements Serializable {
      * @return redirect string after the action is complete
      */
     public String createAccount() {
-
         // Check to see if a user already exists with the email given.
         User aUser = userFacade.findByEmail(email);
-
         if (aUser != null) {
             email = "";
             return "";
         }
-
         if (statusMessage.isEmpty()) { // set all fields in cust obj
             try {
                 User user = new User();

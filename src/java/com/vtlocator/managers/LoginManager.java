@@ -97,8 +97,8 @@ public class LoginManager implements Serializable {
       return "";
     } else {
         //Check if the hash of the provided password is same with the actual password in the DB
-      if (user.getEmail().equals(getEmail()) 
-              && user.getPassword().equals(cipherService.hash(getPassword()))) {
+        if (user.getEmail().equals(getEmail()) 
+            && user.getPassword().equals(cipherService.hash(getPassword()))) {
         errorMessage = "";
         //Start the session map
         initializeSessionMap(user);
