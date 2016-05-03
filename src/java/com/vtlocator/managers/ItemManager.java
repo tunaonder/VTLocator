@@ -283,7 +283,11 @@ public class ItemManager implements Serializable {
      */
     public String ellipsesDescription(String str) {
         if (str != null && str.length() > 45) {
-            return str.substring(0, str.indexOf(' ', 40)) + "...";
+            int endIndex = str.indexOf(' ', 40);
+            if (endIndex == -1) {
+                endIndex = 40;
+            }
+            return str.substring(0, endIndex) + "...";
         }
         return str;
     }
@@ -378,7 +382,7 @@ public class ItemManager implements Serializable {
         try {
             if (detailItem != null) {
                 Item item = detailItem;
-                item.setCategory(this.category);
+                item.setCategory(detailItem.getCategory());
                 item.setDateFound(detailItem.getDateFound());
                 item.setLatitudeFound(this.latitudeFound);
                 item.setLongitudeFound(this.longitudeFound);
