@@ -33,23 +33,23 @@ Copyright © 2016 VTLocator. All rights reserved.
                     
                     <div class="row">
                         <!-- form is in place to allow navigation to individual item detail pages-->
-                         <h:form class="detailPage">
-                             <!-- ui repeat is used to populate list of items in identical format on the page -->
-                        <ui:repeat var="item" value="#{itemManager.recent}" varStatus="status">
-                            <!-- this is the link to the item detail page which is wrapped around the entire item tile-->
-                            <h:commandLink action="#{itemManager.detailPage(item.id)}" >
-                            <div class="col-md-4 item-list-view-wrapper">
-                                <div class="item-list-view text-center">
-                                    <!-- item details-->
-                                    <img src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}"/>
-                                    <h3 class="item-title">#{itemManager.ellipsesTitle(item.name)}</h3>
-                                    <!-- item description that is shortened for a uniform size so tile styling is consistent-->
-                                    <p class="item-description">#{itemManager.ellipsesDescription(item.description)}</p>
+                        <h:form class="detailPage">
+                            <!-- ui repeat is used to populate list of items in identical format on the page -->
+                            <ui:repeat var="item" value="#{itemManager.recent}" varStatus="status">
+                                <!-- this is the link to the item detail page which is wrapped around the entire item tile-->
+                                <h:commandLink action="#{itemManager.detailPage(item.id)}" >
+                                <div class="col-md-4 item-list-view-wrapper">
+                                    <div class="item-list-view text-center">
+                                        <!-- item details-->
+                                        <img src="FileStorageLocation/#{itemManager.getMainImageByItemId(item.id)}"/>
+                                        <h3 class="item-title">#{itemManager.ellipsesTitle(item.name)}</h3>
+                                        <!-- item description that is shortened for a uniform size so tile styling is consistent-->
+                                        <p class="item-description">#{itemManager.ellipsesDescription(item.description)}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            </h:commandLink>
-                        </ui:repeat>
-                         </h:form>
+                                </h:commandLink>
+                            </ui:repeat>
+                        </h:form>
                     </div>
                     <hr/>
                     <h4>Subscribe to a lost item thread:</h4>
